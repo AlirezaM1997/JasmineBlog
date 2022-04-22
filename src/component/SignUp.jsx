@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 export default function SignUp() {
   const [currentUser, setCurrentUser] = useState({
     username: "",
+    password: "",
     imgurl: "",
     name: "",
   });
@@ -63,6 +64,19 @@ export default function SignUp() {
                 />
               </div>
               <div className="pb-2 pt-4">
+                <div className="mb-3 text-left">Your Password</div>
+                <input
+                  className="block w-full p-4 text-lg rounded-sm bg-black"
+                  type="text"
+                  name="password"
+                  id="password"
+                  value={currentUser.password}
+                  onChange={userHandler}
+                  placeholder="••••••••"
+                  autoComplete="off"
+                />
+              </div>
+              <div className="pb-2 pt-4">
                 <div className="mb-3 text-left">Your Name</div>
                 <input
                   className="block w-full p-4 text-lg rounded-sm bg-black"
@@ -72,7 +86,7 @@ export default function SignUp() {
                   value={currentUser.name}
                   onChange={userHandler}
                   autoComplete="off"
-                  placeholder="name"
+                  placeholder="e.g : Alireza"
                 />
               </div>
               <div className="pb-2 pt-4">

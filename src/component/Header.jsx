@@ -80,12 +80,12 @@ export default function Header() {
                     Contact
                   </Link>
 
-                  <Link
+                  {/* <Link
                     to={"/dashboard"}
                     className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                   >
                     Dashboard
-                  </Link>
+                  </Link> */}
                 </div>
               </div>
             </div>
@@ -114,10 +114,10 @@ export default function Header() {
 
               <div className="ml-3 relative">
                 <Link
-                  to={"/user/signin"}
+                  to={"/user/login"}
                   className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-2 border border-gray-400 rounded shadow"
                 >
-                  Sign in
+                  Log in
                 </Link>
               </div>
               <div className="ml-3 relative">
@@ -132,35 +132,35 @@ export default function Header() {
           </div>
         </div>
 
-        <div className={showMobMenu ? "" : "hidden"} id="mobile-menu">
-          <div className="px-2 pt-2 pb-3 space-y-1">
+        <div className={`absolute w-1/2 bg-gray-700 rounded rounded-t-none animate-['changeOpa']  ${showMobMenu ? "nn" : "hidden nnn"}`} id="mobile-menu">
+          <div className="px-2 pt-2 pb-3 space-y-1 ">
             <Link
-              to={"/"}
-              className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
+              to={"/"} onClick={showMenu}
+              className="text-gray-300 hover:bg-gray-500 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
             >
               Home
             </Link>
 
             <Link
-              to={"/about"}
-              className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
+              to={"/about"} onClick={showMenu}
+              className="text-gray-300 hover:bg-gray-500 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
             >
               About
             </Link>
 
             <Link
-              to={"/contact"}
-              className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
+              to={"/contact"} onClick={showMenu}
+              className="text-gray-300 hover:bg-gray-500 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
             >
               Contact
             </Link>
 
-            <Link
+            {/* <Link
               to={"/dashboard"}
               className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
             >
               Dashboard
-            </Link>
+            </Link> */}
           </div>
         </div>
       </nav>

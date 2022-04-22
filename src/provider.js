@@ -3,13 +3,12 @@ import React, { useState } from "react";
 const Context = React.createContext();
 
 export default function Provider({ children }) {
-
   const [auth, setAuth] = useState(false);
   const [currentUser, setCurrentUser] = useState({
     username: "",
     password: "",
   });
-
+  const [token, setToken] = useState("");
   return (
     <Context.Provider
       value={{
@@ -17,6 +16,8 @@ export default function Provider({ children }) {
         setAuth,
         currentUser,
         setCurrentUser,
+        token,
+        setToken,
       }}
     >
       {children}
