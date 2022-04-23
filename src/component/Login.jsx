@@ -1,10 +1,18 @@
 import { useEffect, useState } from "react";
-import "../style/Signin.css";
+import "../style/Login.css";
 import Cookies from "universal-cookie";
 import { Link, useNavigate } from "react-router-dom";
+import { useAllState } from "../Provider";
 
 export default function Login() {
+  const { token } = useAllState();
+
+  
+  // me()
   const navToDashboard = useNavigate();
+
+  const{auth}=useAllState()
+  const { setToken } = useAllState();
 
   const [hintUsernameInput, setHintUsernameInput] = useState(false);
   const [hintPasswordInput, setHintPasswordInput] = useState(false);
@@ -43,19 +51,25 @@ export default function Login() {
       })
         .then((data) => {
           if (data.status === 200) {
-            console.log("ok");
+            // console.log("ok");
             navToDashboard("/user/dashboard");
           } else {
-            console.log("not ok");
-            setHintInfoWrong(true)
+            // console.log("not ok");
+            setHintInfoWrong(true);
           }
           console.log(data);
           return data.json();
         })
-        .then(({ token }) => cookies.set("token", token));
+        .then((k) => console.log(k));
+        // .then(({ token }) => {cookies.set("token", token); setToken(cookies.get("token"))});
     }
   };
-  console.log(cookies.get('token'));
+  // console.log(token);
+  // if (cookies.get("token") === token) {
+  //   console.log('login');
+  // }else{
+  //   console.log('not login');
+  // }
 
   return (
     <>
