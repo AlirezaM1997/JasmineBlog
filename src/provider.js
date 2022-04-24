@@ -9,13 +9,14 @@ export default function Provider({ children }) {
     password: "",
   });
   const [token, setToken] = useState("");
+  
   return (
     <Context.Provider
       value={{
-        auth,
-        setAuth,
-        currentUser,
-        setCurrentUser,
+        // auth,
+        // setAuth,
+        // currentUser,
+        // setCurrentUser,
         token,
         setToken,
       }}

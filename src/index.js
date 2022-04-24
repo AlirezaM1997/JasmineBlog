@@ -66,8 +66,7 @@ function RequireAuth({ children, redirectTo }) {
         return data.json();
       })
       .then((res) => {
-        console.log(res);
-        if (res.status === 200) {
+        if (res && res._id) {
           setIsAuthenticated(true);
           console.log(isAuthenticated);
         } else {
@@ -75,6 +74,8 @@ function RequireAuth({ children, redirectTo }) {
           console.log(isAuthenticated);
         }
       });
+      // setIsAuthenticated(true);
+
   }, []);
   console.log(isAuthenticated);
 

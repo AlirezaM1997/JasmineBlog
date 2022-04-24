@@ -7,12 +7,12 @@ import { useAllState } from "../Provider";
 export default function Login() {
   const { token } = useAllState();
 
-  
   // me()
   const navToDashboard = useNavigate();
 
-  const{auth}=useAllState()
+  const { userId } = useAllState('1647342000595978865');
   const { setToken } = useAllState();
+  const { setUserId } = useAllState();
 
   const [hintUsernameInput, setHintUsernameInput] = useState(false);
   const [hintPasswordInput, setHintPasswordInput] = useState(false);
@@ -39,31 +39,37 @@ export default function Login() {
       setHintPasswordInput(false);
     }
     if (currentUser.username !== "" && currentUser.password !== "") {
-      fetch("http://localhost:4000/user/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username: currentUser.username,
-          password: currentUser.password,
-        }),
-      })
-        .then((data) => {
-          if (data.status === 200) {
-            // console.log("ok");
-            navToDashboard("/user/dashboard");
-          } else {
-            // console.log("not ok");
-            setHintInfoWrong(true);
-          }
-          console.log(data);
-          return data.json();
+      const getToken = async () => {
+        fetch("http://localhost:4000/user/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username: currentUser.username,
+            password: currentUser.password,
+          }),
         })
-        .then((k) => console.log(k));
-        // .then(({ token }) => {cookies.set("token", token); setToken(cookies.get("token"))});
+          .then((data) => {
+            if (data.status === 200) {
+              // console.log("ok");
+              navToDashboard("/user/dashboard");
+            } else {
+              // console.log("not ok");
+              setHintInfoWrong(true);
+            }
+            // console.log(data);
+            return data.json();
+          })
+          .then(({ token }) => {
+            cookies.set("token", token);
+            setToken(cookies.get("token"));
+          });
+      };
+      getToken();
     }
   };
+  // console.log(userId);
   // console.log(token);
   // if (cookies.get("token") === token) {
   //   console.log('login');
