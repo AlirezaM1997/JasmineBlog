@@ -5,18 +5,15 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAllState } from "../Provider";
 
 export default function Login() {
-  const { token } = useAllState();
 
-  // me()
   const navToDashboard = useNavigate();
 
-  const { userId } = useAllState('1647342000595978865');
   const { setToken } = useAllState();
-  const { setUserId } = useAllState();
 
   const [hintUsernameInput, setHintUsernameInput] = useState(false);
   const [hintPasswordInput, setHintPasswordInput] = useState(false);
   const [hintInfoWrong, setHintInfoWrong] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   const [currentUser, setCurrentUser] = useState({
     username: "",
@@ -220,7 +217,7 @@ export default function Login() {
               <div className="px-4 pb-2 pt-4">
                 <button
                   onClick={login}
-                  className="uppercase block w-full p-1 text-lg rounded-full bg-indigo-500 hover:bg-indigo-600 focus:outline-none"
+                  className="uppercase block w-full py-2 text-lg rounded-full bg-indigo-500 hover:bg-indigo-600 focus:outline-none"
                 >
                   sign in
                 </button>

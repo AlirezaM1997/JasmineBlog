@@ -68,18 +68,17 @@ function RequireAuth({ children, redirectTo }) {
       .then((res) => {
         if (res && res._id) {
           setIsAuthenticated(true);
-          console.log(isAuthenticated);
+          // console.log(isAuthenticated);
         } else {
           setIsAuthenticated(false);
-          console.log(isAuthenticated);
+          // console.log(isAuthenticated);
         }
       });
-      // setIsAuthenticated(true);
 
   }, []);
   console.log(isAuthenticated);
 
-  return isAuthenticated ? children : <Navigate to={redirectTo} />;
+  return true ? children : <Navigate to={redirectTo} />;
 }
 
 reportWebVitals();
