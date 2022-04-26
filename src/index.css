@@ -6,3 +6,8 @@ input:focus {
   background-color: aliceblue;
   color: black;
 }
+aside .fa{
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+}

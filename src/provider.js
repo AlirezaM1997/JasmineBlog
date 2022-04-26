@@ -4,10 +4,7 @@ const Context = React.createContext();
 
 export default function Provider({ children }) {
   const [auth, setAuth] = useState(false);
-  const [currentUser, setCurrentUser] = useState({
-    username: "",
-    password: "",
-  });
+  const [userInfo, setUserInfo] = useState();
   const [token, setToken] = useState("");
   
   return (
@@ -15,8 +12,8 @@ export default function Provider({ children }) {
       value={{
         // auth,
         // setAuth,
-        // currentUser,
-        // setCurrentUser,
+        userInfo,
+        setUserInfo,
         token,
         setToken,
       }}

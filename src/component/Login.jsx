@@ -5,7 +5,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAllState } from "../Provider";
 
 export default function Login() {
-
   const navToDashboard = useNavigate();
 
   const { setToken } = useAllState();
@@ -37,6 +36,7 @@ export default function Login() {
     }
     if (currentUser.username !== "" && currentUser.password !== "") {
       const getToken = async () => {
+        setIsLoaded(true)
         fetch("http://localhost:4000/user/login", {
           method: "POST",
           headers: {
@@ -217,12 +217,15 @@ export default function Login() {
               <div className="px-4 pb-2 pt-4">
                 <button
                   onClick={login}
-                  className="uppercase block w-full py-2 text-lg rounded-full bg-indigo-500 hover:bg-indigo-600 focus:outline-none"
+                  className={`uppercase block w-full py-2 text-lg rounded-full focus:outline-none ${isLoaded ? 'bg-indigo-300 hover:bg-indigo-300':'bg-indigo-500 hover:bg-indigo-600'} `}
                 >
                   sign in
+                  <span className={`ml-5 ${isLoaded ? "" : "hidden"}`}>
+                    <i className="fa fa-refresh fa-spin"></i>
+                  </span>
                 </button>
               </div>
-
+              <div className="flex items-center"></div>
               <div className="p-4 text-center right-0 left-0 flex justify-center space-x-4 mt-16 lg:hidden ">
                 <a href="#">
                   <svg

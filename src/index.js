@@ -22,9 +22,6 @@ import Contact from "./component/Contact";
 import Dashboard from "./component/Dashboard";
 import Provider from "./Provider";
 
-// const LoadingSpinner = ()=>{
-//   return <h2>Loading</h2>
-// }
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <Provider>
@@ -36,15 +33,15 @@ root.render(
           <Route path="/contact" element={<Contact />}></Route>
           <Route path="/user/login" element={<Login />}></Route>
           <Route path="/user/signup" element={<SignUp />}></Route>
-          <Route
-            path="/user/dashboard"
-            element={
-              <RequireAuth redirectTo={"/user/login"}>
-                <Dashboard />
-              </RequireAuth>
-            }
-          ></Route>
         </Route>
+        <Route
+          path="/user/dashboard"
+          element={
+            <RequireAuth redirectTo={"/user/login"}>
+              <Dashboard />
+            </RequireAuth>
+          }
+        ></Route>
       </Routes>
     </BrowserRouter>
   </Provider>
@@ -52,6 +49,8 @@ root.render(
 
 function RequireAuth({ children, redirectTo }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const {setUserInfo}=useAllState()
   const cookies = new Cookies();
   useEffect(() => {
     fetch("http://localhost:4000/user/me", {
@@ -67,18 +66,24 @@ function RequireAuth({ children, redirectTo }) {
       })
       .then((res) => {
         if (res && res._id) {
+          setUserInfo(res)
           setIsAuthenticated(true);
-          // console.log(isAuthenticated);
         } else {
           setIsAuthenticated(false);
-          // console.log(isAuthenticated);
         }
+        setLoading(false);
       });
-
   }, []);
-  console.log(isAuthenticated);
 
-  return true ? children : <Navigate to={redirectTo} />;
+  if (loading)
+    return (
+      <div className="bg-gray-400 p-4 text-center w-1/4 mx-auto rounded-3xl text-white mt-10 text-lg">
+        <p>Please wait ....</p>
+        <i className="block fa fa-circle-o-notch fa-spin"></i>
+      </div>
+    );
+
+  return isAuthenticated ? children : <Navigate to={redirectTo} />;
 }
 
 reportWebVitals();
