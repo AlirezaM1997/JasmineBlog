@@ -8,13 +8,12 @@ import {
   Route,
   Routes,
   Navigate,
-  Router,
 } from "react-router-dom";
 import Cookies from "universal-cookie";
 import { useAllState } from "./Provider";
 import Home from "./Home";
 import Header from "./component/Header";
-// import Footer from "./component/Footer";
+import Footer from "./component/Footer";
 import Login from "./component/Login";
 import SignUp from "./component/SignUp";
 import About from "./component/About";
@@ -31,9 +30,18 @@ root.render(
           <Route exact path="/" element={<Home />}></Route>
           <Route path="/about" element={<About />}></Route>
           <Route path="/contact" element={<Contact />}></Route>
-          <Route path="/user/login" element={<Login />}></Route>
+          {/* <Route path="/user/login" element={<Login />}></Route> */}
           <Route path="/user/signup" element={<SignUp />}></Route>
+          <Route
+            path="/user/login"
+            element={
+              <CheckLogin redirectTo={"/user/dashboard"}>
+                <Login />
+              </CheckLogin>
+            }
+          ></Route>
         </Route>
+
         <Route
           path="/user/dashboard"
           element={
@@ -43,6 +51,7 @@ root.render(
           }
         ></Route>
       </Routes>
+      <Footer/>
     </BrowserRouter>
   </Provider>
 );
@@ -50,7 +59,7 @@ root.render(
 function RequireAuth({ children, redirectTo }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
-  const {setUserInfo}=useAllState()
+  const { setUserInfo } = useAllState();
   const cookies = new Cookies();
   useEffect(() => {
     fetch("http://localhost:4000/user/me", {
@@ -66,7 +75,7 @@ function RequireAuth({ children, redirectTo }) {
       })
       .then((res) => {
         if (res && res._id) {
-          setUserInfo(res)
+          setUserInfo(res);
           setIsAuthenticated(true);
         } else {
           setIsAuthenticated(false);
@@ -84,6 +93,30 @@ function RequireAuth({ children, redirectTo }) {
     );
 
   return isAuthenticated ? children : <Navigate to={redirectTo} />;
+}
+
+function CheckLogin({ children, redirectTo }) {
+  const [isLogin, setIsLogin] = useState(false);
+  // const cookies = new Cookies();
+  const {token}=useAllState()
+  useEffect(() => {
+    fetch("http://localhost:4000/user/me", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        auth: `ut ${token}`,
+      },
+      body: JSON.stringify({}),
+    }).then((data) => {
+      if (data.status === 200) {
+        setIsLogin(true);
+      } else {
+        setIsLogin(false);
+      }
+    });
+  }, []);
+
+  return !isLogin ? children : <Navigate to={redirectTo} />;
 }
 
 reportWebVitals();

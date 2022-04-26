@@ -1,8 +1,12 @@
 import React, { useState } from "react";
 import { Link, Outlet, useNavigate } from "react-router-dom";
+import Cookies from "universal-cookie";
+import { useAllState } from "../Provider";
 
 export default function Header() {
   const [showMobMenu, setShowMobMenu] = useState(false);
+  const { token } = useAllState();
+  const { userInfo } = useAllState();
 
   const showMenu = () => {
     setShowMobMenu(!showMobMenu);
@@ -55,7 +59,11 @@ export default function Header() {
             </div>
             <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
               <div className="flex-shrink-0 flex items-center">
-              <img src="https://www.freeiconspng.com/uploads/blogger-logo-icon-png-0.png" width="40" alt="Png Icons Download Blogger Logo" />
+                <img
+                  src="https://www.freeiconspng.com/uploads/blogger-logo-icon-png-0.png"
+                  width="40"
+                  alt="Logo"
+                />
               </div>
               <div className="hidden sm:block sm:ml-6">
                 <div className="flex space-x-4">
@@ -112,44 +120,68 @@ export default function Header() {
                 </svg>
               </button> */}
 
-              <div className="ml-3 relative">
-                <Link
-                  to={"/user/login"}
-                  className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-2 border border-gray-400 rounded shadow"
-                >
-                  Log in
+              {!userInfo ? (
+                <>
+                  <div className="ml-3 relative">
+                    <Link
+                      to={"/user/login"}
+                      className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-2 border border-gray-400 rounded shadow"
+                    >
+                      Log in
+                    </Link>
+                  </div>
+                  <div className="ml-3 relative">
+                    <Link
+                      to={"/user/signup"}
+                      className="bg-gray-800 hover:bg-gray-600 text-white font-semibold py-2 px-2 border border-gray-400 rounded shadow"
+                    >
+                      Sign up
+                    </Link>
+                  </div>
+                </>
+              ) : (
+                <Link to={"/user/dashboard"}>
+                  <div className="flex flex-shrink-0 items-center space-x-4 text-white">
+                    <img
+                      src={userInfo.imgurl}
+                      className="h-10 w-10 rounded-full border-2 border-blue-400"
+                    ></img>
+                    <div className="text-md font-medium ">
+                      {userInfo.username}
+                    </div>
+                  </div>
                 </Link>
-              </div>
-              <div className="ml-3 relative">
-                <Link
-                  to={"/user/signup"}
-                  className="bg-gray-800 hover:bg-gray-600 text-white font-semibold py-2 px-2 border border-gray-400 rounded shadow"
-                >
-                  Sign up
-                </Link>
-              </div>
+              )}
             </div>
           </div>
         </div>
 
-        <div className={`absolute w-1/2 bg-gray-700 rounded rounded-t-none animate-['changeOpa']  ${showMobMenu ? "nn" : "hidden nnn"}`} id="mobile-menu">
+        <div
+          className={`absolute w-1/2 bg-gray-700 rounded rounded-t-none animate-['changeOpa']  ${
+            showMobMenu ? "nn" : "hidden nnn"
+          }`}
+          id="mobile-menu"
+        >
           <div className="px-2 pt-2 pb-3 space-y-1 ">
             <Link
-              to={"/"} onClick={showMenu}
+              to={"/"}
+              onClick={showMenu}
               className="text-gray-300 hover:bg-gray-500 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
             >
               Home
             </Link>
 
             <Link
-              to={"/about"} onClick={showMenu}
+              to={"/about"}
+              onClick={showMenu}
               className="text-gray-300 hover:bg-gray-500 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
             >
               About
             </Link>
 
             <Link
-              to={"/contact"} onClick={showMenu}
+              to={"/contact"}
+              onClick={showMenu}
               className="text-gray-300 hover:bg-gray-500 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
             >
               Contact

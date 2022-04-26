@@ -36,7 +36,7 @@ export default function SignUp() {
           style={{ backgroundColor: "#161616" }}
         >
           <div
-            className="absolute lg:hidden z-10 inset-0 bg-gray-500 bg-no-repeat bg-cover items-center"
+            className="absolute lg:hidden z-10 inset-0 bg-gray-500 bg-no-repeat bg-cover items-center signUpBg"
             style={{
               backgroundImage:
                 " url(https://www.bootdey.com/img/bg20.jpg)",
@@ -105,7 +105,7 @@ export default function SignUp() {
               <div className="px-4 pb-2 pt-4">
                 <button
                   onClick={submitUser}
-                  className="uppercase block w-full p-1 text-lg rounded-full bg-indigo-500 hover:bg-indigo-600 focus:outline-none"
+                  className="uppercase block w-full p-1 py-2 text-lg rounded-full bg-indigo-500 hover:bg-indigo-600 focus:outline-none"
                 >
                   sign up
                 </button>

@@ -6,8 +6,30 @@ input:focus {
   background-color: aliceblue;
   color: black;
 }
+/* Sign Up */
+.signUpBg{
+height: 113%;
+}
+/* Dashboard */
 aside .fa{
   display: flex !important;
   align-items: center;
   justify-content: center;
+}
+.editorClassName{
+  height: 50vh !important;
+}
+.wrapperClassName {
+  border: solid 1px black;
+  border-radius: 0.5em;
+  padding: 0.2rem;
+}
+.public-DraftStyleDefault-block {
+  margin: 0 !important;
+}
+.modal button{
+  background: rgb(237 237 237) !important;
+}
+.homeIcon{
+  font-size: x-large !important;
 }
