@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import "../style/Login.css";
 import Cookies from "universal-cookie";
 import { Link, useNavigate } from "react-router-dom";
 import { useAllState } from "../Provider";
@@ -49,13 +48,10 @@ export default function Login() {
         })
           .then((data) => {
             if (data.status === 200) {
-              // console.log("ok");
               navToDashboard("/user/dashboard");
             } else {
-              // console.log("not ok");
               setHintInfoWrong(true);
             }
-            // console.log(data);
             return data.json();
           })
           .then(({ token }) => {
@@ -66,13 +62,6 @@ export default function Login() {
       getToken();
     }
   };
-  // console.log(userId);
-  // console.log(token);
-  // if (cookies.get("token") === token) {
-  //   console.log('login');
-  // }else{
-  //   console.log('not login');
-  // }
 
   return (
     <>

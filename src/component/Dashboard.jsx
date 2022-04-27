@@ -6,18 +6,51 @@ import { useNavigate } from "react-router-dom";
 import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { EditorState } from "draft-js";
-
+import { convertToHTML } from "draft-convert";
+// import DOMPurify from 'dompurify';
 
 export default function Dashboard() {
-  const navToHome = useNavigate();
-
+  const { token } = useAllState();
   const [editorState, setEditorState] = useState(() =>
     EditorState.createEmpty()
   );
+  const [convertedContent, setConvertedContent] = useState(null);
+  const handleEditorChange = (state) => {
+    setEditorState(state);
+    convertContentToHTML();
+  };
+
+  console.log(convertedContent);
+
+  const convertContentToHTML = () => {
+    let currentContentAsHTML = convertToHTML(editorState.getCurrentContent());
+    setConvertedContent(currentContentAsHTML);
+  };
+
   const editor = useRef(null);
   const focusEditor = () => {
     editor.current.focus();
   };
+
+  const submitBLog = async () => {
+    console.log("salam salam");
+    fetch("http://localhost:4000/blog/write", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        auth: `ut ${token}`,
+      },
+      body: JSON.stringify({
+        title: "title",
+        content: `${convertedContent}`,
+        imgurl: "lol",
+      }),
+    }).then(() => {
+      console.log("!!!!");
+    });
+  };
+
+  const navToHome = useNavigate();
 
   const { userInfo } = useAllState();
   const [state, setState] = useState({
@@ -52,9 +85,9 @@ export default function Dashboard() {
       setShowModal(true);
       cookies.remove("token");
       setToken("");
-      setUserInfo()
+      setUserInfo();
       // navToHome('/')
-      window.location.href='/';
+      window.location.href = "/";
     };
     return (
       <>
@@ -97,6 +130,13 @@ export default function Dashboard() {
     <>
       <div className="h-screen w-full bg-white relative flex overflow-hidden">
         <aside className="h-full w-16 flex flex-col space-y-10 items-center justify-center relative bg-gray-800 text-white">
+          
+            {/* <img
+              src="https://www.freeiconspng.com/uploads/blogger-logo-icon-png-0.png"
+              width="40"
+              alt="Logo" className="absolute"
+            /> */}
+       
           <div
             onClick={() => clickHandler("posts")}
             className={`h-10 w-full flex items-center justify-center rounded-l cursor-pointer  duration-300 ${
@@ -185,13 +225,16 @@ export default function Dashboard() {
                   <Editor
                     ref={editor}
                     editorState={editorState}
-                    onChange={(editorState) => setEditorState(editorState)}
+                    onEditorStateChange={handleEditorChange}
                     toolbarClassName="toolbarClassName"
                     wrapperClassName="wrapperClassName"
                     editorClassName="editorClassName"
-                    placeholder={"Type here..."}
+                    placeholder={"Type something here..."}
                   />
-                  <button className="mt-3 px-6 py-4 bg-purple-600 text-white font-medium text-md leading-tight rounded shadow-md hover:bg-purple-700 hover:shadow-lg  focus:outline-none  active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out">
+                  <button
+                    className="mt-3 px-6 py-4 bg-purple-600 text-white font-medium text-md leading-tight rounded shadow-md hover:bg-purple-700 hover:shadow-lg  focus:outline-none  active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out"
+                    onClick={submitBLog}
+                  >
                     Submit
                   </button>
                 </div>

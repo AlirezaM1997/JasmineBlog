@@ -3,12 +3,7 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 
 import reportWebVitals from "./reportWebVitals";
-import {
-  BrowserRouter,
-  Route,
-  Routes,
-  Navigate,
-} from "react-router-dom";
+import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import Cookies from "universal-cookie";
 import { useAllState } from "./Provider";
 import Home from "./Home";
@@ -30,8 +25,14 @@ root.render(
           <Route exact path="/" element={<Home />}></Route>
           <Route path="/about" element={<About />}></Route>
           <Route path="/contact" element={<Contact />}></Route>
-          {/* <Route path="/user/login" element={<Login />}></Route> */}
-          <Route path="/user/signup" element={<SignUp />}></Route>
+          <Route
+            path="/user/signup"
+            element={
+              <CheckLogin redirectTo={"/user/dashboard"}>
+                <SignUp />
+              </CheckLogin>
+            }
+          ></Route>
           <Route
             path="/user/login"
             element={
@@ -51,7 +52,7 @@ root.render(
           }
         ></Route>
       </Routes>
-      <Footer/>
+      <Footer />
     </BrowserRouter>
   </Provider>
 );
@@ -91,14 +92,12 @@ function RequireAuth({ children, redirectTo }) {
         <i className="block fa fa-circle-o-notch fa-spin"></i>
       </div>
     );
-
   return isAuthenticated ? children : <Navigate to={redirectTo} />;
 }
 
 function CheckLogin({ children, redirectTo }) {
   const [isLogin, setIsLogin] = useState(false);
-  // const cookies = new Cookies();
-  const {token}=useAllState()
+  const { token } = useAllState();
   useEffect(() => {
     fetch("http://localhost:4000/user/me", {
       method: "POST",

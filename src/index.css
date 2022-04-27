@@ -2,22 +2,40 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Public */
 input:focus {
   background-color: aliceblue;
   color: black;
 }
 /* Sign Up */
-.signUpBg{
-height: 113%;
+.signUpBg {
+  height: 113%;
+}
+/* Login */
+@keyframes fade_in_show {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes fade_in_hide {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
 }
 /* Dashboard */
-aside .fa{
+aside .fa {
   display: flex !important;
   align-items: center;
   justify-content: center;
 }
-.editorClassName{
-  height: 50vh !important;
+.editorClassName {
+  height: 48vh !important;
 }
 .wrapperClassName {
   border: solid 1px black;
@@ -27,9 +45,9 @@ aside .fa{
 .public-DraftStyleDefault-block {
   margin: 0 !important;
 }
-.modal button{
+.modal button {
   background: rgb(237 237 237) !important;
 }
-.homeIcon{
+.homeIcon {
   font-size: x-large !important;
 }
