@@ -11,6 +11,7 @@ import { convertToHTML } from "draft-convert";
 
 export default function Dashboard() {
   const { token } = useAllState();
+  const { setUserInfo } = useAllState();
   const [editorState, setEditorState] = useState(() =>
     EditorState.createEmpty()
   );
@@ -28,9 +29,9 @@ export default function Dashboard() {
   };
 
   const editor = useRef(null);
-  const focusEditor = () => {
-    editor.current.focus();
-  };
+  // const focusEditor = () => {
+  //   editor.current.focus();
+  // };
 
   const submitBLog = async () => {
     console.log("salam salam");
@@ -75,11 +76,69 @@ export default function Dashboard() {
     }
   };
 
+  const [showEdit, setShowEdit] = useState(false);
+
+  const editShow = () => {
+    setShowEdit(!showEdit);
+    const scrollTo = () => {
+      if (!showEdit) {
+        const scrollDiv = document.getElementById("saveEdit").offsetTop;
+        window.scrollTo({ top: scrollDiv - 500, behavior: "smooth" });
+      } else {
+        return;
+      }
+    };
+    setTimeout(scrollTo, 100);
+  };
+
+  const [name, setName] = useState(userInfo.name);
+  const [phonenumber, setPhonenumber] = useState(userInfo.phoneNumber);
+  const [imgurl, setImgurl] = useState(userInfo.imgurl);
+
+  const updateUser = async () => {
+    fetch("http://localhost:4000/user/me", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        auth: `ut ${token}`,
+      },
+      body: JSON.stringify({}),
+    })
+      .then((data) => {
+        return data.json();
+      })
+      .then((res) => {
+        if (res && res._id) {
+          setUserInfo(res);
+        }
+
+      });
+    
+  };
+  const editUser = async () => {
+    fetch("http://localhost:4000/user/edit", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        auth: `ut ${token}`,
+      },
+      body: JSON.stringify({
+        data: {
+          name: name,
+          phoneNumber: phonenumber,
+          imgurl: imgurl,
+        },
+      }),
+    }).then(() => {
+      console.log("!!!!");
+    });
+updateUser()
+  };
+
   const [showModal, setShowModal] = useState(false);
 
   const Modal = () => {
     const { setToken } = useAllState();
-    const { setUserInfo } = useAllState();
     const cookies = new Cookies();
     const Logout = () => {
       setShowModal(true);
@@ -128,15 +187,14 @@ export default function Dashboard() {
 
   return (
     <>
-      <div className="h-screen w-full bg-white relative flex overflow-hidden">
-        <aside className="h-full w-16 flex flex-col space-y-10 items-center justify-center relative bg-gray-800 text-white">
-          
-            {/* <img
-              src="https://www.freeiconspng.com/uploads/blogger-logo-icon-png-0.png"
+      <div className="w-full bg-white relative flex ">
+        <aside className="fixed h-full w-16 flex flex-col space-y-10 items-center justify-center bg-gray-800 text-white">
+          {/* <img
+              src={require("../images/logo.png")}
               width="40"
-              alt="Logo" className="absolute"
+              alt="Logo" className="absolute w-14"
             /> */}
-       
+
           <div
             onClick={() => clickHandler("posts")}
             className={`h-10 w-full flex items-center justify-center rounded-l cursor-pointer  duration-300 ${
@@ -185,7 +243,7 @@ export default function Dashboard() {
         </aside>
 
         <div className="w-full h-full flex flex-col justify-between">
-          <header className="h-16 w-full flex items-center relative justify-between px-5 space-x-10 bg-gray-800">
+          <header className="h-16 w-full flex items-center relative justify-end px-5 space-x-10 bg-gray-800">
             <div>
               <i
                 class="fa fa-home text-white cursor-pointer homeIcon"
@@ -207,21 +265,21 @@ export default function Dashboard() {
             </div>
           </header>
 
-          <main className="max-w-full h-full flex flex-col p-4">
+          <main className="max-w-full h-full flex flex-col p-4 pl-20 min-h-screen">
             <div>
               {state.posts ? (
                 <h5 className="text-3xl font-bold">All Posts</h5>
               ) : state.newPost ? (
                 <h5 className="text-3xl font-bold">Add a New Post</h5>
               ) : state.account ? (
-                <h5 className="text-3xl font-bold">Your Account</h5>
+                <h5 className="text-3xl font-bold">Account</h5>
               ) : (
                 ""
               )}
             </div>
-            <div className="h-full w-full flex flex-wrap my-4">
+            <div className="h-full w-full flex flex-wrap">
               {state.newPost ? (
-                <div onClick={() => focusEditor()}>
+                <div>
                   <Editor
                     ref={editor}
                     editorState={editorState}
@@ -229,7 +287,7 @@ export default function Dashboard() {
                     toolbarClassName="toolbarClassName"
                     wrapperClassName="wrapperClassName"
                     editorClassName="editorClassName"
-                    placeholder={"Type something here..."}
+                    placeholder={"Type something here ..."}
                   />
                   <button
                     className="mt-3 px-6 py-4 bg-purple-600 text-white font-medium text-md leading-tight rounded shadow-md hover:bg-purple-700 hover:shadow-lg  focus:outline-none  active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out"
@@ -242,13 +300,107 @@ export default function Dashboard() {
                 ""
               )}
               {state.account ? (
-                <div className="p-4">
-                  <button
-                    className="px-6 py-4 bg-red-600 text-white rounded shadow-md hover:bg-red-700 hover:shadow-lg"
-                    onClick={() => setShowModal(true)}
-                  >
-                    Log Out
-                  </button>
+                <div className="w-full p-4" id="editSection">
+                  <div className="flex justify-end mb-4">
+                    <button
+                      className="px-6 py-2 bg-red-500 text-white rounded hover:bg-red-600 hover:shadow-lg outline-0 focus:outline-none"
+                      onClick={() => setShowModal(true)}
+                    >
+                      Log Out
+                      <i class="fa fa-sign-out ml-3" aria-hidden="true"></i>
+                    </button>
+                  </div>
+                  <div class="w-full top h-64 bg-blue-600 rounded-md overflow-hidden relative">
+                    <img
+                      src="https://images.unsplash.com/photo-1503264116251-35a269479413?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80"
+                      alt=""
+                      class="bg w-full h-full object-cover object-center absolute z-0"
+                    />
+                    <div class="flex flex-col justify-center items-center relative h-full bg-black bg-opacity-50 text-white">
+                      <img
+                        src={userInfo.imgurl}
+                        class="h-24 w-24 object-cover rounded-full"
+                      />
+                      <h1 class="text-2xl font-semibold">{userInfo.name}</h1>
+                      <h4 class="text-sm font-semibold">{userInfo.username}</h4>
+                    </div>
+                  </div>
+                  <div className="flex justify-center my-6">
+                    <button
+                      className="px-6 py-4 bg-green-600 text-white rounded hover:bg-green-700 hover:shadow-lg outline-0 focus:outline-none"
+                      onClick={editShow}
+                    >
+                      Edit Profile
+                    </button>
+                  </div>
+                  <div className={showEdit ? "" : "hidden"}>
+                    <div className="block md:flex justify-center flex-col items-center">
+                      <div className="w-full md:w-3/5 p-8 bg-white shadow-md border-2 rounded">
+                        <div className="rounded shadow p-6">
+                          <div className="pb-6">
+                            <label
+                              for="name"
+                              className="font-semibold text-gray-700 block pb-1"
+                            >
+                              Name
+                            </label>
+                            <div className="flex">
+                              <input
+                                id="username"
+                                className="border-2 rounded px-4 py-2 w-full"
+                                type="text"
+                                defaultValue={userInfo.name}
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
+                              />
+                            </div>
+                          </div>
+                          <div className="pb-4">
+                            <label
+                              for="phoneNumber"
+                              className="font-semibold text-gray-700 block pb-1"
+                            >
+                              PhoneNumber
+                            </label>
+                            <input
+                              id="phoneNumber"
+                              className="border-2 rounded px-4 py-2 w-full"
+                              type="number"
+                              defaultValue={userInfo.phoneNumber}
+                              autoComplete="off"
+                              value={phonenumber}
+                              onChange={(e) => setPhonenumber(e.target.value)}
+                            />
+                          </div>
+                          <div className="pb-4">
+                            <label
+                              for="imageurl"
+                              className="font-semibold text-gray-700 block pb-1"
+                            >
+                              Image Url
+                            </label>
+                            <input
+                              id="imageurl"
+                              className="border-2 rounded px-4 py-2 w-full"
+                              type="text"
+                              defaultValue={userInfo.imgurl}
+                              value={imgurl}
+                              onChange={(e) => setImgurl(e.target.value)}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      <div>
+                        <button
+                          className="ml-3 mt-5 px-6 py-4 bg-yellow-600 text-black rounded hover:bg-yellow-700 hover:shadow-lg outline-0 focus:outline-none"
+                          onClick={editUser}
+                          id="saveEdit"
+                        >
+                          Apply Changes
+                        </button>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               ) : (
                 ""

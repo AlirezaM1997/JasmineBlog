@@ -1,17 +1,39 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./index.css";
 
 function Home() {
+  const [blogs, setBlogs] = useState();
+
+  useEffect(() => {
+    fetch("http://localhost:4000/blog")
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw Error(response.status);
+        }
+      })
+      .then((result) => {
+        console.log(result);
+        setBlogs(result);
+      });
+  }, []);
+
   return (
     <>
       <div className="flex justify-center items-center">
         <div className="2xl:mx-auto 2xl:container lg:px-20 lg:py-16 md:py-12 md:px-6 py-9 px-4 w-96 sm:w-auto">
-          <div role="main" className="flex flex-col items-center justify-center">
+          <div
+            role="main"
+            className="flex flex-col items-center justify-center"
+          >
             <h1 className="text-4xl font-semibold leading-9 text-center text-gray-800 dark:text-gray-50">
-            Trial Blog
+              Trial Blog
             </h1>
             <p className="text-base leading-normal text-center text-gray-600 dark:text-white mt-4 lg:w-1/2 md:w-10/12 w-11/12">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+              eiusmod tempor incididunt ut labore et dolore magna aliqua.
             </p>
           </div>
           <div className="lg:flex items-stretch md:mt-12 mt-8">
@@ -30,7 +52,7 @@ function Home() {
                         Dive into minimalism
                       </p>
                       <Link
-                        to={'#'}
+                        to={"#"}
                         className="focus:outline-none focus:underline flex items-center mt-4 cursor-pointer text-white hover:text-gray-200 hover:underline"
                       >
                         <p className="pr-2 text-sm font-medium leading-none">
@@ -74,7 +96,7 @@ function Home() {
                         Dive into minimalism
                       </p>
                       <Link
-                        to={'#'}
+                        to={"#"}
                         className="focus:outline-none focus:underline flex items-center mt-4 cursor-pointer text-white hover:text-gray-200 hover:underline"
                       >
                         <p className="pr-2 text-sm font-medium leading-none">
@@ -119,7 +141,7 @@ function Home() {
                       Dive into minimalism
                     </p>
                     <Link
-                      to={'#'}
+                      to={"#"}
                       className="focus:outline-none focus:underline flex items-center mt-4 cursor-pointer text-white hover:text-gray-200 hover:underline"
                     >
                       <p className="pr-2 text-sm font-medium leading-none">
@@ -170,7 +192,7 @@ function Home() {
                       Dive into minimalism
                     </p>
                     <Link
-                      to={'#'}
+                      to={"#"}
                       className="focus:outline-none focus:underline flex items-center mt-4 cursor-pointer text-white hover:text-gray-200 hover:underline"
                     >
                       <p className="pr-2 text-sm font-medium leading-none">
@@ -220,7 +242,7 @@ function Home() {
                         Dive into minimalism
                       </p>
                       <Link
-                        to={'#'}
+                        to={"#"}
                         className="focus:outline-none focus:underline flex items-center mt-4 cursor-pointer text-white hover:text-gray-200 hover:underline"
                       >
                         <p className="pr-2 text-sm font-medium leading-none">
@@ -264,7 +286,7 @@ function Home() {
                         Dive into minimalism
                       </p>
                       <Link
-                        to={'#'}
+                        to={"#"}
                         className="focus:outline-none focus:underline flex items-center mt-4 cursor-pointer text-white hover:text-gray-200 hover:underline"
                       >
                         <p className="pr-2 text-sm font-medium leading-none">

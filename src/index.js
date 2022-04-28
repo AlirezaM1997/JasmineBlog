@@ -61,13 +61,14 @@ function RequireAuth({ children, redirectTo }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
   const { setUserInfo } = useAllState();
-  const cookies = new Cookies();
+  const { token } = useAllState();
+  // const cookies = new Cookies();
   useEffect(() => {
     fetch("http://localhost:4000/user/me", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        auth: `ut ${cookies.get("token")}`,
+        auth: `ut ${token}`,
       },
       body: JSON.stringify({}),
     })

@@ -151,7 +151,7 @@ export default function Header() {
 
         <div
           className={`absolute w-1/2 bg-gray-700 rounded rounded-t-none animate-['changeOpa']  ${
-            showMobMenu ? "nn" : "hidden nnn"
+            showMobMenu ? "" : "hidden"
           }`}
           id="mobile-menu"
         >

@@ -107,7 +107,6 @@ const submitBLog = async () => {
         data: {
           title: 'salam',
           content: '<h1> Hello World !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! </h1>',
-          imgurl: 'lol',
           name: 'ali jixer2',
           phoneNumber: '09391971073',
           imgurl: 'sommaye naro'
