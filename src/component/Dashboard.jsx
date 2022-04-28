@@ -12,6 +12,9 @@ import { convertToHTML } from "draft-convert";
 export default function Dashboard() {
   const { token } = useAllState();
   const { setUserInfo } = useAllState();
+
+  const [title, setTitle] = useState("");
+  const [imgUrl, setImgUrl] = useState("");
   const [editorState, setEditorState] = useState(() =>
     EditorState.createEmpty()
   );
@@ -34,7 +37,6 @@ export default function Dashboard() {
   // };
 
   const submitBLog = async () => {
-    console.log("salam salam");
     fetch("http://localhost:4000/blog/write", {
       method: "POST",
       headers: {
@@ -42,13 +44,15 @@ export default function Dashboard() {
         auth: `ut ${token}`,
       },
       body: JSON.stringify({
-        title: "title",
-        content: `${convertedContent}`,
-        imgurl: "lol",
+        title: title,
+        content: convertedContent,
+        imgurl: imgUrl,
       }),
     }).then(() => {
       console.log("!!!!");
     });
+    setConvertedContent(null);
+    setTitle("");
   };
 
   const navToHome = useNavigate();
@@ -111,9 +115,7 @@ export default function Dashboard() {
         if (res && res._id) {
           setUserInfo(res);
         }
-
       });
-    
   };
   const editUser = async () => {
     fetch("http://localhost:4000/user/edit", {
@@ -132,7 +134,7 @@ export default function Dashboard() {
     }).then(() => {
       console.log("!!!!");
     });
-updateUser()
+    updateUser();
   };
 
   const [showModal, setShowModal] = useState(false);
@@ -280,6 +282,15 @@ updateUser()
             <div className="h-full w-full flex flex-wrap">
               {state.newPost ? (
                 <div>
+                  <div>
+                    <input
+                      className="w-full my-3 p-2 focus:bg-white focus:outline-none border-2 border-black rounded"
+                      type="text"
+                      placeholder="title"
+                      value={title}
+                      onChange={(e) => setTitle(e.target.value)}
+                    />
+                  </div>
                   <Editor
                     ref={editor}
                     editorState={editorState}
@@ -289,6 +300,15 @@ updateUser()
                     editorClassName="editorClassName"
                     placeholder={"Type something here ..."}
                   />
+                  <div>
+                    <input
+                      className="w-full my-3 p-2 focus:bg-white focus:outline-none border-2 border-black rounded"
+                      type="text"
+                      placeholder="image url"
+                      value={imgUrl}
+                      onChange={(e) => setImgUrl(e.target.value)}
+                    />
+                  </div>
                   <button
                     className="mt-3 px-6 py-4 bg-purple-600 text-white font-medium text-md leading-tight rounded shadow-md hover:bg-purple-700 hover:shadow-lg  focus:outline-none  active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out"
                     onClick={submitBLog}
