@@ -16,7 +16,7 @@ function Footer() {
             </div>
             <div class="px-5 py-2">
               <Link
-                to={'/'}
+                to={'/about'}
                 class="text-base leading-6 text-gray-500 hover:text-indigo-500"
               >
                 About
@@ -24,7 +24,7 @@ function Footer() {
             </div>
             <div class="px-5 py-2">
               <Link
-                to={'/'}
+                to={'/contact'}
                 class="text-base leading-6 text-gray-500 hover:text-indigo-500"
               >
                 Contact
@@ -35,7 +35,7 @@ function Footer() {
                 to={'/'}
                 class="text-base leading-6 text-gray-500 hover:text-indigo-500"
               >
-                Terms
+                Privacy Policy
               </Link>
             </div>
           </nav>

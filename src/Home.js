@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./index.css";
+import Loading from "./component/Loading";
 
 function Home() {
   const firstNumberArray = [2, 8, 14, 20];
@@ -34,12 +35,7 @@ function Home() {
   }, []);
 
   return loading ? (
-    <div className="h-screen bg-white">
-      <div className="bg-gray-400 p-4 text-center w-1/4 mx-auto rounded-3xl text-white mt-40 text-lg">
-        <p>Please wait ....</p>
-        <i className="block fa fa-circle-o-notch fa-spin"></i>
-      </div>
-    </div>
+    <Loading />
   ) : (
     <>
       <div className="flex justify-center items-center">
@@ -62,7 +58,7 @@ function Home() {
                 !firstNumberArray.includes(index) &&
                 !secondNumberArray.includes(index) ? (
                   <div
-                    className="relative m-2 h-64 sm:w-1/2 w-full inline-block bg-center bg-cover smallCard"
+                    className="relative rounded-xl m-2 h-64 sm:w-1/2 w-full inline-block bg-center bg-cover smallCard"
                     style={{
                       backgroundImage:
                         'url("https://i.ibb.co/DYxtCJq/img-1.png")',
@@ -108,7 +104,7 @@ function Home() {
                   </div>
                 ) : (
                   <div
-                    className="relative m-2 h-64 sm:w-full w-full inline-block bg-center bg-cover largeCard"
+                    className="relative rounded-xl m-2 h-64 sm:w-full w-full inline-block bg-center bg-cover largeCard"
                     style={{
                       backgroundImage:
                         'url("https://i.ibb.co/Ms4qyXp/img-3.png")',
@@ -118,7 +114,7 @@ function Home() {
                       <p className="md:p-10 p-6 text-xs font-medium leading-3 text-white absolute top-0 right-0">
                         12 April 2021
                       </p>
-                      <div className="absolute text-left bottom-0 left-0 md:p-10 p-6">
+                      <div className="absolute text-left bottom-0 left-0 p-6">
                         <h2 className="text-xl font-semibold 5 text-white">
                           {i.title}
                         </h2>
@@ -164,8 +160,7 @@ function Home() {
 
 export default Home;
 
-
-// w-full =>> 
+// w-full =>>
 // display: flex;
 // flex-flow: wrap;
 // justify-content: center;

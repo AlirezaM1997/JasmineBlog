@@ -38,7 +38,7 @@ aside .fa {
   height: 48vh !important;
 }
 .wrapperClassName {
-  border: solid 2px black;
+  border: solid 1px black;
   border-radius: 0.5em;
   padding: 0.2rem;
 }
@@ -59,4 +59,7 @@ aside .fa {
   .largeCard {
     width: 45%;
   }
+}
+.public-DraftEditor-content{
+  overflow-wrap: anywhere !important;
 }

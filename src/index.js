@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
+import Loading from "./component/Loading";
 
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
@@ -61,14 +62,15 @@ function RequireAuth({ children, redirectTo }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
   const { setUserInfo } = useAllState();
+  const {userInfo}=useAllState()
   const { token } = useAllState();
-  // const cookies = new Cookies();
+  const cookies = new Cookies();
   useEffect(() => {
     fetch("http://localhost:4000/user/me", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        auth: `ut ${token}`,
+        auth: `ut ${cookies.get("token")}`,
       },
       body: JSON.stringify({}),
     })
@@ -86,14 +88,11 @@ function RequireAuth({ children, redirectTo }) {
       });
   }, []);
 
-  if (loading)
-    return (
-      <div className="bg-gray-400 p-4 text-center w-1/4 mx-auto rounded-3xl text-white mt-10 text-lg">
-        <p>Please wait ....</p>
-        <i className="block fa fa-circle-o-notch fa-spin"></i>
-      </div>
-    );
-  return isAuthenticated ? children : <Navigate to={redirectTo} />;
+  if (loading) {
+    return <Loading />;
+  } else {
+    return isAuthenticated ? children : <Navigate to={redirectTo} />;
+  }
 }
 
 function CheckLogin({ children, redirectTo }) {
