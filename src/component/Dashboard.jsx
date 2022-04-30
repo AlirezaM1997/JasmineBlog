@@ -1,126 +1,22 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useAllState } from "../Provider";
-
-import Cookies from "universal-cookie";
 import { useNavigate } from "react-router-dom";
+
 import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-import { EditorState } from "draft-js";
+import { EditorState, ContentState, convertToRaw } from "draft-js";
 import { convertToHTML } from "draft-convert";
 
+import Cookies from "universal-cookie";
 import Loading from "./Loading";
 
 export default function Dashboard() {
   const { token } = useAllState();
+  const { userInfo } = useAllState();
   const { setUserInfo } = useAllState();
-
-  const [title, setTitle] = useState("");
-  const [imgUrl, setImgUrl] = useState("");
-  const [editorState, setEditorState] = useState(() =>
-    EditorState.createEmpty()
-  );
-  const [convertedContent, setConvertedContent] = useState(null);
-  const handleEditorChange = (state) => {
-    setEditorState(state);
-    convertContentToHTML();
-  };
-
-  console.log(convertedContent);
-
-  const convertContentToHTML = () => {
-    let currentContentAsHTML = convertToHTML(editorState.getCurrentContent());
-    setConvertedContent(currentContentAsHTML);
-  };
-
-  const editor = useRef(null);
-
-  const submitBLog = async () => {
-    fetch("http://localhost:4000/blog/write", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        auth: `ut ${token}`,
-      },
-      body: JSON.stringify({
-        title: title,
-        content: convertedContent,
-        imgurl: imgUrl,
-      }),
-    }).then((s) => {
-      console.log(s);
-    });
-    setConvertedContent(null);
-    // setTitle("");
-  };
-
-  const [resultPostForEdit, setResultPostForEdit] = useState();
-  const [postTitle, setPostTitle] = useState();
-  const [postImgUrl, setPostImgUrl] = useState();
-
-  const [postContent, setPostContent] = useState(() =>
-    EditorState.createEmpty()
-  );
-  const [_convertedContent, _setConvertedContent] = useState(null);
-  const handleEditorChangeForEdit = (state) => {
-    setPostContent(state);
-    _convertContentToHTML();
-  };
-
-  // console.log(convertedContent);
-
-  const _convertContentToHTML = () => {
-    let currentContentAsHTML = convertToHTML(postContent.getCurrentContent());
-    _setConvertedContent(currentContentAsHTML);
-  };
-  const [loadingForEditPost, setLoadingForEditPost] = useState(true);
-
-  const getPostForEdit = async (id) => {
-    fetch(`http://localhost:4000/blog/${id}`)
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          throw Error(response.status);
-        }
-      })
-
-      .then((res) => {
-        if (res) {
-          setResultPostForEdit(res);
-          setPostTitle(res.title);
-          setPostImgUrl(res.imgurl);
-          setLoadingForEditPost(false);
-        }
-      });
-  };
-  // console.log(result);
-  const [currentPostId, setCurrentPostId] = useState();
-  const submitBLogChange = async () => {
-    const cookies = new Cookies();
-    fetch("http://localhost:4000/blog/edit", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        auth: `ut ${cookies.get("token")}`,
-      },
-      body: JSON.stringify({
-        blogId: currentPostId,
-        data: {
-          title: postTitle,
-          content: _convertedContent,
-          imgurl: postImgUrl,
-        },
-      }),
-    }).then(() => {
-      console.log("submitBLogChange");
-    });
-    _setConvertedContent(null);
-    // setPostTitle("");
-  };
-
   const navToHome = useNavigate();
 
-  const { userInfo } = useAllState();
+  /////////////////////UI/////////////////////////
   const [state, setState] = useState({
     posts: true,
     account: false,
@@ -143,13 +39,120 @@ export default function Dashboard() {
       });
     }
   };
+
+  /////////////////////SUBMIT BLOG/////////////////////////
+  const editor = useRef(null);
+  const [hintTitle, setHintTitle] = useState(false);
+  const [hintContent, setHintContent] = useState(false);
+
+  const [title, setTitle] = useState("");
+  const [imgUrl, setImgUrl] = useState("");
+  const [editorState, setEditorState] = useState(() =>
+    EditorState.createEmpty()
+  );
+  const [convertedContent, setConvertedContent] = useState(null);
+  const handleEditorChange = (state) => {
+    setEditorState(state);
+    convertContentToHTML();
+  };
+  const convertContentToHTML = () => {
+    let currentContentAsHTML = convertToHTML(editorState.getCurrentContent());
+    setConvertedContent(currentContentAsHTML);
+  };
+
+  const submitBLog = async () => {
+    if (title === "") {
+      setHintTitle(true);
+    } else {
+      setHintTitle(false);
+    }
+    if (convertedContent === null) {
+      setHintContent(true);
+    } else {
+      setHintContent(false);
+    }
+    if (imgUrl === "") {
+      setImgUrl("https://www.bootdey.com/app/webroot/img/Content/bg1.jpg");
+    }
+    if (title !== "" && convertedContent !== null) {
+      const cookie = new Cookies();
+      fetch("http://localhost:4000/blog/write", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          auth: `ut ${cookie.get("token")}`,
+        },
+        body: JSON.stringify({
+          title: title,
+          content: convertedContent,
+          imgurl: imgUrl,
+        }),
+      }).then((res) => {
+        console.log("submitBLog");
+      });
+      setConvertedContent("");
+      setTitle("");
+      setImgUrl("");
+    }
+  };
+
+  /////////////////////EDIT BLOG/////////////////////////
+  const [postTitle, setPostTitle] = useState("");
+  const [postImgUrl, setPostImgUrl] = useState("");
+  const [postText, setPostText] = useState("");
+
+  let _contentState = ContentState.createFromText(postText);
+  const raw = convertToRaw(_contentState);
+  const [contentState, setContentState] = useState(raw);
+  const [loadingForEditPost, setLoadingForEditPost] = useState(true);
+
+  const getPostForEdit = async (id) => {
+    fetch(`http://localhost:4000/blog/${id}`)
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw Error(response.status);
+        }
+      })
+      .then((res) => {
+        if (res) {
+          setPostTitle(res.title);
+          setPostImgUrl(res.imgurl);
+          setPostText(res.content);
+          setLoadingForEditPost(false);
+        }
+      });
+  };
+
+  const [currentPostId, setCurrentPostId] = useState();
+  const submitBLogChange = async () => {
+    const cookies = new Cookies();
+    fetch("http://localhost:4000/blog/edit", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        auth: `ut ${cookies.get("token")}`,
+      },
+      body: JSON.stringify({
+        blogId: currentPostId,
+        data: {
+          title: postTitle,
+          content: contentState.blocks[0].text,
+          imgurl: postImgUrl,
+        },
+      }),
+    }).then(() => {
+      console.log("submitBLogChange");
+    });
+  };
+
+  /////////////////////RENDER DASHBOARD/////////////////////////
   const [myBlogs, setMyBlogs] = useState();
   const [loading, setLoading] = useState(true);
+
   const cookies = new Cookies();
-
   useEffect(() => {
-    console.log(userInfo);
-
     fetch(`http://localhost:4000/blog/my-blogs`, {
       method: "POST",
       headers: {
@@ -177,7 +180,9 @@ export default function Dashboard() {
     return temp.textContent;
   };
 
+  /////////////////////EDIT USER/////////////////////////
   const [showEdit, setShowEdit] = useState(false);
+
   const editShow = () => {
     setShowEdit(!showEdit);
     const scrollTo = () => {
@@ -228,11 +233,12 @@ export default function Dashboard() {
         },
       }),
     }).then(() => {
-      console.log("!!!!");
+      console.log("editUser done!");
     });
     updateUser();
   };
 
+  /////////////////////MODAL FOR LOG-OUT/////////////////////////
   const [showModal, setShowModal] = useState(false);
 
   const Modal = () => {
@@ -283,16 +289,11 @@ export default function Dashboard() {
     );
   };
 
+  /////////////////////JSX/////////////////////////
   return (
     <>
       <div className="w-full bg-white relative flex ">
         <aside className="fixed h-full w-16 flex flex-col space-y-10 items-center justify-center bg-gray-800 text-white">
-          {/* <img
-              src={require("../images/logo.png")}
-              width="40"
-              alt="Logo" className="absolute w-14"
-            /> */}
-
           <div
             onClick={() => clickHandler("posts")}
             className={`h-10 w-full flex items-center justify-center rounded-l cursor-pointer  duration-300 ${
@@ -320,10 +321,6 @@ export default function Dashboard() {
               aria-hidden="true"
             ></i>
           </div>
-
-          {/* <div className="h-10 w-full flex items-center justify-center rounded-l cursor-pointer hover:text-gray-800 hover:bg-white  hover:duration-300 hover:ease-linear focus:bg-white">
-            <i className="h-6 w-6 flex fa fa-sign-out" aria-hidden="true"></i>
-          </div> */}
 
           <div
             onClick={() => clickHandler("account")}
@@ -367,8 +364,16 @@ export default function Dashboard() {
             <div>
               {state.posts || state.editPost ? (
                 <h5 className="text-3xl font-bold border-b-2">
-                  All Posts{" "}
+                  <span
+                    onClick={() => clickHandler("posts")}
+                    className={`${
+                      state.editPost ? "text-blue-700 cursor-pointer" : ""
+                    }`}
+                  >
+                    All Posts
+                  </span>
                   <span className={`${state.editPost ? "" : "hidden"}`}>
+                    {" "}
                     &gt; Edit Post
                   </span>
                 </h5>
@@ -387,11 +392,11 @@ export default function Dashboard() {
                 loading ? (
                   <Loading />
                 ) : (
-                  <section className="text-gray-600 body-font">
+                  <section className="text-gray-600 body-font w-full">
                     <div className="container px-5 py-10 mx-auto">
                       <div className="flex flex-wrap -m-4">
                         {myBlogs.map((item) => (
-                          <div className="p-4 sm:w-full w-full">
+                          <div className="p-4 sm:w-full w-full dashboardCard">
                             <div className="h-full  shadow-lg rounded-xl shadow-cla-blue bg-gradient-to-r from-indigo-50 to-blue-50 overflow-hidden">
                               <img
                                 className="w-full h-40 object-cover object-center scale-110 transition-all duration-400 hover:scale-100"
@@ -446,9 +451,8 @@ export default function Dashboard() {
                       />
                     </div>
                     <Editor
-                      ref={editor}
-                      editorState={postContent}
-                      onEditorStateChange={handleEditorChangeForEdit}
+                      defaultContentState={contentState}
+                      onContentStateChange={setContentState}
                       toolbarClassName="toolbarClassName"
                       wrapperClassName="wrapperClassName"
                       editorClassName="editorClassName"
@@ -476,27 +480,45 @@ export default function Dashboard() {
               )}
               {state.newPost ? (
                 <div>
-                  <div>
+                  <div className="mt-3">
+                    <label className="text-2xl font-semibold">Title</label>
                     <input
-                      className="w-full my-3 p-2 focus:bg-white focus:outline-none border border-black rounded"
+                      className="w-full  my-1 p-2 focus:bg-white focus:outline-none border border-black rounded"
                       type="text"
-                      placeholder="title"
+                      placeholder="some title"
                       value={title}
                       onChange={(e) => setTitle(e.target.value)}
                     />
+                    <div
+                      className={`text-red-600 mb-3 ${
+                        hintTitle ? "" : "hidden"
+                      }`}
+                    >
+                      Please type some title
+                    </div>
                   </div>
-                  <Editor
-                    ref={editor}
-                    editorState={editorState}
-                    onEditorStateChange={handleEditorChange}
-                    toolbarClassName="toolbarClassName"
-                    wrapperClassName="wrapperClassName"
-                    editorClassName="editorClassName"
-                    placeholder={"Type something here ..."}
-                  />
                   <div>
+                    <Editor
+                      ref={editor}
+                      editorState={editorState}
+                      onEditorStateChange={handleEditorChange}
+                      toolbarClassName="toolbarClassName"
+                      wrapperClassName="wrapperClassName"
+                      editorClassName="editorClassName"
+                      placeholder={"Type something here ..."}
+                    />
+                    <div
+                      className={`text-red-600 mb-3 ${
+                        hintContent ? "" : "hidden"
+                      }`}
+                    >
+                      Please type some content
+                    </div>
+                  </div>
+                  <div className="mt-3">
+                    <label className="text-2xl font-semibold">Image</label>
                     <input
-                      className="w-full my-3 p-2 focus:bg-white focus:outline-none border border-black rounded"
+                      className="w-full mb-3 mt-1 p-2 focus:bg-white focus:outline-none border border-black rounded"
                       type="text"
                       placeholder="image url"
                       value={imgUrl}

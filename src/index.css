@@ -51,6 +51,16 @@ aside .fa {
 .homeIcon {
   font-size: x-large !important;
 }
+.public-DraftEditor-content{
+  overflow-wrap: anywhere !important;
+}
+@media (min-width: 768px) {
+  .dashboardCard {
+    min-width: 50%;
+    max-width: 50%;
+  }
+
+}
 /* Home */
 @media (min-width: 768px) {
   .smallCard {
@@ -59,7 +69,4 @@ aside .fa {
   .largeCard {
     width: 45%;
   }
-}
-.public-DraftEditor-content{
-  overflow-wrap: anywhere !important;
 }
