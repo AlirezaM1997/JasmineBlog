@@ -9,6 +9,8 @@ import { convertToHTML } from "draft-convert";
 
 import Cookies from "universal-cookie";
 import Loading from "./Loading";
+import SuccessModal from "./SuccessModal";
+import LogOutModal from "./LogOutModal";
 
 export default function Dashboard() {
   const { token } = useAllState();
@@ -24,6 +26,7 @@ export default function Dashboard() {
     editPost: false,
   });
   const clickHandler = (value) => {
+    window.scrollTo(0, 0);
     setState({
       posts: false,
       account: false,
@@ -59,7 +62,11 @@ export default function Dashboard() {
     let currentContentAsHTML = convertToHTML(editorState.getCurrentContent());
     setConvertedContent(currentContentAsHTML);
   };
+  console.log("convertedContent:", convertedContent);
+  console.log("title:", title);
+  console.log("imgUrl:", imgUrl);
 
+  const [showSuccessSubmit, setShowSuccessSubmit] = useState(false);
   const submitBLog = async () => {
     if (title === "") {
       setHintTitle(true);
@@ -70,9 +77,6 @@ export default function Dashboard() {
       setHintContent(true);
     } else {
       setHintContent(false);
-    }
-    if (imgUrl === "") {
-      setImgUrl("https://www.bootdey.com/app/webroot/img/Content/bg1.jpg");
     }
     if (title !== "" && convertedContent !== null) {
       const cookie = new Cookies();
@@ -85,14 +89,18 @@ export default function Dashboard() {
         body: JSON.stringify({
           title: title,
           content: convertedContent,
-          imgurl: imgUrl,
+          imgurl:
+            imgUrl === ""
+              ? "https://www.bootdey.com/app/webroot/img/bg9.jpg"
+              : imgUrl,
         }),
       }).then((res) => {
-        console.log("submitBLog");
+        console.log(res);
+        if (res.status === 200) {
+          setShowSuccessSubmit(true);
+          setTimeout(() => navToHome("/"), 2000);
+        }
       });
-      setConvertedContent("");
-      setTitle("");
-      setImgUrl("");
     }
   };
 
@@ -100,10 +108,11 @@ export default function Dashboard() {
   const [postTitle, setPostTitle] = useState("");
   const [postImgUrl, setPostImgUrl] = useState("");
   const [postText, setPostText] = useState("");
-
+  // console.log(postTitle);
   let _contentState = ContentState.createFromText(postText);
   const raw = convertToRaw(_contentState);
   const [contentState, setContentState] = useState(raw);
+  // console.log(contentState);
   const [loadingForEditPost, setLoadingForEditPost] = useState(true);
 
   const getPostForEdit = async (id) => {
@@ -117,6 +126,7 @@ export default function Dashboard() {
       })
       .then((res) => {
         if (res) {
+          console.log(res);
           setPostTitle(res.title);
           setPostImgUrl(res.imgurl);
           setPostText(res.content);
@@ -126,31 +136,48 @@ export default function Dashboard() {
   };
 
   const [currentPostId, setCurrentPostId] = useState();
+  const [showSuccessEdit, setShowSuccessEdit] = useState(false);
   const submitBLogChange = async () => {
-    const cookies = new Cookies();
-    fetch("http://localhost:4000/blog/edit", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        auth: `ut ${cookies.get("token")}`,
-      },
-      body: JSON.stringify({
-        blogId: currentPostId,
-        data: {
-          title: postTitle,
-          content: contentState.blocks[0].text,
-          imgurl: postImgUrl,
+    if (postTitle === "") {
+      setHintTitle(true);
+    } else {
+      setHintTitle(false);
+    }
+    if (contentState.blocks[0].text === "") {
+      setHintContent(true);
+    } else {
+      setHintContent(false);
+    }
+    if (postTitle !== "" && contentState.blocks[0].text !== "") {
+      const cookies = new Cookies();
+      fetch("http://localhost:4000/blog/edit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          auth: `ut ${cookies.get("token")}`,
         },
-      }),
-    }).then(() => {
-      console.log("submitBLogChange");
-    });
+        body: JSON.stringify({
+          blogId: currentPostId,
+          data: {
+            title: postTitle,
+            content: contentState.blocks[0].text,
+            imgurl:
+              postImgUrl === ""
+                ? "https://www.bootdey.com/app/webroot/img/Content/bg1.jpg"
+                : postImgUrl,
+          },
+        }),
+      }).then(() => {
+        setShowSuccessEdit(true);
+        setTimeout(() => navToHome("/"), 2000);
+      });
+    }
   };
 
   /////////////////////RENDER DASHBOARD/////////////////////////
   const [myBlogs, setMyBlogs] = useState();
   const [loading, setLoading] = useState(true);
-
+  // console.log(myBlogs);
   const cookies = new Cookies();
   useEffect(() => {
     fetch(`http://localhost:4000/blog/my-blogs`, {
@@ -168,7 +195,7 @@ export default function Dashboard() {
         }
       })
       .then((result) => {
-        console.log(result);
+        // console.log(result);
         setMyBlogs(result);
         setLoading(false);
       });
@@ -238,56 +265,7 @@ export default function Dashboard() {
     updateUser();
   };
 
-  /////////////////////MODAL FOR LOG-OUT/////////////////////////
   const [showModal, setShowModal] = useState(false);
-
-  const Modal = () => {
-    const { setToken } = useAllState();
-    const cookies = new Cookies();
-    const Logout = () => {
-      setShowModal(true);
-      cookies.remove("token");
-      setToken("");
-      setUserInfo();
-      // navToHome('/')
-      window.location.href = "/";
-    };
-    return (
-      <>
-        <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-          <div className="relative w-auto my-6 mx-auto max-w-sm">
-            {/*content*/}
-            <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
-              {/*body*/}
-              <div className="relative p-6 flex-auto">
-                <p className="my-4 text-slate-500 text-lg leading-relaxed">
-                  Are you sure want to log out ?
-                </p>
-              </div>
-              {/*footer*/}
-              <div className="modal flex items-center justify-center p-6 border-t border-solid border-slate-200 rounded-b">
-                <button
-                  className="bg-gray-100 text-gray-800 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                  type="button"
-                  onClick={() => setShowModal(false)}
-                >
-                  Cancel
-                </button>
-                <button
-                  className="bg-gray-100 text-red-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                  type="button"
-                  onClick={Logout}
-                >
-                  Log out
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
-      </>
-    );
-  };
 
   /////////////////////JSX/////////////////////////
   return (
@@ -393,7 +371,7 @@ export default function Dashboard() {
                   <Loading />
                 ) : (
                   <section className="text-gray-600 body-font w-full">
-                    <div className="container px-5 py-10 mx-auto">
+                    <div className="container px-12 py-10 mx-auto">
                       <div className="flex flex-wrap -m-4">
                         {myBlogs.map((item) => (
                           <div className="p-4 sm:w-full w-full dashboardCard">
@@ -411,11 +389,11 @@ export default function Dashboard() {
                                   {item.title}
                                 </h1>
                                 <p className="leading-relaxed mb-3 overflow-hidden truncate whitespace-nowrap">
-                                  {htmlToText(item.content)}
+                                  {item.content}
                                 </p>
                                 <div className="flex items-center justify-center flex-wrap ">
                                   <button
-                                    className="px-8 py-2 bg-teal-500 text-white hover:bg-teal-600 transition-all duration-300 rounded-lg"
+                                    className="px-8 py-2 w-2/6 bg-teal-500 text-white hover:bg-teal-600 transition-all duration-300 rounded-lg"
                                     onClick={(e) => {
                                       clickHandler("editPost");
                                       getPostForEdit(item._id);
@@ -442,25 +420,43 @@ export default function Dashboard() {
                 ) : (
                   <div>
                     <div>
+                      <label className="text-2xl font-semibold">Title</label>
                       <input
-                        className="w-full my-3 p-2 focus:bg-white focus:outline-none border border-black rounded"
+                        className="w-full my-1 mb-3 p-2 focus:bg-white focus:outline-none border border-blue-600 rounded-lg"
                         type="text"
                         placeholder="title"
                         value={postTitle}
                         onChange={(e) => setPostTitle(e.target.value)}
                       />
+                      <div
+                        className={`text-red-600 mb-3 ${
+                          hintTitle ? "" : "hidden"
+                        }`}
+                      >
+                        Please type some title
+                      </div>
                     </div>
-                    <Editor
-                      defaultContentState={contentState}
-                      onContentStateChange={setContentState}
-                      toolbarClassName="toolbarClassName"
-                      wrapperClassName="wrapperClassName"
-                      editorClassName="editorClassName"
-                      placeholder={"Type something here ..."}
-                    />
                     <div>
+                      <Editor
+                        defaultContentState={contentState}
+                        onContentStateChange={setContentState}
+                        toolbarClassName="toolbarClassName"
+                        wrapperClassName="wrapperClassName"
+                        editorClassName="editorClassName"
+                        placeholder={"Type something here ..."}
+                      />
+                      <div
+                        className={`text-red-600 mb-3 ${
+                          hintContent ? "" : "hidden"
+                        }`}
+                      >
+                        Please type some content
+                      </div>
+                    </div>
+                    <div>
+                      <label className="text-2xl font-semibold">Image</label>
                       <input
-                        className="w-full my-3 p-2 focus:bg-white focus:outline-none border border-black rounded"
+                        className="w-full my-3 p-2 focus:bg-white focus:outline-none border border-blue-600 rounded-lg"
                         type="text"
                         placeholder="image url"
                         value={postImgUrl}
@@ -483,7 +479,7 @@ export default function Dashboard() {
                   <div className="mt-3">
                     <label className="text-2xl font-semibold">Title</label>
                     <input
-                      className="w-full  my-1 p-2 focus:bg-white focus:outline-none border border-black rounded"
+                      className="w-full  my-1 mb-3 p-2 focus:bg-white focus:outline-none border border-blue-600 rounded-lg"
                       type="text"
                       placeholder="some title"
                       value={title}
@@ -499,7 +495,7 @@ export default function Dashboard() {
                   </div>
                   <div>
                     <Editor
-                      ref={editor}
+                      // ref={editor}
                       editorState={editorState}
                       onEditorStateChange={handleEditorChange}
                       toolbarClassName="toolbarClassName"
@@ -518,7 +514,7 @@ export default function Dashboard() {
                   <div className="mt-3">
                     <label className="text-2xl font-semibold">Image</label>
                     <input
-                      className="w-full mb-3 mt-1 p-2 focus:bg-white focus:outline-none border border-black rounded"
+                      className="w-full mb-3 mt-1 p-2 focus:bg-white focus:outline-none border border-blue-600 rounded-lg"
                       type="text"
                       placeholder="image url"
                       value={imgUrl}
@@ -585,7 +581,6 @@ export default function Dashboard() {
                                 id="username"
                                 className="border-2 rounded px-4 py-2 w-full"
                                 type="text"
-                                // defaultValue={userInfo.name}
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
                               />
@@ -602,7 +597,6 @@ export default function Dashboard() {
                               id="phoneNumber"
                               className="border-2 rounded px-4 py-2 w-full"
                               type="number"
-                              // defaultValue={userInfo.phoneNumber}
                               autoComplete="off"
                               value={phonenumber}
                               onChange={(e) => setPhonenumber(e.target.value)}
@@ -619,7 +613,6 @@ export default function Dashboard() {
                               id="imageurl"
                               className="border-2 rounded px-4 py-2 w-full"
                               type="text"
-                              // defaultValue={userInfo.imgurl}
                               value={imgurl}
                               onChange={(e) => setImgurl(e.target.value)}
                             />
@@ -642,7 +635,10 @@ export default function Dashboard() {
                 ""
               )}
             </div>
-            {showModal ? <Modal /> : null}
+            {showModal ? <LogOutModal setShowModal={setShowModal} /> : null}
+            {showSuccessSubmit || showSuccessEdit ? (
+              <SuccessModal showSuccessSubmit={showSuccessSubmit} />
+            ) : null}
           </main>
         </div>
       </div>

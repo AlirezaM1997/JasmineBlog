@@ -38,7 +38,7 @@ aside .fa {
   height: 48vh !important;
 }
 .wrapperClassName {
-  border: solid 1px black;
+  border: solid 1px #3182ce;
   border-radius: 0.5em;
   padding: 0.2rem;
 }
@@ -51,7 +51,7 @@ aside .fa {
 .homeIcon {
   font-size: x-large !important;
 }
-.public-DraftEditor-content{
+.public-DraftEditor-content {
   overflow-wrap: anywhere !important;
 }
 @media (min-width: 768px) {
@@ -59,14 +59,62 @@ aside .fa {
     min-width: 50%;
     max-width: 50%;
   }
-
+}
+.dashboardCard {
+  animation: change_scale_and_opacity 1s;
+}
+@keyframes change_scale_and_opacity {
+  0% {
+    transform: scale(0.7);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 /* Home */
-@media (min-width: 768px) {
+@media (min-width: 1024px) {
   .smallCard {
-    width: 22.5%;
+    width: 22.5% !important;
   }
   .largeCard {
+    width: 45% !important;
+  }
+}
+@media (min-width: 768px) {
+  .smallCard {
     width: 45%;
   }
+  .largeCard {
+    width: 92%;
+  }
+}
+.smallCard,
+.largeCard {
+  box-shadow: 4px 0px 9px -2px rgba(32, 86, 133, 0.55);
+  animation: change_scale 1s;
+}
+.cartInfo {
+  min-width: auto;
+  max-width: -webkit-fill-available;
+  background: rgba(255, 255, 255, 0.712);
+}
+@keyframes change_scale {
+  0% {
+    transform: scale(0.7);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@media (min-width: 576px) {
+  .imgCart:hover {
+    transform: scale(1.1);
+  }
+}
+
+/* Blog */
+.blogImg {
+  filter: blur(4px);
 }

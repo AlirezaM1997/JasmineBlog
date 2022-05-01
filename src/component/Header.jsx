@@ -16,7 +16,7 @@ export default function Header() {
       <nav className="bg-gray-800 z-10 relative">
         <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
           <div className="relative flex items-center justify-between h-16">
-            <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
+            <div className="flex items-center sm:hidden">
               <button
                 type="button"
                 className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
@@ -57,81 +57,80 @@ export default function Header() {
                 </svg>
               </button>
             </div>
-            <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
-              <div className="flex-shrink-0 flex items-center">
-                <img
-                  src="https://www.freeiconspng.com/uploads/blogger-logo-icon-png-0.png"
-                  width="40"
-                  alt="Logo"
-                />
-              </div>
-              <div className="hidden sm:block sm:ml-6">
-                <div className="flex space-x-4">
-                  <Link
-                    to={"/"}
-                    className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                  >
-                    Home
-                  </Link>
+            <div className="sm:block hidden">
+              <img
+                src="https://www.freeiconspng.com/uploads/blogger-logo-icon-png-0.png"
+                width="40"
+                alt="Logo"
+              />
+            </div>
+            <div className="flex-1 hidden sm:flex sm:ml-6 items-center justify-center sm:items-stretch sm:justify-start">
+              <div className="flex space-x-4">
+                <Link
+                  to={"/"}
+                  className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                >
+                  Home
+                </Link>
 
-                  <Link
-                    to={"/about"}
-                    className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                  >
-                    About
-                  </Link>
+                <Link
+                  to={"/about"}
+                  className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                >
+                  About
+                </Link>
 
-                  <Link
-                    to={"/contact"}
-                    className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                  >
-                    Contact
-                  </Link>
-                </div>
+                <Link
+                  to={"/contact"}
+                  className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                >
+                  Contact
+                </Link>
               </div>
             </div>
-            <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-         {   userInfo?  <button
-                type="button"
-                className="bg-gray-800 p-1 mr-4 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
-              >
-                <span className="sr-only">View notifications</span>
-                <svg
-                  className="h-6 w-6"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  aria-hidden="true"
+            <div>
+              {userInfo ? (
+                <button
+                  type="button"
+                  className="bg-gray-800 p-1 mr-4 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
                 >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
-                  />
-                </svg>
-              </button>:''}
+                  <span className="sr-only">View notifications</span>
+                  <svg
+                    className="h-6 w-6"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    aria-hidden="true"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
+                    />
+                  </svg>
+                </button>
+              ) : (
+                ""
+              )}
 
               {!userInfo ? (
-                <>
-                  <div className="ml-3 relative">
-                    <Link
-                      to={"/user/login"}
-                      className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-2 border border-gray-400 rounded shadow"
-                    >
-                      Log in
-                    </Link>
-                  </div>
-                  <div className="ml-3 relative">
-                    <Link
-                      to={"/user/signup"}
-                      className="bg-gray-800 hover:bg-gray-600 text-white font-semibold py-2 px-2 border border-gray-400 rounded shadow"
-                    >
-                      Sign up
-                    </Link>
-                  </div>
-                </>
+                <div className="flex">
+                  <Link
+                    to={"/user/login"}
+                    className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-2 border border-gray-400 rounded shadow mr-2"
+                  >
+                    Log in
+                  </Link>
+
+                  <Link
+                    to={"/user/signup"}
+                    className="bg-gray-800 hover:bg-gray-600 text-white font-semibold py-2 px-2 border border-gray-400 rounded shadow"
+                  >
+                    Sign up
+                  </Link>
+                </div>
               ) : (
                 <Link to={"/user/dashboard"}>
                   <div className="flex flex-shrink-0 items-center space-x-4 text-white">
@@ -150,7 +149,7 @@ export default function Header() {
         </div>
 
         <div
-          className={`absolute w-1/2 bg-gray-700 rounded rounded-t-none animate-['changeOpa']  ${
+          className={` w-full bg-gray-700 rounded rounded-t-none duration-500 transition-all ${
             showMobMenu ? "" : "hidden"
           }`}
           id="mobile-menu"

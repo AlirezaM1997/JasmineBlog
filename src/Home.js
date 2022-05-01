@@ -4,21 +4,30 @@ import "./index.css";
 import Loading from "./component/Loading";
 
 function Home() {
-  const firstNumberArray = [2, 8, 14, 20];
-  const secondNumberArray = [3, 9, 15, 21];
+  const firstNumberArray = [2];
+  const secondNumberArray = [3];
 
-  const firstSequence = () => {
-    for (let index = 2; index < 1000; index++) {
-      firstNumberArray.push(index + 6);
+  const sequence = () => {
+    let i = 2;
+    let j;
+    let k = 3;
+    let w;
+    while (i < 1000) {
+      j = i + 6;
+      firstNumberArray.push(j);
+      i = i + 6;
+      w = k + 6;
+      secondNumberArray.push(w);
+      k = k + 6;
     }
   };
+  sequence();
 
   const [blogs, setBlogs] = useState();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    firstSequence();
-    console.log(firstNumberArray);
+    window.scrollTo(0, 0);
     fetch("http://localhost:4000/blog")
       .then((response) => {
         if (response.ok) {
@@ -28,7 +37,6 @@ function Home() {
         }
       })
       .then((result) => {
-        console.log(result);
         setBlogs(result);
         setLoading(false);
       });
@@ -39,7 +47,7 @@ function Home() {
   ) : (
     <>
       <div className="flex justify-center items-center">
-        <div className="2xl:mx-auto 2xl:container lg:px-20 lg:py-16 md:py-12 md:px-6 py-9 px-4 w-96 sm:w-auto">
+        <div className="2xl:mx-auto 2xl:container lg:px-20 lg:py-16 md:py-12 md:px-6 py-12 px-4 w-96 sm:w-auto">
           <div
             role="main"
             className="flex flex-col items-center justify-center"
@@ -47,7 +55,7 @@ function Home() {
             <h1 className="text-4xl leading-9 text-center text-gray-800 dark:text-gray-50">
               Trial Blog
             </h1>
-            <p className="text-base leading-normal text-center text-gray-600 dark:text-white mt-4 lg:w-1/2 md:w-10/12 w-11/12">
+            <p className="text-base leading-normal text-center text-gray-600 dark:text-white mt-4 md:w-10/12 w-11/12">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
               eiusmod tempor incididunt ut labore et dolore magna aliqua.
             </p>
@@ -57,30 +65,35 @@ function Home() {
               {blogs.map((i, index) =>
                 !firstNumberArray.includes(index) &&
                 !secondNumberArray.includes(index) ? (
-                  <div
-                    className="relative rounded-xl m-2 h-64 sm:w-1/2 w-full inline-block bg-center bg-cover smallCard"
-                    style={{
-                      backgroundImage:
-                        'url("https://i.ibb.co/DYxtCJq/img-1.png")',
-                    }}
-                  >
+                  <div className="relative rounded-xl md:m-2 my-2 h-64 w-full inline-block shadow-lg smallCard overflow-hidden">
+                    <div
+                      className="bg-center bg-cover w-full h-full transition-all duration-700 imgCart"
+                      style={{
+                        backgroundImage: `url(${i.imgurl})`,
+                      }}
+                    ></div>
+
                     <div>
-                      <p className="p-6 text-xs font-medium leading-3 text-white absolute top-0 right-0">
-                        12 April 2022
+                      <p className="p-1 m-5 bg-black text-white rounded text-xs font-medium leading-2 absolute top-0 right-0">
+                        <span className="block pb-1">Last Update</span>{" "}
+                        <span className="bg-white text-black">
+                          {" "}
+                          12 April 2022
+                        </span>
                       </p>
-                      <div className="absolute text-left bottom-0 left-0 p-6">
-                        <h2 className="text-xl font-semibold 5 text-white">
+                      <div className="absolute text-left bottom-0 left-0 p-2 m-3 rounded-xl cartInfo">
+                        <h2 className="text-xl font-semibold 5 text-black overflow-hidden">
                           {i.title}
                         </h2>
-                        <p className="text-base leading-4 text-white mt-2">
+                        <p className="text-sm leading-4 text-black italic mt-2">
                           {i.creator.name}
                         </p>
                         <Link
-                          to={"#"}
-                          className="focus:outline-none focus:underline flex items-center mt-4 cursor-pointer text-white hover:text-gray-200 hover:underline"
+                          to={`/blog/${i._id}`}
+                          className="focus:outline-none focus:underline flex items-center mt-4 cursor-pointer text-black hover:text-blue-800 hover:underline"
                         >
                           <p className="pr-2 text-sm font-medium leading-none">
-                            Read More
+                            Read Blog
                           </p>
                           <svg
                             className="fill-stroke"
@@ -103,27 +116,31 @@ function Home() {
                     </div>
                   </div>
                 ) : (
-                  <div
-                    className="relative rounded-xl m-2 h-64 sm:w-full w-full inline-block bg-center bg-cover largeCard"
-                    style={{
-                      backgroundImage:
-                        'url("https://i.ibb.co/Ms4qyXp/img-3.png")',
-                    }}
-                  >
+                  <div className="relative rounded-xl md:m-2 my-2 h-64 w-full inline-block largeCard overflow-hidden">
+                    <div
+                      className="bg-center bg-cover w-full h-full transition-all duration-700 imgCart"
+                      style={{
+                        backgroundImage: `url(${i.imgurl})`,
+                      }}
+                    ></div>
                     <div>
-                      <p className="md:p-10 p-6 text-xs font-medium leading-3 text-white absolute top-0 right-0">
-                        12 April 2021
+                      <p className="p-1 m-5 bg-black text-white rounded text-xs font-medium leading-2 absolute top-0 right-0">
+                        <span className="block pb-1">Last Update</span>{" "}
+                        <span className="bg-white text-black">
+                          {" "}
+                          12 April 2022
+                        </span>
                       </p>
-                      <div className="absolute text-left bottom-0 left-0 p-6">
-                        <h2 className="text-xl font-semibold 5 text-white">
+                      <div className="absolute text-left bottom-0 left-0 p-2 m-3 rounded-xl cartInfo">
+                        <h2 className="text-xl font-semibold 5 text-black overflow-hidden">
                           {i.title}
                         </h2>
-                        <p className="text-base leading-4 text-white mt-2">
+                        <p className="leading-4 text-sm text-black italic mt-2">
                           {i.creator.name}
                         </p>
                         <Link
-                          to={"#"}
-                          className="focus:outline-none focus:underline flex items-center mt-4 cursor-pointer text-white hover:text-gray-200 hover:underline"
+                          to={`/blog/${i._id}`}
+                          className="focus:outline-none focus:underline flex items-center mt-4 cursor-pointer text-black hover:text-blue-800 hover:underline"
                         >
                           <p className="pr-2 text-sm font-medium leading-none">
                             Read More

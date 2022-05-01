@@ -16,6 +16,7 @@ import About from "./component/About";
 import Contact from "./component/Contact";
 import Dashboard from "./component/Dashboard";
 import Provider from "./Provider";
+import Blog from "./component/Blog";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -24,6 +25,7 @@ root.render(
       <Routes>
         <Route element={<Header />}>
           <Route exact path="/" element={<Home />}></Route>
+          <Route path="/blog/:id" element={<Blog />}></Route>
           <Route path="/about" element={<About />}></Route>
           <Route path="/contact" element={<Contact />}></Route>
           <Route

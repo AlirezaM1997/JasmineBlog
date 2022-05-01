@@ -34,13 +34,13 @@ export default function SignUp() {
 
   return (
     <>
-      <section className="min-h-screen flex items-stretch text-white ">
+      <section className="flex items-stretch text-white ">
         <div
-          className="lg:w-1/2 w-full flex items-center justify-center text-center md:px-10 px-0 z-0  sm:mt-0 md:mt-0"
+          className="lg:w-1/2 py-4 w-full flex items-center justify-center text-center md:px-10 px-0 z-0  sm:mt-0 md:mt-0"
           style={{ backgroundColor: "#161616" }}
         >
           <div
-            className="absolute lg:hidden z-10 inset-0 bg-gray-500 bg-no-repeat bg-cover items-center signUpBg"
+            className="absolute  lg:hidden z-10 inset-0 bg-gray-500 bg-no-repeat bg-cover items-center signUpBg"
             style={{
               backgroundImage: " url(https://www.bootdey.com/img/bg20.jpg)",
             }}
