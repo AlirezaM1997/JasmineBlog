@@ -64,7 +64,7 @@ function RequireAuth({ children, redirectTo }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
   const { setUserInfo } = useAllState();
-  const {userInfo}=useAllState()
+  const { userInfo } = useAllState();
   const { token } = useAllState();
   const cookies = new Cookies();
   useEffect(() => {

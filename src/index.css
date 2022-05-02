@@ -45,9 +45,6 @@ aside .fa {
 .public-DraftStyleDefault-block {
   margin: 0 !important;
 }
-.modal button {
-  background: rgb(237 237 237) !important;
-}
 .homeIcon {
   font-size: x-large !important;
 }
@@ -72,6 +69,14 @@ aside .fa {
     transform: scale(1);
     opacity: 1;
   }
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
 }
 /* Home */
 @media (min-width: 1024px) {

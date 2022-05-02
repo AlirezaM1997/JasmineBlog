@@ -27,15 +27,15 @@ export default function LogOutModal(props) {
             {/*footer*/}
             <div className="modal flex items-center justify-center p-6 border-t border-solid border-slate-200 rounded-b">
               <button
-                className="bg-gray-100 text-gray-800 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                type="button"
+                className="text-white font-bold uppercase text-sm px-6 py-3 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                type="button" style={{background : 'black'}}
                 onClick={() => props.setShowModal(false)}
               >
                 Cancel
               </button>
               <button
-                className="bg-gray-100 text-red-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                type="button"
+                className="text-white font-bold uppercase text-sm px-6 py-3 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                type="button" style={{background : 'red'}}
                 onClick={Logout}
               >
                 Log out

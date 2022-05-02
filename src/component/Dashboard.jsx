@@ -63,8 +63,8 @@ export default function Dashboard() {
     setConvertedContent(currentContentAsHTML);
   };
   console.log("convertedContent:", convertedContent);
-  console.log("title:", title);
-  console.log("imgUrl:", imgUrl);
+  // console.log("title:", title);
+  // console.log("imgUrl:", imgUrl);
 
   const [showSuccessSubmit, setShowSuccessSubmit] = useState(false);
   const submitBLog = async () => {
@@ -108,11 +108,9 @@ export default function Dashboard() {
   const [postTitle, setPostTitle] = useState("");
   const [postImgUrl, setPostImgUrl] = useState("");
   const [postText, setPostText] = useState("");
-  // console.log(postTitle);
-  let _contentState = ContentState.createFromText(postText);
-  const raw = convertToRaw(_contentState);
-  const [contentState, setContentState] = useState(raw);
-  // console.log(contentState);
+
+  const [contentState, setContentState] = useState(convertToRaw(ContentState.createFromText(postText)));
+
   const [loadingForEditPost, setLoadingForEditPost] = useState(true);
 
   const getPostForEdit = async (id) => {
@@ -126,17 +124,21 @@ export default function Dashboard() {
       })
       .then((res) => {
         if (res) {
-          console.log(res);
+          // console.log(res);
           setPostTitle(res.title);
           setPostImgUrl(res.imgurl);
           setPostText(res.content);
-          setLoadingForEditPost(false);
         }
+        // console.log(postText);
+        setContentState(convertToRaw(ContentState.createFromText(postText)));
+        setLoadingForEditPost(false);
       });
   };
 
+
   const [currentPostId, setCurrentPostId] = useState();
   const [showSuccessEdit, setShowSuccessEdit] = useState(false);
+  
   const submitBLogChange = async () => {
     if (postTitle === "") {
       setHintTitle(true);
@@ -274,9 +276,9 @@ export default function Dashboard() {
         <aside className="fixed h-full w-16 flex flex-col space-y-10 items-center justify-center bg-gray-800 text-white">
           <div
             onClick={() => clickHandler("posts")}
-            className={`h-10 w-full flex items-center justify-center rounded-l cursor-pointer  duration-300 ${
+            className={`h-10 w-full flex items-center justify-center rounded-l cursor-pointer duration-300 ${
               state.posts || state.editPost
-                ? "text-gray-800 bg-white  duration-300 ease-linear"
+                ? "text-gray-800 bg-white duration-300 ease-linear"
                 : "hover:bg-gray-700"
             } `}
           >
@@ -319,10 +321,34 @@ export default function Dashboard() {
           <header className="h-16 w-full flex items-center relative justify-end px-5 space-x-10 bg-gray-800">
             <div>
               <i
-                class="fa fa-home text-white cursor-pointer homeIcon"
+                class="fa fa-home text-white hover:text-green-300 cursor-pointer homeIcon"
                 aria-hidden="true"
                 onClick={() => navToHome("/")}
               ></i>
+            </div>
+            <div>
+              {" "}
+              <button
+                type="button"
+                className="bg-gray-800 p-1 rounded-full text-white hover:text-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
+              >
+                <span className="sr-only">View notifications</span>
+                <svg
+                  className="h-6 w-6"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  aria-hidden="true"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
+                  />
+                </svg>
+              </button>
             </div>
             <div className="flex flex-shrink-0 items-center space-x-4 text-white">
               <div className="flex flex-col items-end ">

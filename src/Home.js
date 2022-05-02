@@ -40,6 +40,7 @@ function Home() {
         setBlogs(result);
         setLoading(false);
       });
+      console.log();
   }, []);
 
   return loading ? (
