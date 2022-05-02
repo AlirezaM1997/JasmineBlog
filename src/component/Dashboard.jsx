@@ -138,7 +138,7 @@ export default function Dashboard() {
 
   const [currentPostId, setCurrentPostId] = useState();
   const [showSuccessEdit, setShowSuccessEdit] = useState(false);
-  
+
   const submitBLogChange = async () => {
     if (postTitle === "") {
       setHintTitle(true);
@@ -401,13 +401,13 @@ export default function Dashboard() {
                       <div className="flex flex-wrap -m-4">
                         {myBlogs.map((item) => (
                           <div className="p-4 sm:w-full w-full dashboardCard">
-                            <div className="h-full  shadow-lg rounded-xl shadow-cla-blue bg-gradient-to-r from-indigo-50 to-blue-50 overflow-hidden">
+                            <div className="h-full shadow-lg rounded-xl shadow-cla-blue bg-gradient-to-r from-indigo-50 to-blue-50 overflow-hidden">
                               <img
-                                className="w-full h-40 object-cover object-center scale-110 transition-all duration-400 hover:scale-100"
-                                src={item.imgurl}
+                                className="w-full h-60 object-cover object-center scale-110 transition-all duration-400 hover:scale-100"
+                                src={item.imgurl} style={{height:'15rem'}}
                                 alt="blog"
                               />
-                              <div className="p-6">
+                              <div className="py-3 px-4">
                                 <h2 className="tracking-widest text-xs title-font font-medium text-gray-400 mb-1">
                                   February 06, 2017
                                 </h2>

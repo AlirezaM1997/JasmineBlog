@@ -63,18 +63,7 @@ export default function Blog() {
                 {blogInfo.creator.name}
               </h2>
               <p className="mt-6">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
-                ornare justo felis, nec lobortis augue luctus et. Sed nibh
-                metus, posuere non elit nec, rutrum imperdiet justo. Cras ut
-                nunc felis. Nunc rhoncus faucibus ultrices. Suspendisse ut
-                consectetur nulla. Pellentesque mattis, ligula at pellentesque
-                tempor, nisl elit porta lectus, eu bibendum arcu purus eget
-                urna. Phasellus euismod at elit vel convallis. Nullam porttitor
-                mauris risus, eget hendrerit nisl tincidunt vel. Phasellus at
-                dolor dui. Aliquam commodo tellus dolor. Sed purus nunc, laoreet
-                quis elementum at, elementum at nisl. Praesent ut rhoncus orci.
-                Curabitur sit amet est non dolor porttitor facilisis. Nullam
-                velit tortor, iaculis eget vehicula quis, sollicitudin id magna.
+                {blogInfo.content}
               </p>
             </article>
           </main>
