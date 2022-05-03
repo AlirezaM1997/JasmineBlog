@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 import Loading from "./Loading";
 
@@ -23,6 +23,7 @@ export default function Blog() {
         setLoading(false);
       });
   }, []);
+
 
   return (
     <>
@@ -59,12 +60,20 @@ export default function Blog() {
               <h1 className="text-2xl text-center font-bold">
                 {blogInfo.title}
               </h1>
-              <h2 className="mt-2 text-lg text-center text-gray-500">
-                {blogInfo.creator.name}
-              </h2>
-              <p className="mt-6">
-                {blogInfo.content}
-              </p>
+              <Link
+                to={`/userblog/${blogInfo.creator._id}`}
+                className="w-fit inline-block cursor-pointer"
+              >
+                <img
+                  src={blogInfo.creator.imgurl}
+                  className="inline w-8 h-8 mr-4 rounded-full shadow-2xl border-2"
+                  alt="avatar"
+                />
+                <h2 className="inline text-lg text-gray-800 leading-3 tracking-wide italic">
+                  {blogInfo.creator.name}
+                </h2>
+              </Link>
+              <p className="mt-6">{blogInfo.content}</p>
             </article>
           </main>
         </div>
@@ -72,4 +81,3 @@ export default function Blog() {
     </>
   );
 }
-

@@ -7,6 +7,10 @@ input:focus {
   background-color: aliceblue;
   color: black;
 }
+.opaAnimate{
+  animation: fade_in_show 1s;
+}
+
 /* Sign Up */
 .signUpBg {
   height: 113%;

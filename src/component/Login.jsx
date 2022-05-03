@@ -65,7 +65,7 @@ export default function Login() {
 
   return (
     <>
-      <section className="flex items-stretch text-white ">
+      <section className="flex items-stretch text-white">
         <div
           className="lg:flex w-1/2 hidden bg-gray-500 bg-no-repeat bg-cover relative items-center"
           id=""

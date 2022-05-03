@@ -6,6 +6,7 @@ export default function Provider({ children }) {
   const [userInfo, setUserInfo] = useState();
   const [token, setToken] = useState("");
   const [loading, setLoading] = useState();
+  const [userId, setUserId] = useState();
 
   return (
     <Context.Provider
@@ -16,6 +17,8 @@ export default function Provider({ children }) {
         setToken,
         loading,
         setLoading,
+        userId,
+        setUserId,
       }}
     >
       {children}
