@@ -9,6 +9,7 @@ export default function Blog() {
   const { id } = useParams();
   //   const { currentBlogId } = useAllState();
   useEffect(() => {
+    window.scrollTo(0, 0);
     fetch(`http://localhost:4000/blog/${id}`)
       .then((response) => {
         if (response.ok) {
@@ -49,7 +50,7 @@ export default function Blog() {
                 style={{ paddingTop: "56.25%" }}
               >
                 <img
-                  className="w-full h-full absolute inset-0 object-cover"
+                  className="w-full h-full absolute inset-0 object-cover blogSmallImg"
                   src={blogInfo.imgurl}
                   alt="img"
                 />
@@ -73,7 +74,7 @@ export default function Blog() {
                   {blogInfo.creator.name}
                 </h2>
               </Link>
-              <p className="mt-6">{blogInfo.content}</p>
+              <p className="mt-6"  dangerouslySetInnerHTML={{ __html: blogInfo.content }}></p>
             </article>
           </main>
         </div>

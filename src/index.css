@@ -10,12 +10,28 @@ input:focus {
 .opaAnimate{
   animation: fade_in_show 1s;
 }
-
+@keyframes change_scale_and_opacity {
+  0% {
+    transform: scale(0.7);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
 /* Sign Up */
 .signUpBg {
   height: 113%;
 }
+.signupSection{
+  animation: fade_in_show 1s;
+
+}
 /* Login */
+.loginSection{
+  animation: fade_in_show 1s;
+}
 @keyframes fade_in_show {
   0% {
     opacity: 0;
@@ -64,16 +80,7 @@ aside .fa {
 .dashboardCard {
   animation: change_scale_and_opacity 1s;
 }
-@keyframes change_scale_and_opacity {
-  0% {
-    transform: scale(0.7);
-    opacity: 0;
-  }
-  100% {
-    transform: scale(1);
-    opacity: 1;
-  }
-}
+
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
@@ -96,7 +103,7 @@ input[type="number"] {
     width: 45%;
   }
   .largeCard {
-    width: 92%;
+    width: 45%;
   }
 }
 .smallCard,
@@ -126,4 +133,8 @@ input[type="number"] {
 /* Blog */
 .blogImg {
   filter: blur(4px);
+  animation: fade_in_show 1s;
+}
+.blogSmallImg{
+  animation: change_scale_and_opacity 1s;
 }

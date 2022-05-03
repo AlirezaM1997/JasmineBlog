@@ -3,6 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { useAllState } from "../Provider";
 
 export default function SignUp() {
+  useEffect(()=>{
+    window.scrollTo(0, 0);
+
+  },[])
   const [currentUser, setCurrentUser] = useState({
     username: "",
     password: "",
@@ -50,7 +54,7 @@ export default function SignUp() {
               style={{ opacity: "0.6" }}
             ></div>
           </div>
-          <div className="w-full z-20">
+          <div className="w-full z-20 signupSection">
             <h1 className=" text-4xl">Sign up</h1>
             <div className="sm:w-2/3 w-full px-4 lg:px-0 mx-auto">
               <div className="pb-2 pt-4">

@@ -104,7 +104,7 @@ export default function Login() {
               style={{ opacity: "0.6" }}
             ></div>
           </div>
-          <div className="w-full z-20">
+          <div className="w-full z-20 loginSection">
             <h1 className=" text-4xl">Log in</h1>
             <div className="py-6 space-x-2">
               <span className="cursor-pointer w-10 h-10 items-center justify-center inline-flex rounded-full font-bold text-lg border-2 border-white">

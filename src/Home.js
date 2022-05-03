@@ -25,6 +25,7 @@ function Home() {
 
   const [blogs, setBlogs] = useState();
   const [loading, setLoading] = useState(true);
+console.log(blogs);
 
   useEffect(() => {
     window.scrollTo(0, 0);

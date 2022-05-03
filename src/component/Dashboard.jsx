@@ -109,7 +109,9 @@ export default function Dashboard() {
   const [postImgUrl, setPostImgUrl] = useState("");
   const [postText, setPostText] = useState("");
 
-  const [contentState, setContentState] = useState(convertToRaw(ContentState.createFromText(postText)));
+  const [contentState, setContentState] = useState(
+    convertToRaw(ContentState.createFromText(postText))
+  );
 
   const [loadingForEditPost, setLoadingForEditPost] = useState(true);
 
@@ -134,7 +136,6 @@ export default function Dashboard() {
         setLoadingForEditPost(false);
       });
   };
-
 
   const [currentPostId, setCurrentPostId] = useState();
   const [showSuccessEdit, setShowSuccessEdit] = useState(false);
@@ -404,7 +405,8 @@ export default function Dashboard() {
                             <div className="h-full shadow-lg rounded-xl shadow-cla-blue bg-gradient-to-r from-indigo-50 to-blue-50 overflow-hidden">
                               <img
                                 className="w-full h-60 object-cover object-center scale-110 transition-all duration-400 hover:scale-100"
-                                src={item.imgurl} style={{height:'15rem'}}
+                                src={item.imgurl}
+                                style={{ height: "15rem" }}
                                 alt="blog"
                               />
                               <div className="py-3 px-4">
@@ -414,9 +416,12 @@ export default function Dashboard() {
                                 <h1 className="title-font text-lg font-medium text-gray-600 mb-3">
                                   {item.title}
                                 </h1>
-                                <p className="leading-relaxed mb-3 overflow-hidden truncate whitespace-nowrap">
-                                  {item.content}
-                                </p>
+                                <p
+                                  className="leading-relaxed mb-3 overflow-hidden truncate whitespace-nowrap"
+                                  dangerouslySetInnerHTML={{
+                                    __html: item.content,
+                                  }}
+                                ></p>
                                 <div className="flex items-center justify-center flex-wrap ">
                                   <button
                                     className="px-8 py-2 w-2/6 bg-teal-500 text-white hover:bg-teal-600 transition-all duration-300 rounded-lg"

@@ -25,15 +25,15 @@ function Contact() {
           perspiciatis libero, maiores obcaecati cum impedit nisi.
         </p>
         <div className="mt-4 flex items-center">
-          <AiOutlineMail className="text-xl" />
+          <AiOutlineMail className="text-xl text-orange-600" />
           <span className="ml-2">example@gmail.com</span>
         </div>
         <div className="mt-4 flex items-center">
-          <AiOutlineWhatsApp className="text-xl" />
+          <AiOutlineWhatsApp className="text-xl text-green-500" />
           <span className="ml-2">+98 938 52 78 120</span>
         </div>
         <div className="mt-4 flex items-center">
-          <AiOutlineInstagram className="text-xl" />
+          <AiOutlineInstagram className="text-xl text-pink-600" />
           <span className="ml-2">@trial-blog</span>
         </div>
       </div>
