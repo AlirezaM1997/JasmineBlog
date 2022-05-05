@@ -25,7 +25,6 @@ export default function Blog() {
       });
   }, []);
 
-
   return (
     <>
       {loading ? (
@@ -34,7 +33,7 @@ export default function Blog() {
         <div>
           <main className="relative container mx-auto bg-white px-4">
             <div
-              className="relative -mx-4 top-0 overflow-hidden"
+              className="relative top-0 rounded-b-lg overflow-hidden"
               style={{ paddingTop: "25%" }}
             >
               <img
@@ -44,7 +43,10 @@ export default function Blog() {
               />
             </div>
 
-            <div className="w-1/2 mx-auto" style={{ marginTop: "-10%" }}>
+            <div
+              className="lg:w-1/2 w-5/6 mx-auto"
+              style={{ marginTop: "-10%" }}
+            >
               <div
                 className="relative overflow-hidden rounded-2xl"
                 style={{ paddingTop: "56.25%" }}
@@ -63,18 +65,30 @@ export default function Blog() {
               </h1>
               <Link
                 to={`/userblog/${blogInfo.creator._id}`}
-                className="w-fit inline-block cursor-pointer"
+                className="w-fit my-8 flex cursor-pointer" style={{width:'fit-content'}}
               >
-                <img
-                  src={blogInfo.creator.imgurl}
-                  className="inline w-8 h-8 mr-4 rounded-full shadow-2xl border-2"
-                  alt="avatar"
-                />
-                <h2 className="inline text-lg text-gray-800 leading-3 tracking-wide italic">
-                  {blogInfo.creator.name}
-                </h2>
+                <div> 
+                  <img
+                    src={blogInfo.creator.imgurl}
+                    className="inline w-10 h-10 mr-4 rounded-full shadow-2xl border-2"
+                    alt="avatar"
+                  />
+                </div>
+                <div className="flex flex-col justify-center">
+                  <h2 className="inline-block text-sm text-gray-800 leading-3 tracking-wide italic mb-2">
+                    Author
+                  </h2>
+                  <h2 className="inline text-lg text-gray-800 leading-3 tracking-wide italic">
+                    {blogInfo.creator.name}
+                  </h2>
+                </div>
               </Link>
-              <p className="mt-6"  dangerouslySetInnerHTML={{ __html: blogInfo.content }}></p>
+              <div className="relative border-l-2 border-gray-400 wrapperBlogText">
+                <p
+                  className="p-3 bg-white blogText"
+                  dangerouslySetInnerHTML={{ __html: blogInfo.content }}
+                ></p>
+              </div>
             </article>
           </main>
         </div>

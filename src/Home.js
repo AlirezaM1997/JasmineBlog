@@ -2,6 +2,10 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./index.css";
 import Loading from "./component/Loading";
+import OwlCarousel from "react-owl-carousel";
+import "owl.carousel/dist/assets/owl.carousel.css";
+import "owl.carousel/dist/assets/owl.theme.default.css";
+import MySlider from "./component/Slider";
 
 function Home() {
   const firstNumberArray = [2];
@@ -24,8 +28,7 @@ function Home() {
   sequence();
 
   const [blogs, setBlogs] = useState();
-  const [loading, setLoading] = useState(true);
-console.log(blogs);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -41,20 +44,31 @@ console.log(blogs);
         setBlogs(result);
         setLoading(false);
       });
-      console.log();
+    console.log();
   }, []);
 
   return loading ? (
     <Loading />
   ) : (
     <>
-      <div className="flex justify-center items-center">
+      <div className="site-content transform-none md:pt-10 md:pb-16 py-8">
+        <div className="slider-block relative">
+          <div className="container mx-auto">
+            <div className="slider-block_inner relative pt-12">
+              <div className="main-section relative mb-9">
+                <MySlider/>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {/* <div className="flex justify-center items-center">
         <div className="2xl:mx-auto 2xl:container lg:px-20 lg:py-16 md:py-12 md:px-6 py-12 px-4 w-96 sm:w-auto">
           <div
             role="main"
             className="flex flex-col items-center justify-center"
           >
-            <h1 className="text-4xl leading-9 text-center text-gray-800 dark:text-gray-50">
+            <h1 className="text-4xl leading-9 text-center text-gray-800 dark:text-gray-50 border-b-2 border-green-600 pb-4">
               Trial Blog
             </h1>
             <p className="text-base leading-normal text-center text-gray-600 dark:text-white mt-4 md:w-10/12 w-11/12">
@@ -172,7 +186,7 @@ console.log(blogs);
             </div>
           </section>
         </div>
-      </div>
+      </div> */}
     </>
   );
 }

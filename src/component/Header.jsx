@@ -13,7 +13,101 @@ export default function Header() {
   };
   return (
     <>
-      <nav className="bg-gray-800 z-10 relative">
+      <header className="block relative z-20 bg-white">
+        <nav className="navigation-bar_fullWidth relative text-center block ">
+          <div className="navigation-bar_inner container mx-auto relative flex items-center text-center">
+            <div className="navigation-bar_section first:pl-0 min-w-0 pr-2 truncate text-center">
+              <div className="header-logo inline-block align-middle">
+                <Link to={"/"} className="block">
+                  <img
+                    src={require("../images/logo.jpg")}
+                    alt="Jasmine"
+                    className="logoImg p-0 max-w-full"
+                  />
+                </Link>
+              </div>
+            </div>
+            <div className="navigation-wrapper overflow-hidden flex-1">
+              <div className="main-menu">
+                <ul className="navigation-main inline-block align-middle whitespace-nowrap m-0 p-0 list-none ">
+                  <li className="inline-block text-left whitespace-normal text-base">
+                    <Link
+                      to={"/"}
+                      className="navLink inline-block uppercase relative"
+                    >
+                      home
+                    </Link>
+                  </li>
+                  <li className="inline-block text-left whitespace-normal text-base">
+                    <Link
+                      to={"/"}
+                      className="navLink inline-block uppercase relative"
+                    >
+                      about
+                    </Link>
+                  </li>
+                  <li className="inline-block text-left whitespace-normal text-base">
+                    <Link
+                      to={"/about"}
+                      className="navLink inline-block uppercase relative"
+                    >
+                      contact
+                    </Link>
+                  </li>
+                  <li className="inline-block text-left whitespace-normal text-base">
+                    <Link
+                      to={"/contact"}
+                      className="navLink inline-block uppercase relative"
+                    >
+                      home
+                    </Link>
+                  </li>
+                  <li className="inline-block text-left whitespace-normal text-base">
+                    <Link
+                      to={"/"}
+                      className="navLink inline-block uppercase relative"
+                    >
+                      home
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div className="navigation-bar_section last:pr-0">
+              {!userInfo ? (
+                <div className="flex">
+                  <Link
+                    to={"/user/login"}
+                    className="hover:text-gray-700 text-gray-800 font-semibold py-2 px-2 rounded mr-2 outline-none"
+                  >
+                    Log in
+                  </Link>
+
+                  <Link
+                    to={"/user/signup"}
+                    className="bg-gray-800 hover:bg-gray-700 text-white font-semibold py-2 px-2 rounded"
+                  >
+                    Sign up
+                  </Link>
+                </div>
+              ) : (
+                <Link to={"/user/dashboard"}>
+                  <div className="flex flex-shrink-0 items-center space-x-4 text-white">
+                    <img
+                      src={userInfo.imgurl}
+                      className="h-10 w-10 rounded-full border-2 border-blue-400"
+                    ></img>
+                    <div className="text-md font-medium ">
+                      {userInfo.username}
+                    </div>
+                  </div>
+                </Link>
+              )}
+            </div>
+          </div>
+        </nav>
+      </header>
+      {/* <nav className="bg-gray-800 z-10 relative">
         <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
           <div className="relative flex items-center justify-between h-16">
             <div className="flex items-center sm:hidden">
@@ -57,11 +151,13 @@ export default function Header() {
               </button>
             </div>
             <div className="sm:block hidden">
-              <img
-                src="https://www.freeiconspng.com/uploads/blogger-logo-icon-png-0.png"
-                width="40"
-                alt="Logo"
-              />
+              <Link to={"/"}>
+                <img
+                  src="https://www.freeiconspng.com/uploads/blogger-logo-icon-png-0.png"
+                  width="40"
+                  alt="Logo"
+                />
+              </Link>
             </div>
             <div className="flex-1 hidden sm:flex sm:ml-6 items-center justify-center sm:items-stretch sm:justify-start">
               <div className="flex space-x-4">
@@ -175,7 +271,7 @@ export default function Header() {
             </Link>
           </div>
         </div>
-      </nav>
+      </nav> */}
       <Outlet />
     </>
   );
