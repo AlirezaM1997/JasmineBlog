@@ -1,31 +1,28 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import "./index.css";
+import "./style/home.css";
 import Loading from "./component/Loading";
-import OwlCarousel from "react-owl-carousel";
-import "owl.carousel/dist/assets/owl.carousel.css";
-import "owl.carousel/dist/assets/owl.theme.default.css";
 import MySlider from "./component/Slider";
 
 function Home() {
-  const firstNumberArray = [2];
-  const secondNumberArray = [3];
+  // const firstNumberArray = [2];
+  // const secondNumberArray = [3];
 
-  const sequence = () => {
-    let i = 2;
-    let j;
-    let k = 3;
-    let w;
-    while (i < 1000) {
-      j = i + 6;
-      firstNumberArray.push(j);
-      i = i + 6;
-      w = k + 6;
-      secondNumberArray.push(w);
-      k = k + 6;
-    }
-  };
-  sequence();
+  // const sequence = () => {
+  //   let i = 2;
+  //   let j;
+  //   let k = 3;
+  //   let w;
+  //   while (i < 1000) {
+  //     j = i + 6;
+  //     firstNumberArray.push(j);
+  //     i = i + 6;
+  //     w = k + 6;
+  //     secondNumberArray.push(w);
+  //     k = k + 6;
+  //   }
+  // };
+  // sequence();
 
   const [blogs, setBlogs] = useState();
   const [loading, setLoading] = useState(false);
@@ -53,10 +50,82 @@ function Home() {
     <>
       <div className="site-content transform-none md:pt-10 md:pb-16 py-8">
         <div className="slider-block relative">
-          <div className="container mx-auto">
-            <div className="slider-block_inner relative pt-12">
+          <div className="container mx-auto px-4 md:px-0">
+            <div className="slider-block_inner relative pt-12 md:px-5 px-0">
               <div className="main-section relative mb-9">
-                <MySlider/>
+                <MySlider />
+                <div className="slideNumber absolute top-0 text-white font-black text-center">
+                  <span className="current-slide">01</span>
+                  <span className="total-slides">/03</span>
+                </div>
+              </div>
+              <div className="sub-section overflow-hidden">
+                <div className="posts-list flex flex-wrap">
+                  <div className="list-item p-4 w-1/2">
+                    <article className="post-overlay pl-4 -mx-4 bg-transparent flex relative overflow-hidden">
+                      <div className="post__thumb-overlay absolute w-full h-full">
+                        <Link to={"#"} className="w-full h-full block">
+                          <img
+                            className="w-full h-full object-cover align-middle block"
+                            src={require("./images/post-overlay1.jpg")}
+                          ></img>
+                        </Link>
+                      </div>
+                      <div className="post__text-overlay z-10 pointer-events-none flex items-end pt-10 relative w-full text-white">
+                        <div className="post__text-wrap mb-0 pl-4 relative w-full">
+                          <div className="post__text-inner px-6 pb-6 -ml-4 relative">
+                            <Link
+                              to={"#"}
+                              className="post__cat-overlay pointer-events-auto absolute block mb-4 text-xs font-normal uppercase text-white mr-2"
+                            >
+                              fashion
+                            </Link>
+                            <h3 className="post__title-overlay text-white font-medium mb-2 whitespace-normal break-words pointer-events-auto">
+                              <Link to={"#"} className="inline-block">
+                                Some Men See Things as They Are and Ask Why
+                              </Link>
+                            </h3>
+                            <div className="post__meta my-0 text-sm">
+                              <time className="time font-light whitespace-nowrap">Mar 6, 2019</time>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </article>
+                  </div>
+                  <div className="list-item p-4 w-1/2">
+                    <article className="post-overlay pl-4 -mx-4 bg-transparent flex relative overflow-hidden">
+                      <div className="post__thumb-overlay absolute w-full h-full">
+                        <Link to={"#"} className="w-full h-full block">
+                          <img
+                            className="w-full h-full object-cover align-middle block"
+                            src={require("./images/post-overlay2.jpg")}
+                          ></img>
+                        </Link>
+                      </div>
+                      <div className="post__text-overlay z-10 pointer-events-none flex items-end pt-10 relative w-full text-white">
+                        <div className="post__text-wrap mb-0 pl-4 relative w-full">
+                          <div className="post__text-inner px-6 pb-6 -ml-4 relative">
+                            <Link
+                              to={"#"}
+                              className="post__cat-overlay pointer-events-auto absolute block mb-4 text-xs font-normal uppercase text-white mr-2"
+                            >
+                              House
+                            </Link>
+                            <h3 className="post__title-overlay text-white font-medium mb-2 whitespace-normal break-words pointer-events-auto">
+                              <Link to={"#"} className="inline-block">
+                                Some Men See Things as They Are and Ask Why
+                              </Link>
+                            </h3>
+                            <div className="post__meta my-0 text-sm">
+                              <time className="time font-light whitespace-nowrap">Mar 6, 2019</time>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </article>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

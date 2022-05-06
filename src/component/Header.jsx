@@ -1,18 +1,27 @@
 import React, { useState } from "react";
+import '../style/header.css'
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import Cookies from "universal-cookie";
 import { useAllState } from "../Provider";
+import { OffCanvas, OffCanvasMenu } from "react-offcanvas";
 
 export default function Header() {
-  const [showMobMenu, setShowMobMenu] = useState(false);
+  const [isMenuOpened, setIsMenuOpened] = useState(false);
   const { token } = useAllState();
   const { userInfo } = useAllState();
 
   const showMenu = () => {
-    setShowMobMenu(!showMobMenu);
+    setIsMenuOpened(!isMenuOpened);
   };
   return (
     <>
+      <div
+        className={`backdropOffCanvas fixed h-screen w-screen z-30 ${
+          isMenuOpened ? "" : "hidden"
+        }`}
+        onClick={showMenu}
+      ></div>
+
       <header className="block relative z-20 bg-white">
         <nav className="navigation-bar_fullWidth relative text-center block ">
           <div className="navigation-bar_inner container mx-auto relative flex items-center text-center">
@@ -43,7 +52,7 @@ export default function Header() {
                       to={"/"}
                       className="navLink inline-block uppercase relative"
                     >
-                      about
+                      category
                     </Link>
                   </li>
                   <li className="inline-block text-left whitespace-normal text-base">
@@ -106,7 +115,47 @@ export default function Header() {
             </div>
           </div>
         </nav>
+        <div className="mobile-header relative bg-white">
+          <div className="mobile-header__inner flex justify-between w-full items-center px-4">
+            <div className="header-branding pr-5 whitespace-nowrap min-w-0 text-left">
+              <div className="header-logo text-left">
+                <Link to={"/"}>
+                  <img
+                    className="logo-image py-2 md:min-h-[70px]"
+                    src={require("../images/logo.jpg")}
+                    alt="Jasmine"
+                  ></img>
+                </Link>
+              </div>
+            </div>
+            <div className="mobile-header__section pr-0 whitespace-nowrap text-right">
+              <div className="flexbox-header-icon">
+                <i
+                  className="icon-menu inline-block align-middle cursor-pointer"
+                  onClick={showMenu}
+                ></i>
+              </div>
+            </div>
+          </div>
+        </div>
       </header>
+      <OffCanvas
+        // width={300}
+        transitionDuration={300}
+        effect={"parallax"}
+        isMenuOpened={isMenuOpened}
+        position={"left"}
+      >
+        <OffCanvasMenu className="offCanvasMenu z-30 bg-white h-full">
+          <ul>
+            <li>Link 1</li>
+            <li>Link 2</li>
+            <li>Link 3</li>
+            <li>Link 4</li>
+            <li>Link 5</li>
+          </ul>
+        </OffCanvasMenu>
+      </OffCanvas>
       {/* <nav className="bg-gray-800 z-10 relative">
         <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
           <div className="relative flex items-center justify-between h-16">
