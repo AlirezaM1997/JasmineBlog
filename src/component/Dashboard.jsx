@@ -110,7 +110,7 @@ export default function Dashboard() {
   const [postText, setPostText] = useState("");
 
   const [contentState, setContentState] = useState(
-    convertToRaw(ContentState.createFromText(postText))
+    convertToRaw(ContentState.createFromText('postText'))
   );
 
   const [loadingForEditPost, setLoadingForEditPost] = useState(true);
@@ -131,8 +131,6 @@ export default function Dashboard() {
           setPostImgUrl(res.imgurl);
           setPostText(res.content);
         }
-        // console.log(postText);
-        setContentState(convertToRaw(ContentState.createFromText(postText)));
         setLoadingForEditPost(false);
       });
   };

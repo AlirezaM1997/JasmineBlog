@@ -56,7 +56,9 @@ root.render(
               <Dashboard />
             </RequireAuth>
           }
-        ></Route>
+        >
+          <Route path="/user/dashboard/edit"></Route>
+        </Route>
       </Routes>
       {/* <Footer /> */}
     </BrowserRouter>

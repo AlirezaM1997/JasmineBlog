@@ -2,7 +2,8 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import { Link } from "react-router-dom";
-import '../style/slider.css'
+import "../style/slider.css";
+import { useEffect } from "react";
 
 export default function MySlider() {
   const settings = {
@@ -13,6 +14,16 @@ export default function MySlider() {
     slidesToShow: 1,
     slidesToScroll: 1,
   };
+
+  if (document.getElementById("test")) {
+    console.log("visible");
+  } else {
+    console.log("hidden");
+  }
+
+  useEffect(() => {
+    console.log(document.getElementById("test").style.visibility);
+  }, []);
   return (
     <>
       <Slider {...settings}>
@@ -20,7 +31,7 @@ export default function MySlider() {
           <article className="post post-horizontal-large relative w-full after:table after:clear-both after:content-none">
             <div className="post__thumb relative">
               <Link to={"#"} className="w-full h-full block">
-                <img src={require("../images/slide1.jpg")}></img>
+                <img id="test" src={require("../images/slide1.jpg")}></img>
               </Link>
             </div>
             <div className="post__text pt-5 overflow-hidden">
@@ -30,7 +41,7 @@ export default function MySlider() {
               >
                 blog
               </Link>
-              <h3 className="post__title md:mb-5 mb-3 font-bold text-xl">
+              <h3 className="post__title md:mb-5 mb-3 font-bold text-2xl">
                 <Link to={"#"}>It Is Not White Hair That Engenders Wisdom</Link>
               </h3>
               <div className="post__excerpt mb-9 mt-0 text-base text-[#888]">
@@ -44,7 +55,7 @@ export default function MySlider() {
               </div>
               <div className="post__readmore mb-0 md:block hidden">
                 <Link
-                  className="button__readmore relative text-[#888] text-sm transition-all duration-100"
+                  className="button__readmore relative text-[#888] text-sm"
                   to={"#"}
                 >
                   <span>READ MORE</span>
@@ -67,7 +78,7 @@ export default function MySlider() {
               >
                 blog
               </Link>
-              <h3 className="post__title md:mb-5 mb-3 font-bold text-xl">
+              <h3 className="post__title md:mb-5 mb-3 font-bold text-2xl">
                 <Link to={"#"}>It Is Not White Hair That Engenders Wisdom</Link>
               </h3>
               <div className="post__excerpt mb-9 mt-0 text-base text-[#888]">
@@ -81,7 +92,7 @@ export default function MySlider() {
               </div>
               <div className="post__readmore mb-0 md:block hidden">
                 <Link
-                  className="button__readmore relative text-[#888] text-sm transition-all duration-100"
+                  className="button__readmore relative text-[#888] text-sm"
                   to={"#"}
                 >
                   <span>READ MORE</span>
@@ -104,7 +115,7 @@ export default function MySlider() {
               >
                 blog
               </Link>
-              <h3 className="post__title md:mb-5 mb-3 font-bold text-xl">
+              <h3 className="post__title md:mb-5 mb-3 font-bold text-2xl">
                 <Link to={"#"}>It Is Not White Hair That Engenders Wisdom</Link>
               </h3>
               <div className="post__excerpt mb-9 mt-0 text-base text-[#888]">
@@ -118,7 +129,7 @@ export default function MySlider() {
               </div>
               <div className="post__readmore mb-0 md:block hidden">
                 <Link
-                  className="button__readmore relative text-[#888] text-sm transition-all duration-100"
+                  className="button__readmore relative text-[#888] text-sm"
                   to={"#"}
                 >
                   <span>READ MORE</span>
