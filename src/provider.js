@@ -7,6 +7,7 @@ export default function Provider({ children }) {
   const [token, setToken] = useState("");
   const [loading, setLoading] = useState();
   const [userId, setUserId] = useState();
+  const [slideNumber, setSlideNumber] = useState(1);
 
   return (
     <Context.Provider
@@ -19,6 +20,8 @@ export default function Provider({ children }) {
         setLoading,
         userId,
         setUserId,
+        slideNumber,
+        setSlideNumber,
       }}
     >
       {children}

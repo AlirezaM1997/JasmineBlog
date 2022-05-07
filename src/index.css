@@ -5,6 +5,8 @@
 /* Public */
 * {
   box-sizing: border-box;
+  list-style: none;
+  list-style-type: none;
 }
 a:hover{
   color: inherit;
@@ -60,7 +62,7 @@ input:focus {
     opacity: 0;
   }
 }
-/* Dashboard */
+/* ////////////////Dashboard//////////////// */
 aside .fa {
   display: flex !important;
   align-items: center;

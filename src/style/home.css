@@ -1,61 +1,10 @@
-.main-section {
-  margin-left: 200px;
-  margin-bottom: 35px;
-}
-@media (max-width: 992px) {
-  .main-section {
-    margin: 0;
-  }
-}
-.slideNumber {
-  right: 100%;
-}
-.slideNumber {
-  width: 200px;
-  font-size: 85px;
-  line-height: 1.33;
-}
-@media (max-width: 1199px) {
-  .slideNumber {
-    width: 180px;
-    font-size: 68px;
-  }
-}
-.total-slides {
-  color: #0000223b;
-  font-size: 40px;
-  vertical-align: super;
-}
-@media (max-width: 992px) {
-  .slideNumber {
-    display: none;
-  }
-}
-.sub-section {
-  margin-left: 400px;
-}
-@media (max-width: 1199px) {
-  .sub-section {
-    margin-left: 325px;
-  }
-}
-@media (max-width: 992px) {
-  .sub-section {
-    margin-left: 0;
-    margin-top: 40px;
-  }
-}
-.posts-list {
-  margin: -10px;
-}
+
 @media (max-width: 1199px)  {
   .post__title-overlay {
-    /* font-size: 18px; */
     font-size: 1.3em;
     line-height: 1.44;
   }
 }
-
 .post-overlay {
   width: calc(100% + 15px);
 }

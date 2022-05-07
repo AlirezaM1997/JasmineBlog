@@ -4,29 +4,24 @@ import Slider from "react-slick";
 import { Link } from "react-router-dom";
 import "../style/slider.css";
 import { useEffect } from "react";
+import { useAllState } from "../Provider";
 
 export default function MySlider() {
   const settings = {
     dots: true,
-    arrows: true,
-    infinite: false,
-    speed: 500,
+    arrows: false,
+    infinite: true,
+    speed: 250,
     slidesToShow: 1,
     slidesToScroll: 1,
+    touchThreshold: 10,
   };
 
-  if (document.getElementById("test")) {
-    console.log("visible");
-  } else {
-    console.log("hidden");
-  }
+  const { setSlideNumber } = useAllState();
 
-  useEffect(() => {
-    console.log(document.getElementById("test").style.visibility);
-  }, []);
   return (
     <>
-      <Slider {...settings}>
+      <Slider {...settings} afterChange={(e) => setSlideNumber(e + 1)}>
         <div className="slide-content">
           <article className="post post-horizontal-large relative w-full after:table after:clear-both after:content-none">
             <div className="post__thumb relative">

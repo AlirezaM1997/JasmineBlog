@@ -6,34 +6,14 @@ import MySlider from "./component/Slider";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // import { faFacebook  } from "@fortawesome/free-solid-svg-icons";
 import {
-  faFacebook,
   faFacebookF,
   faInstagram,
-  faLinkedin,
   faLinkedinIn,
   faTwitter,
-  faTwitterSquare,
 } from "@fortawesome/free-brands-svg-icons";
+import { useAllState } from "./Provider";
 function Home() {
-  // const firstNumberArray = [2];
-  // const secondNumberArray = [3];
-
-  // const sequence = () => {
-  //   let i = 2;
-  //   let j;
-  //   let k = 3;
-  //   let w;
-  //   while (i < 1000) {
-  //     j = i + 6;
-  //     firstNumberArray.push(j);
-  //     i = i + 6;
-  //     w = k + 6;
-  //     secondNumberArray.push(w);
-  //     k = k + 6;
-  //   }
-  // };
-  // sequence();
-
+const {slideNumber}=useAllState()
   const [blogs, setBlogs] = useState();
   const [loading, setLoading] = useState(false);
 
@@ -60,17 +40,17 @@ function Home() {
     <>
       <div className="site-content transform-none md:pt-10 md:pb-16 py-8">
         <div className="slider-block relative">
-          <div className="container mb-16" style={{padding :'0 !important'}}>
+          <div className="container mb-16" style={{ padding: "0 !important" }}>
             <div className="slider-block_inner relative pt-12 md:px-5 px-0">
-              <div className="main-section relative mb-9">
+              <div className="main-section relative ml-[200px] mb-9 tablet:m-0">
                 <MySlider />
-                <div className="slideNumber absolute top-0 text-white font-black text-center">
-                  <span className="current-slide">01</span>
-                  <span className="total-slides">/03</span>
+                <div className="slideNumber absolute top-0 right-full w-[200px] text-[85px] leading-[1.33] text-white font-black text-center laptop:w-[180px] laptop:text-[68px] tablet:hidden ">
+                  <span className="current-slide">0{slideNumber}</span>
+                  <span className="total-slides text-[#0000223b] text-[40px] align-super">/03</span>
                 </div>
               </div>
-              <div className="sub-section overflow-hidden">
-                <div className="posts-list md:flex block flex-wrap">
+              <div className="sub-section overflow-hidden ml-[400px] tablet:ml-[0] tablet:mt-[40px] laptop:ml-[325px]">
+                <div className="posts-list md:flex block flex-wrap -m-[10px]">
                   <div className="list-item p-4 md:w-1/2">
                     <article className="post-overlay pl-4 -mx-4 bg-transparent flex relative overflow-hidden">
                       <div className="post__thumb-overlay absolute w-full h-full">
@@ -145,7 +125,10 @@ function Home() {
           </div>
         </div>
 
-        <div className="aboutSection relative" style={{ marginBottom: "70px" }}>
+        <div
+          className="aboutSection relative"
+          style={{ marginBottom: "100px" }}
+        >
           <div className="container mx-auto">
             <div className="about__inner pt-40">
               <div className="about__content flex w-full">
@@ -239,7 +222,7 @@ function Home() {
             </div>
           </div>
           <div className="container">
-            <div className="blogList__inner">
+            <div className="blogList__inner px-2">
               <div className="new-posts-list -m-4 flex flex-wrap">
                 <div className="new-posts-item">
                   <article className="post-overlay post-overlay-new pl-4 -mx-4 bg-transparent flex relative overflow-hidden">
