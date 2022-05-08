@@ -17,6 +17,11 @@ body {
   -webkit-font-smoothing: antialiased;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   line-height: 1.42857143;
+  margin-bottom: -70px !important;
+}
+body{
+  /* background-color: blue;               */
+  /* height: 100%; */
 }
 input:focus {
   background-color: aliceblue;

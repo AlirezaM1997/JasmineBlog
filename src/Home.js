@@ -13,7 +13,7 @@ import {
 } from "@fortawesome/free-brands-svg-icons";
 import { useAllState } from "./Provider";
 function Home() {
-const {slideNumber}=useAllState()
+  const { slideNumber } = useAllState();
   const [blogs, setBlogs] = useState();
   const [loading, setLoading] = useState(false);
 
@@ -38,18 +38,20 @@ const {slideNumber}=useAllState()
     <Loading />
   ) : (
     <>
-      <div className="site-content transform-none md:pt-10 md:pb-16 py-8">
-        <div className="slider-block relative">
+      <div className="site-content transform-none md:pt-10 md:pb-0 pt-8">
+        <div className="slider-block laptop:mb-[70px] relative">
           <div className="container mb-16" style={{ padding: "0 !important" }}>
-            <div className="slider-block_inner relative pt-12 md:px-5 px-0">
+            <div className="slider-block_inner before:content-[''] before:absolute before:bg-[#607027] before:top-0 before:left-0 before:w-[370px] before:h-[650px] tablet:before:hidden laptop:before:h-[520px] laptop:before:w-[296px] relative pt-12 md:px-5 px-0">
               <div className="main-section relative ml-[200px] mb-9 tablet:m-0">
                 <MySlider />
                 <div className="slideNumber absolute top-0 right-full w-[200px] text-[85px] leading-[1.33] text-white font-black text-center laptop:w-[180px] laptop:text-[68px] tablet:hidden ">
                   <span className="current-slide">0{slideNumber}</span>
-                  <span className="total-slides text-[#0000223b] text-[40px] align-super">/03</span>
+                  <span className="total-slides text-[#0000223b] text-[40px] align-super">
+                    /03
+                  </span>
                 </div>
               </div>
-              <div className="sub-section overflow-hidden ml-[400px] tablet:ml-[0] tablet:mt-[40px] laptop:ml-[325px]">
+              <div className="sub-section overflow-hidden tablet:ml-0 tablap:ml-[325px] LCD:ml-[400px] tablet:mt-[40px] ">
                 <div className="posts-list md:flex block flex-wrap -m-[10px]">
                   <div className="list-item p-4 md:w-1/2">
                     <article className="post-overlay pl-4 -mx-4 bg-transparent flex relative overflow-hidden">
@@ -131,9 +133,9 @@ const {slideNumber}=useAllState()
         >
           <div className="container mx-auto">
             <div className="about__inner pt-40">
-              <div className="about__content flex w-full">
-                <div className="about__thumb relative flex-none">
-                  <div className="background-img absolute overflow-hidden bg-cover bg-no-repeat bg-scroll">
+              <div className="about__content px-[70px] pb-20 tablap:pb-[61px] fablet:p-[40px] fablet:border-[4px] iphone:p-[30px] iphone:flex-col border-[5px] border-[#607027] flex w-full">
+                <div className="about__thumb relative flex-none w-[370px] h-[500px] -mt-[155px] mr-[55px] tablap:-mt-[120px] tablap:w-[330px] tablap:h-[440px] fablet:m-0 fablet:mr-[35px] fablet:w-[250px] fablet:h-[360px] iphone:m-0 iphone:mb-[25px] iphone:w-full iphone:h-[295px]">
+                  <div className="background-img absolute overflow-hidden bg-cover bg-no-repeat bg-scroll top-0 right-0 left-0 bottom-0 bg-[#333]">
                     <Link to={"#"} className="link-overlay"></Link>
                   </div>
                 </div>
@@ -213,7 +215,7 @@ const {slideNumber}=useAllState()
           </div>
         </div>
 
-        <div className="blogList relative">
+        <div className="blogList relative mb-[40px] laptop:mb-[70px]">
           <div className="container mx-auto">
             <div className="jasmine-heading relative text-center mb-10">
               <h4 className="heading__title inline-block relative m-0 text-4xl leading-6 pr-12 pl-16 z-10">
