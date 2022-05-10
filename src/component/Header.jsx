@@ -177,14 +177,14 @@ export default function Header() {
                   </Link>
                 </div>
               ) : (
-                <Link to={"/user/dashboard"}>
+                <Link to={"/user/dashboard"} onClick={showMenu}>
                   <div className="flex flex-shrink-0 items-center space-x-4 text-white">
                     <img
                       src={userInfo.imgurl}
-                      className="h-10 w-10 rounded-full border-2 border-blue-400"
+                      className="h-10 w-10 rounded-full border border-[#607027]"
                     ></img>
-                    <div className="text-md font-medium ">
-                      {userInfo.username}
+                    <div className="text-md font-medium text-black">
+                      Hi {userInfo.username} !
                     </div>
                   </div>
                 </Link>

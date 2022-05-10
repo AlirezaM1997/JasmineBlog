@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom/client";
-import 'bootstrap/dist/css/bootstrap.min.css';
+import "bootstrap/dist/css/bootstrap.min.css";
 import "./index.css";
 import Loading from "./component/Loading";
 
@@ -19,6 +19,7 @@ import Dashboard from "./component/Dashboard";
 import Provider from "./Provider";
 import Blog from "./component/Blog";
 import UserBlog from "./component/UserBlog";
+import CreateBlog from "./component/CreateBlog";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -50,6 +51,7 @@ root.render(
         </Route>
 
         <Route
+          exact
           path="/user/dashboard"
           element={
             <RequireAuth redirectTo={"/user/login"}>
@@ -57,7 +59,10 @@ root.render(
             </RequireAuth>
           }
         >
-          <Route path="/user/dashboard/edit"></Route>
+          <Route
+            path="/user/dashboard/createblog"
+            element={<CreateBlog />}
+          ></Route>
         </Route>
       </Routes>
       <Footer />

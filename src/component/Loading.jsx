@@ -1,9 +1,11 @@
 export default function Loading() {
   return (
-    <div className="h-screen bg-white" style={{width: '-webkit-fill-available'}}>
-      <div className="bg-gray-400 p-4 text-center w-1/4 mx-auto rounded-3xl text-white mt-40 text-lg">
+    <div className=" bg-white" style={{ width: "-webkit-fill-available" }}>
+      <div className="bg-[#607027] p-4 text-center w-1/4 mx-auto text-white mt-32 text-lg">
         <p>Please wait ....</p>
-        <i className="block fa fa-circle-o-notch fa-spin mt-6"></i>
+        <div class="lds-circle mt-3">
+          <div></div>
+        </div>
       </div>
     </div>
   );
