@@ -2,10 +2,11 @@ import React, { useEffect, useRef, useState } from "react";
 import { useAllState } from "../Provider";
 import { useNavigate } from "react-router-dom";
 
-import { Editor } from "react-draft-wysiwyg";
-import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-import { EditorState, ContentState, convertToRaw } from "draft-js";
-import { convertToHTML } from "draft-convert";
+// import { Editor } from "react-draft-wysiwyg";
+// import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+// import { EditorState, ContentState, convertToRaw } from "draft-js";
+// import { convertToHTML } from "draft-convert";
+import { Editor } from "@tinymce/tinymce-react";
 
 import Cookies from "universal-cookie";
 import Loading from "./Loading";
@@ -44,25 +45,19 @@ export default function Dashboard() {
   };
 
   /////////////////////SUBMIT BLOG/////////////////////////
-  const editor = useRef(null);
+  // const editor = useRef(null);
+  const editorRef = useRef(null);
+  const log = () => {
+  if (editorRef.current) {
+      console.log(editorRef.current.getContent());
+  }
+};
   const [hintTitle, setHintTitle] = useState(false);
   const [hintContent, setHintContent] = useState(false);
 
   const [title, setTitle] = useState("");
   const [imgUrl, setImgUrl] = useState("");
-  const [editorState, setEditorState] = useState(() =>
-    EditorState.createEmpty()
-  );
-  const [convertedContent, setConvertedContent] = useState(null);
-  const handleEditorChange = (state) => {
-    setEditorState(state);
-    convertContentToHTML();
-  };
-  const convertContentToHTML = () => {
-    let currentContentAsHTML = convertToHTML(editorState.getCurrentContent());
-    setConvertedContent(currentContentAsHTML);
-  };
-  console.log("convertedContent:", convertedContent);
+  
   // console.log("title:", title);
   // console.log("imgUrl:", imgUrl);
 
@@ -73,12 +68,12 @@ export default function Dashboard() {
     } else {
       setHintTitle(false);
     }
-    if (convertedContent === null) {
-      setHintContent(true);
-    } else {
-      setHintContent(false);
-    }
-    if (title !== "" && convertedContent !== null) {
+    // if (convertedContent === null) {
+    //   setHintContent(true);
+    // } else {
+    //   setHintContent(false);
+    // }
+    if (title !== "" ) {
       const cookie = new Cookies();
       fetch("http://localhost:4000/blog/write", {
         method: "POST",
@@ -88,7 +83,7 @@ export default function Dashboard() {
         },
         body: JSON.stringify({
           title: title,
-          content: convertedContent,
+          // content: convertedContent,
           imgurl:
             imgUrl === ""
               ? "https://www.bootdey.com/app/webroot/img/bg9.jpg"
@@ -109,9 +104,7 @@ export default function Dashboard() {
   const [postImgUrl, setPostImgUrl] = useState("");
   const [postText, setPostText] = useState("");
 
-  const [contentState, setContentState] = useState(
-    convertToRaw(ContentState.createFromText('postText'))
-  );
+
 
   const [loadingForEditPost, setLoadingForEditPost] = useState(true);
 
@@ -144,12 +137,12 @@ export default function Dashboard() {
     } else {
       setHintTitle(false);
     }
-    if (contentState.blocks[0].text === "") {
-      setHintContent(true);
-    } else {
-      setHintContent(false);
-    }
-    if (postTitle !== "" && contentState.blocks[0].text !== "") {
+    // if (contentState.blocks[0].text === "") {
+    //   setHintContent(true);
+    // } else {
+    //   setHintContent(false);
+    // }
+    if (postTitle !== "" ) {
       const cookies = new Cookies();
       fetch("http://localhost:4000/blog/edit", {
         method: "POST",
@@ -161,7 +154,7 @@ export default function Dashboard() {
           blogId: currentPostId,
           data: {
             title: postTitle,
-            content: contentState.blocks[0].text,
+            // content: contentState.blocks[0].text,
             imgurl:
               postImgUrl === ""
                 ? "https://www.bootdey.com/app/webroot/img/Content/bg1.jpg"
@@ -196,7 +189,7 @@ export default function Dashboard() {
         }
       })
       .then((result) => {
-        // console.log(result);
+        console.log(result);
         setMyBlogs(result);
         setLoading(false);
       });
@@ -272,13 +265,13 @@ export default function Dashboard() {
   return (
     <>
       <div className="w-full bg-white relative flex ">
-        <aside className="fixed h-full w-16 flex flex-col space-y-10 items-center justify-center bg-gray-800 text-white">
+        <aside className="fixed h-full w-16 flex flex-col space-y-10 items-center justify-center bg-[#EEEEEE] text-white">
           <div
             onClick={() => clickHandler("posts")}
             className={`h-10 w-full flex items-center justify-center rounded-l cursor-pointer duration-300 ${
               state.posts || state.editPost
-                ? "text-gray-800 bg-white duration-300 ease-linear"
-                : "hover:bg-gray-700"
+                ? "text-[#607027] bg-white duration-300 ease-linear"
+                : "hover:bg-[#eee] text-[black]"
             } `}
           >
             <i
@@ -291,8 +284,8 @@ export default function Dashboard() {
             onClick={() => clickHandler("newPost")}
             className={`h-10 w-full flex items-center justify-center rounded-l cursor-pointer  duration-300 ${
               state.newPost
-                ? "text-gray-800 bg-white  duration-300 ease-linear"
-                : "hover:bg-gray-700"
+                ? "text-[#607027] bg-white  duration-300 ease-linear"
+                : "hover:bg-[#eee] text-[black]"
             } `}
           >
             <i
@@ -305,68 +298,50 @@ export default function Dashboard() {
             onClick={() => clickHandler("account")}
             className={`h-10 w-full flex items-center justify-center rounded-l cursor-pointer duration-300 ${
               state.account
-                ? "text-gray-800 bg-white duration-300 ease-linear"
-                : "hover:bg-gray-700 "
+                ? "text-[#607027] bg-white duration-300 ease-linear"
+                : "hover:bg-[#eee] text-[black] "
             } `}
           >
             <i
-              className="h-6 w-6 flex fa fa-user-circle-o"
+              className="h-6 w-6 flex fa fa-user-circle"
               aria-hidden="true"
             ></i>
           </div>
         </aside>
 
         <div className="w-full h-full flex flex-col justify-between">
-          <header className="h-16 w-full flex items-center relative justify-end px-5 space-x-10 bg-gray-800">
+          <header className="h-16 w-full flex items-center justify-between relative  px-5 space-x-10 bg-[#EEEEEE]">
             <div>
-              <i
-                class="fa fa-home text-white hover:text-green-300 cursor-pointer homeIcon"
-                aria-hidden="true"
-                onClick={() => navToHome("/")}
-              ></i>
-            </div>
-            <div>
-              {" "}
-              <button
-                type="button"
-                className="bg-gray-800 p-1 rounded-full text-white hover:text-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
-              >
-                <span className="sr-only">View notifications</span>
-                <svg
-                  className="h-6 w-6"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  aria-hidden="true"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
-                  />
-                </svg>
-              </button>
-            </div>
-            <div className="flex flex-shrink-0 items-center space-x-4 text-white">
-              <div className="flex flex-col items-end ">
-                <div className="text-md font-medium ">{userInfo.name}</div>
-
-                <div className="text-sm font-regular"></div>
-              </div>
-
               <img
-                src={userInfo.imgurl}
-                className="h-10 w-10 rounded-full border-2 border-blue-400"
+                src={require("../images/logopng.png")}
+                className="w-24"
               ></img>
+            </div>
+            <div className="flex items-center">
+              <div className="mr-4">
+                <i
+                  class="fa fa-home text-[#607027] cursor-pointer homeIcon"
+                  aria-hidden="true"
+                  onClick={() => navToHome("/")}
+                ></i>
+              </div>
+              <div className="flex flex-shrink-0 items-center space-x-4">
+                <div className="flex flex-col items-end ">
+                  <div className="text-md font-medium ">{userInfo.name}</div>
+                  <div className="text-sm font-regular"></div>
+                </div>
+                <img
+                  src={userInfo.imgurl}
+                  className="h-10 w-10 rounded-full border-2 border-blue-400"
+                ></img>
+              </div>
             </div>
           </header>
 
-          <main className="max-w-full h-full flex flex-col p-4 pl-20 min-h-screen">
+          <main className="max-w-full h-full flex flex-col pl-[71px] pr-1 pt-3 min-h-screen">
             <div>
               {state.posts || state.editPost ? (
-                <h5 className="text-3xl font-bold border-b-2">
+                <h5 className="text-3xl font-bold border-b-[1px] border-[#607027]">
                   <span
                     onClick={() => clickHandler("posts")}
                     className={`${
@@ -467,12 +442,43 @@ export default function Dashboard() {
                     </div>
                     <div>
                       <Editor
-                        defaultContentState={contentState}
-                        onContentStateChange={setContentState}
-                        toolbarClassName="toolbarClassName"
-                        wrapperClassName="wrapperClassName"
-                        editorClassName="editorClassName"
-                        placeholder={"Type something here ..."}
+                        onInit={(evt, editor) => (editorRef.current = editor)}
+                        initialValue="<p>This is the initial content of the editor.</p>"
+                        init={{
+                          height: 500,
+                          menubar: false,
+                          plugins: [
+                            "a11ychecker",
+                            "advlist",
+                            "advcode",
+                            "advtable",
+                            "autolink",
+                            "checklist",
+                            "export",
+                            "lists",
+                            "link",
+                            "image",
+                            "charmap",
+                            "preview",
+                            "anchor",
+                            "searchreplace",
+                            "visualblocks",
+                            "powerpaste",
+                            "fullscreen",
+                            "formatpainter",
+                            "insertdatetime",
+                            "media",
+                            "table",
+                            "help",
+                            "wordcount",
+                          ],
+                          toolbar:
+                            "undo redo | casechange blocks | bold italic backcolor | " +
+                            "alignleft aligncenter alignright alignjustify | " +
+                            "bullist numlist checklist outdent indent | removeformat | a11ycheck code table help",
+                          content_style:
+                            "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+                        }}
                       />
                       <div
                         className={`text-red-600 mb-3 ${
@@ -524,13 +530,43 @@ export default function Dashboard() {
                   </div>
                   <div>
                     <Editor
-                      // ref={editor}
-                      editorState={editorState}
-                      onEditorStateChange={handleEditorChange}
-                      toolbarClassName="toolbarClassName"
-                      wrapperClassName="wrapperClassName"
-                      editorClassName="editorClassName"
-                      placeholder={"Type something here ..."}
+                      onInit={(evt, editor) => (editorRef.current = editor)}
+                      initialValue="<p>This is the initial content of the editor.</p>"
+                      init={{
+                        height: 500,
+                        menubar: false,
+                        plugins: [
+                          "a11ychecker",
+                          "advlist",
+                          "advcode",
+                          "advtable",
+                          "autolink",
+                          "checklist",
+                          "export",
+                          "lists",
+                          "link",
+                          "image",
+                          "charmap",
+                          "preview",
+                          "anchor",
+                          "searchreplace",
+                          "visualblocks",
+                          "powerpaste",
+                          "fullscreen",
+                          "formatpainter",
+                          "insertdatetime",
+                          "media",
+                          "table",
+                          "help",
+                          "wordcount",
+                        ],
+                        toolbar:
+                          "undo redo | casechange blocks | bold italic backcolor | " +
+                          "alignleft aligncenter alignright alignjustify | " +
+                          "bullist numlist checklist outdent indent | removeformat | a11ycheck code table help",
+                        content_style:
+                          "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+                      }}
                     />
                     <div
                       className={`text-red-600 mb-3 ${

@@ -28,7 +28,9 @@ module.exports = {
         "c-2-green": "#607027",
         "#eee": "#eee",
       },
-
+      backgroundImage: {
+        'signup': "url('./images/backgroundsignup.jpg')",
+      },
       spacing: {
         "200px": "200px",
         "85px": "85px",

@@ -30,6 +30,7 @@
     "react-simple-wysiwyg": "^2.0.2",
     "react-slick": "^0.29.0",
     "slick-carousel": "^1.8.1",
+    "tinymce": "^6.0.2",
     "universal-cookie": "^4.0.4",
     "web-vitals": "^2.1.4"
   },

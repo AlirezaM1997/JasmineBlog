@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAllState } from "../Provider";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
 
 export default function SignUp() {
-  useEffect(()=>{
+  useEffect(() => {
     window.scrollTo(0, 0);
-
-  },[])
+  }, []);
   const [currentUser, setCurrentUser] = useState({
     username: "",
     password: "",
-    imgurl: "",
     name: "",
   });
   const userHandler = (e) => {
@@ -26,156 +26,133 @@ export default function SignUp() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        imgurl: currentUser.imgurl,
         username: currentUser.username,
         name: currentUser.name,
       }),
     }).then(() => {
       console.log("!!!!");
-      navToLogin('/user/login')
+      navToLogin("/user/login");
     });
   };
 
   return (
     <>
-      <section className="flex items-stretch text-white ">
-        <div
-          className="lg:w-1/2 py-4 w-full flex items-center justify-center text-center md:px-10 px-0 z-0  sm:mt-0 md:mt-0"
-          style={{ backgroundColor: "#161616" }}
-        >
-          <div
-            className="absolute  lg:hidden z-10 inset-0 bg-gray-500 bg-no-repeat bg-cover items-center signUpBg"
-            style={{
-              backgroundImage: " url(https://www.bootdey.com/img/bg20.jpg)",
-            }}
-          >
-            <div
-              className="absolute bg-black opacity-60 inset-0 z-0"
-              style={{ opacity: "0.6" }}
-            ></div>
-          </div>
-          <div className="w-full z-20 signupSection">
-            <h1 className=" text-4xl">Sign up</h1>
-            <div className="sm:w-2/3 w-full px-4 lg:px-0 mx-auto">
-              <div className="pb-2 pt-4">
-                <div className="mb-3 text-left">Your Username</div>
-                <input
-                  className="block w-full p-3 text-lg rounded-sm bg-black"
-                  type="text"
-                  name="username"
-                  id="username"
-                  value={currentUser.username}
-                  onChange={userHandler}
-                  placeholder="username"
-                  autoComplete="off"
-                />
+      <section className="wrapperSignUpBg flex">
+        <diiv className="md:w-1/2 py-4 w-full flex items-center justify-center text-center md:px-4 z-0  sm:mt-0 md:mt-0">
+          <div className="w-[420px] px-5 bg-[#607027] py-10 text-center mb-11 relative ">
+            <div className="z-20 w-full flex flex-col items-center signupSection">
+              <div className="">
+                <h1 className="text-3xl font-bold mb-4 text-white text-center">
+                  Create an account
+                </h1>
+                <h3 className="text-gray-200 text-base font-normal text-center mb-10">
+                  Setup a new account in a minute.
+                </h3>
               </div>
-              <div className="pb-2 pt-4">
-                <div className="mb-3 text-left">Your Password</div>
-                <input
-                  className="block w-full p-3 text-lg rounded-sm bg-black"
-                  type="text"
-                  name="password"
-                  id="password"
-                  value={currentUser.password}
-                  onChange={userHandler}
-                  placeholder="••••••••"
-                  autoComplete="off"
-                />
-              </div>
-              <div className="pb-2 pt-4">
-                <div className="mb-3 text-left">Your Name</div>
-                <input
-                  className="block w-full p-3 text-lg rounded-sm bg-black"
-                  type="text"
-                  name="name"
-                  id="name"
-                  value={currentUser.name}
-                  onChange={userHandler}
-                  autoComplete="off"
-                  placeholder="e.g : Alireza"
-                />
-              </div>
-              <div className="pb-2 pt-4">
-                <div className="mb-3 text-left">Your Image-Url</div>
-                <input
-                  className="block w-full p-3 text-lg rounded-sm bg-black"
-                  type="text"
-                  name="imgurl"
-                  id="imgurl"
-                  value={currentUser.imgurl}
-                  onChange={userHandler}
-                  autoComplete="off"
-                />
-              </div>
+              <div className="w-full ">
+                <div className="relative flex flex-wrap items-center mb-4 w-full bg-gray-100 text-[1rem] font-normal leading-6 rounded-2xl">
+                  <div className="-mr-[1px] flex text-[#98a3ae] text-left">
+                    <span className="py-3 px-4 pr-2 text-center inline-block min-w-[48px] whitespace-nowrap bg-inherit">
+                      <FontAwesomeIcon
+                        className="overflow-hidden fill-current align-middle"
+                        icon={faUser}
+                      ></FontAwesomeIcon>
+                    </span>
+                  </div>
+                  <input
+                    className="block overflow-visible relative flex-auto w-[1%] p-3 pr-4 bg-inherit h-auto text-md focus:outline-none focus:bg-inherit rounded-2xl"
+                    type="text"
+                    name="username"
+                    id="username"
+                    value={currentUser.username}
+                    onChange={userHandler}
+                    placeholder="username"
+                    autoComplete="off"
+                    spellcheck="false"
+                  />
+                </div>
+                <div className="relative flex flex-wrap items-stretch mb-4 w-full bg-gray-100 text-[1rem] font-normal leading-6 rounded-2xl">
+                  <div className="-mr-[1px] flex text-[#98a3ae] text-left">
+                    <span className="py-3 px-4 pr-2 text-center inline-block min-w-[48px] whitespace-nowrap bg-inherit">
+                      <i class="fa fa-key"></i>
+                    </span>
+                  </div>
+                  <input
+                    className="block overflow-visible relative flex-auto w-[1%] p-3 pr-4 bg-inherit h-auto text-md focus:outline-none focus:bg-inherit rounded-2xl"
+                    type="text"
+                    name="password"
+                    id="password"
+                    value={currentUser.password}
+                    onChange={userHandler}
+                    placeholder="password"
+                    autoComplete="off" spellcheck="false"
+                  />
+                </div>
+                <div className="relative flex flex-wrap items-stretch mb-4 w-full bg-gray-100 text-[1rem] font-normal leading-6 rounded-2xl">
+                  <div className="-mr-[1px] flex text-[#98a3ae] text-left">
+                    <span className="py-3 px-4 pr-2 text-center inline-block min-w-[48px] whitespace-nowrap bg-inherit">
+                      <i class="fa fa-address-book"></i>
+                    </span>
+                  </div>
+                  <input
+                    className="block overflow-visible relative flex-auto w-[1%] p-3 pr-4 bg-inherit h-auto text-md focus:outline-none focus:bg-inherit rounded-2xl"
+                    type="text"
+                    name="name"
+                    id="name"
+                    value={currentUser.name}
+                    onChange={userHandler}
+                    autoComplete="off"
+                    placeholder="name"
+                    spellcheck="false"
+                  />
+                </div>
 
-              <div className="px-4 pb-2 pt-4">
-                <button
-                  onClick={submitUser}
-                  className="uppercase block w-full p-1 py-2 text-lg rounded-full bg-indigo-500 hover:bg-indigo-600 focus:outline-none"
-                >
-                  sign up
-                </button>
-              </div>
-
-              <div className="p-4 text-center right-0 left-0 flex justify-center space-x-4 mt-16 lg:hidden ">
-                <a href="#">
-                  <svg
-                    fill="#fff"
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
+                <div className="px-4 pb-2 pt-4">
+                  <button
+                    onClick={submitUser}
+                    className="uppercase block w-full p-1 py-2 text-lg text-white rounded-full bg-indigo-500 hover:bg-indigo-600 focus:outline-none"
                   >
-                    <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z" />
-                  </svg>
-                </a>
-                <a href="#">
-                  <svg
-                    fill="#fff"
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                  >
-                    <path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z" />
-                  </svg>
-                </a>
-                <a href="#">
-                  <svg
-                    fill="#fff"
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                  >
-                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
-                  </svg>
-                </a>
+                    sign up
+                  </button>
+                </div>
+                <div className="mt-10 mb-4 text-center">
+                  <div className="block text-center mb-2 text-sm text-gray-100">
+                    or register with
+                  </div>
+                  <button className="p-0 inline-block bg-opacity-0 mr-4 text-sm text-black overflow-visible font-bold hover:underline">
+                    Facebook
+                  </button>
+                  <button className="p-0 inline-block bg-opacity-0 mr-4 text-sm text-black overflow-visible font-bold hover:underline">
+                    Google
+                  </button>
+                  <button className="p-0 inline-block bg-opacity-0 mr-4 text-sm text-black overflow-visible font-bold hover:underline">
+                    Twitter
+                  </button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div
-          className="lg:flex w-1/2 hidden bg-gray-500 bg-no-repeat bg-cover relative items-center"
-          id=""
-          style={{
-            backgroundImage: "url(https://www.bootdey.com/img/bg20.jpg)",
-          }}
-        >
-          <div
-            className="absolute bg-black opacity-60 inset-0 z-0"
-            style={{ opacity: "0.6" }}
-          ></div>
-          <div className="w-full px-24 z-10">
-            <h1 className="text-5xl font-bold text-left tracking-wide">
-              Keep it special
-            </h1>
-            <p className="text-3xl my-4">
-              Capture your personal memory in unique way, anywhere.
-            </p>
+        </diiv>
+        <diiv className="md:w-1/2 py-4 md:flex hidden items-center justify-center">
+          <div className="w-[420px] py-14 px-1 text-center relative">
+            <div className="z-20 w-5/6 flex flex-col items-start signupSection">
+              <div className="pl-6">
+                <h1 className="text-5xl font-bold text-left tracking-wide text-black border-l-4 border-yellow-600 pl-2">
+                  Keep it special
+                </h1>
+                <p className="text-xl my-4 text-gray-700 text-left">
+                  Capture your personal memory in unique way, anywhere.
+                </p>
+                <div className="flex justify-end">
+                  <img
+                    src={require("../images/logopng.png")}
+                    className="inline-block w-[6rem]"
+                  ></img>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
+        </diiv>
       </section>
     </>
   );
