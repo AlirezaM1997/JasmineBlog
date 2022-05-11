@@ -20,6 +20,8 @@ import Provider from "./Provider";
 import Blog from "./component/Blog";
 import UserBlog from "./component/UserBlog";
 import CreateBlog from "./component/CreateBlog";
+import EditUser from "./component/EditUser";
+import EditBlog from "./component/EditBlog";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -62,6 +64,14 @@ root.render(
           <Route
             path="/user/dashboard/createblog"
             element={<CreateBlog />}
+          ></Route>
+          <Route
+            path="/user/dashboard/edituser"
+            element={<EditUser />}
+          ></Route>
+          <Route
+            path="/user/dashboard/editblog/:id"
+            element={<EditBlog />}
           ></Route>
         </Route>
       </Routes>

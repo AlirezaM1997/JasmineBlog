@@ -143,7 +143,7 @@ export default function CreateBlog(params) {
           </div>
           <div className="flex w-full justify-end">
             <button
-              className="mt-3 px-8 py-[0.75rem] bg-[#607027] text-white font-medium text-md leading-tight rounded shadow-md hover:bg-purple-700 hover:shadow-lg  focus:outline-none  active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out"
+              className="mt-3 px-8 py-[0.75rem] bg-[#607027] text-white font-medium text-md leading-tight rounded shadow-md"
               onClick={submitBLog}
             >
               Submit

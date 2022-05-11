@@ -8,25 +8,29 @@ import Loading from "./Loading";
 export default function Dashboard() {
   const [isMenuOpened, setIsMenuOpened] = useState(false);
   const showMenu = () => {
-    setIsMenuOpened(!isMenuOpened);
+    setIsMenuOpened(true);
+  };
+  const hideMenu = () => {
+    if (isMenuOpened) {
+      setIsMenuOpened(false);
+    }
   };
 
-  const { token } = useAllState();
+  const { setToken } = useAllState();
+  const { setUserInfo } = useAllState();
   const { userInfo } = useAllState();
 
   const [myBlogs, setMyBlogs] = useState();
   const [loading, setLoading] = useState(true);
-  // console.log(myBlogs);
   const cookies = new Cookies();
 
   const parseISOString = (s) => {
     // return new Date(toString(s));
-    console.log(s);
+    // console.log(s);
     return s;
   };
 
   let location = useLocation();
-  console.log(location.pathname);
   useEffect(() => {
     fetch(`http://localhost:4000/blog/my-blogs`, {
       method: "GET",
@@ -48,9 +52,16 @@ export default function Dashboard() {
       });
   }, []);
 
+  const logout = () => {
+    cookies.remove("token");
+    setToken("");
+    setUserInfo();
+    window.location.href = "/";
+  };
+
   return (
     <>
-      <div className="w-full bg-white relative flex ">
+      <div className="w-full bg-white relative flex" onClick={hideMenu}>
         <div className="w-full h-full flex flex-col justify-between">
           <header className="h-16 w-full flex items-center justify-between relative  px-5 space-x-10 bg-[#EEEEEE]">
             <div>
@@ -62,7 +73,10 @@ export default function Dashboard() {
               </Link>
             </div>
             <div className="flex items-center">
-              <div className="flex flex-shrink-0 items-center space-x-4">
+              <Link
+                to={"/user/dashboard"}
+                className="flex flex-shrink-0 items-center space-x-4"
+              >
                 <div className="flex flex-col items-end ">
                   <div className="text-md font-medium ">{userInfo.name}</div>
                   <div className="text-sm font-regular"></div>
@@ -71,22 +85,28 @@ export default function Dashboard() {
                   src={userInfo.imgurl}
                   className="h-10 w-10 rounded-full border border-[#607027]"
                 ></img>
-              </div>
-              <div className="ml-2 cursor-pointer relative" onClick={showMenu}>
-                <i class="fa fa-user-circle " aria-hidden="true"></i>
+              </Link>
+              <div className="ml-3 cursor-pointer relative" onClick={showMenu}>
+                <i class="fa fa-cog" aria-hidden="true"></i>
                 <div
-                  className={`w-[100px] h-[80px] absolute right-0 top-[34px] bg-white rounded-sm border p-2 text-sm ${
+                  className={`w-[100px] h-[80px] absolute right-0 top-[34px] bg-white rounded-sm border text-sm ${
                     isMenuOpened ? "" : "hidden"
                   }`}
                 >
                   <ul className="h-full">
+                    <Link to={"/user/dashboard/edituser"}>
+                      <li
+                        className="h-1/2 flex items-center border-b hover:bg-gray-100 p-2 transition-colors"
+                        onClick={hideMenu}
+                      >
+                        setting
+                      </li>
+                    </Link>
+
                     <li
-                      className="h-1/2 flex items-center border-b"
-                      onClick={showMenu}
+                      className="h-1/2 flex items-center hover:bg-gray-100 p-2 transition-colors"
+                      onClick={logout}
                     >
-                      setting
-                    </li>
-                    <li className="h-1/2 flex items-center" onClick={showMenu}>
                       <p>log out</p>
                     </li>
                   </ul>
@@ -108,6 +128,9 @@ export default function Dashboard() {
                 ) : (
                   <section className="text-gray-600 body-font w-full">
                     <div className="container py-10 mx-auto">
+                      <div className="mb-3 text-right">
+                        <Link to={"/user/dashboard/createblog"} className='bg-[#607027] text-sm font-medium px-3 py-2 rounded text-white'>+ Add a New Blog</Link>
+                      </div>
                       <div className="flex flex-wrap -m-4">
                         {myBlogs.map((item) => (
                           <div className="p-4 sm:w-full w-full dashboardCard">
@@ -132,7 +155,7 @@ export default function Dashboard() {
                                   }}
                                 ></p>
                                 <div className="flex items-center justify-center flex-wrap ">
-                                  <button
+                                  <Link to={`/user/dashboard/editblog/${item._id}`}
                                     className="px-8 py-2 w-2/6 bg-[#607027] text-white transition-all duration-300 rounded"
                                     onClick={(e) => {
                                       // getPostForEdit(item._id);
@@ -140,7 +163,7 @@ export default function Dashboard() {
                                     }}
                                   >
                                     Edit
-                                  </button>
+                                  </Link>
                                 </div>
                               </div>
                             </div>

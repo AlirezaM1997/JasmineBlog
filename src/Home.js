@@ -28,6 +28,7 @@ function Home() {
         }
       })
       .then((result) => {
+        console.log(result);
         setBlogs(result);
         setLoading(false);
       });
@@ -422,139 +423,136 @@ function Home() {
             </div>
           </div>
         </div>
-      </div>
-      {/* <div className="flex justify-center items-center">
-        <div className="2xl:mx-auto 2xl:container lg:px-20 lg:py-16 md:py-12 md:px-6 py-12 px-4 w-96 sm:w-auto">
-          <div
-            role="main"
-            className="flex flex-col items-center justify-center"
-          >
-            <h1 className="text-4xl leading-9 text-center text-gray-800 dark:text-gray-50 border-b-2 border-green-600 pb-4">
-              Trial Blog
-            </h1>
-            <p className="text-base leading-normal text-center text-gray-600 dark:text-white mt-4 md:w-10/12 w-11/12">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            </p>
-          </div>
-          <section className="lg:flex items-stretch md:mt-12 mt-8">
-            <div className="w-full text-center">
-              {blogs.map((i, index) =>
-                !firstNumberArray.includes(index) &&
-                !secondNumberArray.includes(index) ? (
-                  <div className="relative rounded-xl md:m-2 my-2 h-64 w-full inline-block shadow-lg smallCard overflow-hidden">
-                    <div
-                      className="bg-center bg-cover w-full h-full transition-all duration-700 imgCart"
-                      style={{
-                        backgroundImage: `url(${i.imgurl})`,
-                      }}
-                    ></div>
 
-                    <div>
-                      <p className="p-1 m-5 bg-black text-white rounded text-xs font-medium leading-2 absolute top-0 right-0">
-                        <span className="block pb-1">Last Update</span>{" "}
-                        <span className="bg-white text-black">
-                          {" "}
-                          12 April 2022
-                        </span>
-                      </p>
-                      <div className="absolute text-left bottom-0 left-0 p-2 m-3 rounded-xl cartInfo">
-                        <h2 className="text-xl font-semibold 5 text-black overflow-hidden">
-                          {i.title}
-                        </h2>
-                        <p className="text-sm leading-4 text-black italic mt-2">
-                          {i.creator.name}
-                        </p>
-                        <Link
-                          to={`/blog/${i._id}`}
-                          className="focus:outline-none focus:underline flex items-center mt-4 cursor-pointer text-black hover:text-blue-800 hover:underline"
-                        >
-                          <p className="pr-2 text-sm font-medium leading-none">
-                            Read Blog
-                          </p>
-                          <svg
-                            className="fill-stroke"
-                            width="16"
-                            height="16"
-                            viewBox="0 0 16 16"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              d="M5.75 12.5L10.25 8L5.75 3.5"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                            />
-                          </svg>
-                        </Link>
+        <div className="allBlogs relative mb-10 laptop:mb-[70px]">
+          <div className="container px-[15px]">
+            <div className="allBlogs-content">
+              <div className="row -mx-[15px] before:table before:content-[' ']">
+                <div className="col px-[15px] float-left tablet:w-full tablet:pr-[15px] tablap:w-[680px] LCD:w-[900px]">
+                  <div className="main-col my-0 relative">
+                    <div className="main-col-inner relative">
+                      <div className="allBlogs-posts p-0 -my-10">
+{               blogs.map((i, index) =>         <div className="allBlogs-post border-b border-[#0000000d] py-10">
+                          <article className="w-full relative">
+                            <div className="post-image tablet:h-[300px] tablet:w-[calc(50%-55px)] laptop:mt-0 laptop:mr-[30px] laptop:mb-[50px] laptop:ml-[50px] tablap:w-[calc(50%-90px)] tablap:h-[365px] md:float-left  LCD:mt-0 LCD:mr-[75px] LCD:mb-[70px] LCD:ml-[70px] LCD:w-[calc(50%-185px)] LCD:h-[415px] relative before:laptop:-left-[50px] before:laptop:-bottom-[50px] before:content-[''] before:absolute before:w-full before:h-full before:bg-[#607027] before:-z-[1]">
+                              <Link to={"#"} className="w-full h-full black">
+                                <img
+                                  className="w-full h-full object-cover"
+                                  src={i.imgurl}
+                                ></img>
+                              </Link>
+                              <div className="post__tags laptop:w-[calc(100%-50px)] laptop:h-[50px] flex items-center overflow-hidden text-left text-[#ffffffb3] w-[calc(100%-70px)] h-[70px]">
+                                <ul className="tag-list inline-block -m-1 p-0 align-middle">
+                                  <li className="m-1 inline-block py-0 leading-4">
+                                    <Link
+                                      to={"#"}
+                                      className="post-tag w-full h-full text-xs before:content-['#'] hover:text-white"
+                                    >
+                                      Fashion
+                                    </Link>
+                                  </li>
+                                  <li className="m-1 inline-block py-0 leading-4">
+                                    <Link
+                                      to={"#"}
+                                      className="post-tag w-full h-full text-xs before:content-['#'] hover:text-white"
+                                    >
+                                      Health
+                                    </Link>
+                                  </li>
+                                  <li className="m-1 inline-block py-0 leading-4">
+                                    <Link
+                                      to={"#"}
+                                      className="post-tag w-full h-full text-xs before:content-['#'] hover:text-white"
+                                    >
+                                      Lifestyle
+                                    </Link>
+                                  </li>
+                                </ul>
+                              </div>
+                            </div>
+                            <div className="post-text pt-[35px] text-center overflow-hidden">
+                              <Link
+                                to={"#"}
+                                className="mb-[15px] mr-2 font-normal text-[11px] uppercase inline-block md:py-2 md:px-[18px] bg-[#607027] text-white"
+                              >
+                                fashion
+                              </Link>
+                              <h3 className="iphone:text-[1.5rem] iphone:leading-[1.4] iphone:mb-[15px] fablet:text-[1.7rem] fablet:leading-[1.3] font-bold mx-auto whitespace-normal break-words">
+                                <Link
+                                  to={"#"}
+                                  style={{ display: "-webkit-box" }}
+                                  className="overflow-hidden"
+                                >
+                                  {i.title}
+                                </Link>
+                              </h3>
+                              <div className="post__excerpt iphone:mb-0 md:mb-[20px] mx-auto text-[#888] text-[1.07rem] leading-6">
+                                <div className="excerpt">
+                                  <p dangerouslySetInnerHTML={{
+                                    __html: i.content,
+                                  }}>
+                                  
+                                  </p>
+                                </div>
+                              </div>
+                              <ul className="social-list iphone:hidden mb-0 opacity-80 text-base">
+                                <li className="py-0 inline-block">
+                                  <Link
+                                    to={"#"}
+                                    className="px-[0.4em] inline-block hover:text-gray-600 text-[#000000cc] leading-5 w-[22px] h-[22px] bg-opacity-0 mx-[5px] relative rounded-full"
+                                  >
+                                    <div className="share-item__icon">
+                                      <FontAwesomeIcon
+                                        title="twitter"
+                                        icon={faTwitter}
+                                      ></FontAwesomeIcon>
+                                    </div>
+                                  </Link>
+                                </li>
+                                <li className="py-0 inline-block">
+                                  <Link
+                                    to={"#"}
+                                    className="px-[0.4em] inline-block hover:text-gray-600 text-[#000000cc] leading-5 w-[22px] h-[22px] bg-opacity-0 mx-[5px] relative rounded-full"
+                                  >
+                                    <div className="share-item__icon">
+                                      <FontAwesomeIcon
+                                        title="facebook"
+                                        icon={faFacebookF}
+                                      ></FontAwesomeIcon>
+                                    </div>
+                                  </Link>
+                                </li>
+                                <li className="py-0 inline-block">
+                                  <Link
+                                    to={"#"}
+                                    className="px-[0.4em] inline-block hover:text-gray-600 text-[#000000cc] leading-5 w-[22px] h-[22px] bg-opacity-0 mx-[5px] relative rounded-full"
+                                  >
+                                    <div className="share-item__icon">
+                                      <FontAwesomeIcon
+                                        title="linkedin"
+                                        icon={faLinkedinIn}
+                                      ></FontAwesomeIcon>
+                                    </div>
+                                  </Link>
+                                </li>
+                              </ul>
+                            </div>
+                          </article>
+                        </div>)}
                       </div>
                     </div>
                   </div>
-                ) : (
-                  <div className="relative rounded-xl md:m-2 my-2 h-64 w-full inline-block largeCard overflow-hidden">
-                    <div
-                      className="bg-center bg-cover w-full h-full transition-all duration-700 imgCart"
-                      style={{
-                        backgroundImage: `url(${i.imgurl})`,
-                      }}
-                    ></div>
-                    <div>
-                      <p className="p-1 m-5 bg-black text-white rounded text-xs font-medium leading-2 absolute top-0 right-0">
-                        <span className="block pb-1">Last Update</span>{" "}
-                        <span className="bg-white text-black">
-                          {" "}
-                          12 April 2022
-                        </span>
-                      </p>
-                      <div className="absolute text-left bottom-0 left-0 p-2 m-3 rounded-xl cartInfo">
-                        <h2 className="text-xl font-semibold 5 text-black overflow-hidden">
-                          {i.title}
-                        </h2>
-                        <p className="leading-4 text-sm text-black italic mt-2">
-                          {i.creator.name}
-                        </p>
-                        <Link
-                          to={`/blog/${i._id}`}
-                          className="focus:outline-none focus:underline flex items-center mt-4 cursor-pointer text-black hover:text-blue-800 hover:underline"
-                        >
-                          <p className="pr-2 text-sm font-medium leading-none">
-                            Read More
-                          </p>
-                          <svg
-                            className="fill-stroke"
-                            width="16"
-                            height="16"
-                            viewBox="0 0 16 16"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              d="M5.75 12.5L10.25 8L5.75 3.5"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                            />
-                          </svg>
-                        </Link>
-                      </div>
-                    </div>
-                  </div>
-                )
-              )}
+                </div>
+
+                {/* <div className="bg-gray-200 sub-col tablap:w-[290px] relative overflow-visible float-left px-[15px] LCD:w-[300px]"></div> */}
+              </div>
             </div>
-          </section>
+          </div>
         </div>
-      </div> */}
+      </div>
     </>
   );
 }
 
 export default Home;
 
-// w-full =>>
-// display: flex;
-// flex-flow: wrap;
-// justify-content: center;

@@ -2,70 +2,69 @@ import React, { useEffect, useRef, useState } from "react";
 import { useAllState } from "../Provider";
 import SuccessModal from "./SuccessModal";
 import LogOutModal from "./LogOutModal";
+
+import Cookies from "universal-cookie";
+
 export default function EditUser(props) {
   const { userInfo } = useAllState();
   const { setUserInfo } = useAllState();
   const { token } = useAllState();
 
   const [name, setName] = useState(userInfo.name);
-  const [phonenumber, setPhonenumber] = useState(userInfo.phoneNumber);
+  const [bio, setBio] = useState(userInfo.bio);
   const [imgurl, setImgurl] = useState(userInfo.imgurl);
 
+  const cookies = new Cookies();
+
   const [showModal, setShowModal] = useState(false);
-  const updateUser = async () => {
-    fetch("http://localhost:4000/user/me", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        auth: `ut ${token}`,
-      },
-      body: JSON.stringify({}),
-    })
-      .then((data) => {
-        return data.json();
+  useEffect(() => {
+    const updateUser = async () => {
+      fetch("http://localhost:4000/user/me", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          auth: `ut ${cookies.get("token")}`,
+        },
+        body: JSON.stringify({}),
       })
-      .then((res) => {
-        if (res && res._id) {
-          setUserInfo(res);
-        }
-      });
-  };
+        .then((data) => {
+          return data.json();
+        })
+        .then((res) => {
+        //   console.log(res);
+          if (res && res._id) {
+            setUserInfo(res);
+            // console.log(userInfo);
+          }
+        });
+    };
+    updateUser();
+  }, []);
+
   const editUser = async () => {
     fetch("http://localhost:4000/user/edit", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        auth: `ut ${token}`,
+        auth: `ut ${cookies.get("token")}`,
       },
       body: JSON.stringify({
         data: {
           name: name,
-          phoneNumber: phonenumber,
-          imgurl: imgurl,
+          bio: bio,
         },
       }),
-    }).then(() => {
+    }).then((res) => {
+        console.log(res);
       console.log("editUser done!");
     });
-    updateUser();
   };
   return (
     <>
-      <div className="flex justify-end mb-4">
-        <button
-          className="px-6 py-2 bg-red-500 text-white rounded hover:bg-red-600 hover:shadow-lg outline-0 focus:outline-none"
-          //   onClick={() => setShowModal(true)}
-        >
-          Log Out
-          <i class="fa fa-sign-out ml-3" aria-hidden="true"></i>
-        </button>
-      </div>
-
-      <div className="flex justify-center my-6"></div>
-      <div className="">
+      <div className="my-5">
         <div className="block md:flex justify-center flex-col items-center">
-          <div className="w-full md:w-3/5 p-8 bg-white shadow-md border-2 rounded">
-            <div className="rounded shadow p-6">
+          <div className="w-full md:w-3/5 p-8 shadow-md bg-[#eee] rounded">
+            <div className="rounded shadow p-6 bg-white border-[1px] border-[#607027]">
               <div className="pb-6">
                 <label
                   for="name"
@@ -76,10 +75,12 @@ export default function EditUser(props) {
                 <div className="flex">
                   <input
                     id="username"
-                    className="border-2 rounded px-4 py-2 w-full"
+                    className="border-2 rounded p-2 w-full focus:bg-inherit outline-none"
+                    autoComplete="off"
                     type="text"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
+                    spellCheck="false"
                   />
                 </div>
               </div>
@@ -88,15 +89,17 @@ export default function EditUser(props) {
                   for="phoneNumber"
                   className="font-semibold text-gray-700 block pb-1"
                 >
-                  PhoneNumber
+                  Bio
                 </label>
                 <input
                   id="phoneNumber"
-                  className="border-2 rounded px-4 py-2 w-full"
+                  className="border-2 rounded p-2 w-full focus:bg-inherit outline-none"
+                  autoComplete="off"
                   type="number"
                   autoComplete="off"
-                  value={phonenumber}
-                  onChange={(e) => setPhonenumber(e.target.value)}
+                  value={bio}
+                  spellCheck="false"
+                  onChange={(e) => setBio(e.target.value)}
                 />
               </div>
               <div className="pb-4">
@@ -108,9 +111,11 @@ export default function EditUser(props) {
                 </label>
                 <input
                   id="imageurl"
-                  className="border-2 rounded px-4 py-2 w-full"
+                  className="border-2 rounded p-2 w-full focus:bg-inherit outline-none"
+                  autoComplete="off"
                   type="text"
                   value={imgurl}
+                  spellCheck="false"
                   onChange={(e) => setImgurl(e.target.value)}
                 />
               </div>
@@ -118,7 +123,7 @@ export default function EditUser(props) {
           </div>
           <div>
             <button
-              className="ml-3 mt-5 px-6 py-4 bg-yellow-600 text-black rounded hover:bg-yellow-700 hover:shadow-lg outline-0 focus:outline-none"
+              className="ml-3 mt-5 px-4 py-2 bg-[#607027] text-white text-sm rounded outline-0 focus:outline-none"
               onClick={editUser}
               id="saveEdit"
             >
