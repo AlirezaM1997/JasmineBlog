@@ -9,12 +9,6 @@ export default function CreateBlog(params) {
 
   const editorRef = useRef(null);
 
-//   const log = () => {
-//     if (editorRef.current) {
-//       console.log(editorRef.current.getContent());
-//     }
-//   };
-
   const [hintTitle, setHintTitle] = useState(false);
   const [hintContent, setHintContent] = useState(false);
 
@@ -22,6 +16,10 @@ export default function CreateBlog(params) {
   const [imgUrl, setImgUrl] = useState("");
 
   const [showSuccessSubmit, setShowSuccessSubmit] = useState(false);
+
+  const [cat, setCat] = useState("public");
+
+  console.log(cat);
 
   const submitBLog = async () => {
     if (title === "") {
@@ -43,6 +41,7 @@ export default function CreateBlog(params) {
           auth: `ut ${cookie.get("token")}`,
         },
         body: JSON.stringify({
+          cat: cat,
           title: title,
           content: editorRef.current.getContent(),
           imgurl:
@@ -67,7 +66,7 @@ export default function CreateBlog(params) {
           <div className="">
             <label className="text-2xl font-semibold">Title</label>
             <input
-              className="w-full  my-1 mb-3 p-2 focus:bg-white focus:outline-none border border-blue-600 rounded-lg"
+              className="w-full my-1 mb-3 p-2 focus:bg-white focus:outline-none border border-blue-600 rounded-lg"
               type="text"
               placeholder="some title"
               value={title}
@@ -82,8 +81,24 @@ export default function CreateBlog(params) {
               Please type some title
             </div>
           </div>
+          <div className="flex justify-around items-center my-1 mb-3 ">
+            <div className="text-2xl w-fit font-semibold">Select Category</div>
+            <div className="w-1/2">
+              <select
+                value={cat}
+                onChange={(e) => setCat(e.target.value)}
+                className="w-full p-2 focus:bg-white focus:outline-none border border-blue-600 rounded-lg"
+              >
+                <option value="public">public</option>
+                <option value="fashion">fashion</option>
+                <option value="lifestyle">lifestyle</option>
+                <option value="health">health</option>
+              </select>
+            </div>
+          </div>
           <div className="">
             <Editor
+              className="border-2 border-gray-500"
               onInit={(evt, editor) => (editorRef.current = editor)}
               initialValue=""
               init={{

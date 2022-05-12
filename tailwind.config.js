@@ -19,8 +19,10 @@ module.exports = {
         iphone: { max: "767px" },
         fablet: { min: "768px", max: "991px" },
         tablet: { max: "991px" },
+        makbook: { min: "992px" },
         tablap: { min: "992px", max: "1198px" },
         laptop: { max: "1199px" },
+        LED: { min: "767px", max: "1199px" },
         LCD: { min: "1200px", max: "1400px" },
       },
       colors: {

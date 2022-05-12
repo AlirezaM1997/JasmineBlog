@@ -4,13 +4,14 @@ import Loading from "./Loading";
 import { Editor } from "@tinymce/tinymce-react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
-export default function EditBlog(params) {
+export default function EditBlog() {
   const [hintTitle, setHintTitle] = useState(false);
   const [hintContent, setHintContent] = useState(false);
 
   const [postTitle, setPostTitle] = useState("");
   const [postImgUrl, setPostImgUrl] = useState("");
   const [postText, setPostText] = useState("");
+  const [postCat, setPostCat] = useState("");
 
   const [loadingForEditPost, setLoadingForEditPost] = useState(true);
   const navToHome = useNavigate();
@@ -31,6 +32,7 @@ export default function EditBlog(params) {
             setPostTitle(res.title);
             setPostImgUrl(res.imgurl);
             setPostText(res.content);
+            setPostCat(res.cat);
           }
           setLoadingForEditPost(false);
         });
@@ -64,6 +66,7 @@ export default function EditBlog(params) {
         body: JSON.stringify({
           blogId: id,
           data: {
+            cat: postCat,
             title: postTitle,
             content: editorRef.current.getContent(),
             imgurl:
@@ -100,6 +103,23 @@ export default function EditBlog(params) {
                 }`}
               >
                 Please type some title
+              </div>
+            </div>
+            <div className="flex justify-around items-center my-1 mb-3 ">
+              <div className="text-2xl w-fit font-semibold">
+                Select Category
+              </div>
+              <div className="w-1/2">
+                <select
+                  value={postCat}
+                  onChange={(e) => setPostCat(e.target.value)}
+                  className="w-full p-2 focus:bg-white focus:outline-none border border-blue-600 rounded-lg"
+                >
+                  <option value="public">public</option>
+                  <option value="fashion">fashion</option>
+                  <option value="lifestyle">lifestyle</option>
+                  <option value="health">health</option>
+                </select>
               </div>
             </div>
             <div>
