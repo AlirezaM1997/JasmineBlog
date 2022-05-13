@@ -16,6 +16,7 @@ module.exports = {
         22.5: "22.5%",
       },
       screens: {
+        nokia: { max: "639px" },
         iphone: { max: "767px" },
         fablet: { min: "768px", max: "991px" },
         tablet: { max: "991px" },

@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
+import Cookies from "universal-cookie";
+import StarRatingComponent from "react-star-rating-component";
 
 import Loading from "./Loading";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -9,10 +11,15 @@ import {
   faLinkedinIn,
   faTwitter,
 } from "@fortawesome/free-brands-svg-icons";
+import { useAllState } from "../Provider";
 export default function Blog() {
   const [loading, setLoading] = useState(true);
   const [blogInfo, setBlogInfo] = useState();
+  const [comments, setComments] = useState();
   const { id } = useParams();
+  const [blogFetch, setBlogFetch] = useState(false);
+
+  const { userInfo } = useAllState();
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -28,9 +35,78 @@ export default function Blog() {
         console.log(result);
         setBlogInfo(result);
         console.log(blogInfo);
-        setLoading(false);
+        setBlogFetch(true);
       });
   }, []);
+  if (blogFetch) {
+    fetch(`http://localhost:4000/comment/by-blog/${blogInfo._id}`, {
+      method: "GET",
+    })
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw Error(response.status);
+        }
+      })
+      .then((result) => {
+        setComments(result);
+        setLoading(false);
+        console.log(result);
+      });
+  }
+
+  const parsIsoDate = (date) => {
+    const months = [
+      "Janury",
+      "Februry",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ];
+    const a = new Date(date);
+    const year = a.getFullYear();
+    const month = a.getMonth();
+    const day = a.getDay();
+    return `${months[month - 1]} ${day} ,${year}`;
+  };
+
+  /*///////////////submit comment///////////////*/
+  const [commentText, setCommentText] = useState("");
+
+  const cookies = new Cookies();
+
+  const submitComment = async () => {
+    // console.log(blogInfo._id);
+    // console.log(commentText);
+    if (commentText !== "") {
+      fetch(`http://localhost:4000/comment/submit`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          auth: `ut ${cookies.get("token")}`,
+        },
+        body: JSON.stringify({
+          blogId: blogInfo._id,
+          text: commentText,
+        }),
+      }).then((response) => {
+        console.log(response);
+        if (response.ok) {
+          console.log("ok");
+        } else {
+          throw Error(response.status);
+        }
+      });
+    }
+  };
 
   return (
     <>
@@ -86,7 +162,8 @@ export default function Blog() {
                                 class="fa fa-calendar-times-o mr-[0.3em] inline-block align-middle"
                                 aria-hidden="true"
                               ></i>
-                              May 11, 2022
+
+                              {parsIsoDate(blogInfo.createdAt)}
                             </time>
                           </div>
                         </div>
@@ -109,6 +186,11 @@ export default function Blog() {
                             }}
                           ></p>
                         </div>
+
+                        <div className="rating">
+
+                        </div>
+                        
                         <div className="social-share mb-10">
                           <div className="iphone:flex iphone:flex-wrap iphone:items-center">
                             <ul className="social-list md:text-[1.142rem] text-base m-0 p-0">
@@ -286,7 +368,7 @@ export default function Blog() {
                                 <div className="post__text-inner tablet:px-5 pt-0 tablet:pb-5 makbook:px-[25px] makbook:pb-[25px] -ml-[15px] relative">
                                   <Link
                                     to={"#"}
-                                    className='tablet:py-2 tablet:pr-3 tablet:pl-[35px] tablet:-ml-[35px] bg-[#607027] h-auto w-fit block leading-[1] relative -ml-[40px] pl-10 text-white mb-[15px] after:content-[""] after:absolute after:top-full after:left-0 after:border-[15px] after:border-transparent after:border-solid after:border-r-0 after:text-[55px] after:z[1]'
+                                    className='py-2 pr-3 tablet:pl-[35px] makbook:pl-[40px] tablet:-ml-[35px] bg-[#607027] h-auto w-fit block leading-[1] relative -ml-[40px] pl-10 text-white mb-[15px] after:content-[""] after:absolute after:top-full after:left-0 after:border-transparent  after:border-[15px] after:border-t-[#394317] after:border-r-0 after:h-full after:text-[55px] after:z-[1]'
                                   >
                                     Previous Article
                                   </Link>
@@ -311,7 +393,7 @@ export default function Blog() {
                         <div className="posts-navigation__next w-full min-h-[50%] flex float-right text-right relative after:clear-both">
                           <article className="w-[calc(100%+15px)] h-full bg-transparent pr-[15px] -mr-[15px] flex relative overflow-hidden">
                             {" "}
-                            <div className="post__thumb absolute w-full h-full">
+                            <div className="post__thumb absolute w-full h-full pr-[15px]">
                               <Link to={"#"} className="w-full h-full">
                                 <img
                                   src={require("../images/post-overlay2.jpg")}
@@ -324,7 +406,7 @@ export default function Blog() {
                                 <div className="post__text-inner tablet:px-5 pt-0 tablet:pb-5 makbook:px-[25px] makbook:pb-[25px] -mr-[15px] relative">
                                   <Link
                                     to={"#"}
-                                    className='tablet:py-2 tablet:pl-3 tablet:pr-[35px] tablet:-mr-[35px] float-right bg-[#607027] h-auto w-fit block leading-[1] relative -mr-[40px] pl-10 text-white mb-[15px] after:content-[""] after:absolute after:top-full after:right-0 after:border-[15px] after:border-transparent after:border-solid after:border-r-0 after:text-[55px] after:z[1]'
+                                    className='py-2 pl-3 tablet:pr-[35px] makbook:pr-[40px] tablet:-mr-[35px] float-right bg-[#607027] h-auto w-fit block leading-[1] relative -mr-[40px] text-white mb-[15px] after:content-[""] after:absolute after:top-full after:border-transparent after:right-0 after:border-[15px] after:border-t-[#394317] after:border-l-0 after:h-full after:text-[55px] after:z-[1]'
                                   >
                                     Next Article
                                   </Link>
@@ -348,7 +430,83 @@ export default function Blog() {
                         </div>
                       </div>
                     </div>
-                    <div className="comments-section"></div>
+                    <div className="comments-section ">
+                      <div className="flex w-full items-center">
+                        <div className="w-full bg-white rounded  mx-2 pt-2">
+                          <h2 className="py-4 text-gray-800 text-2xl sm:text-left nokia:text-center">
+                            Add a new comment
+                          </h2>
+                          {userInfo ? (
+                            <div className="flex flex-wrap -mx-3 mb-6 pb-8 border-b-2 border-[#0000000d]">
+                              <div className="w-full md:w-full px-3 mb-2 mt-2">
+                                <textarea
+                                  className="bg-gray-100 rounded border border-gray-400 leading-normal resize-none w-full h-32 py-2 px-3 font-medium placeholder-gray-700 focus:outline-none focus:bg-white"
+                                  name="body"
+                                  placeholder=""
+                                  value={commentText}
+                                  onChange={(e) =>
+                                    setCommentText(e.target.value)
+                                  }
+                                  spellCheck="false"
+                                ></textarea>
+                              </div>
+                              <div className="w-full md:w-full flex items-start px-3">
+                                <div className="-mr-1">
+                                  <input
+                                    type="submit"
+                                    className="bg-[#607027] text-white font-medium py-1 px-4 border rounded tracking-wide mr-1"
+                                    onClick={submitComment}
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                          ) : (
+                            <div className="pb-8 flex sm:justify-start justify-center border-b-2 border-[#0000000d] mb-5">
+                              <div className="flex sm:flex-row flex-col text-center bg-[#fafafa] py-3 px-2 shadow-sm w-fit items-center">
+                                <div>
+                                  <i
+                                    class="fa fa-exclamation-triangle"
+                                    aria-hidden="true"
+                                  ></i>
+                                  <p className="text-base text-gray-600 mx-2 inline-block">
+                                    Login to post a comment
+                                  </p>
+                                </div>
+                                <Link
+                                  className="text-blue-400 hover:text-blue-400 mt-[15px] sm:mt-0"
+                                  to={"/user/login"}
+                                >
+                                  Login Now
+                                </Link>
+                              </div>
+                            </div>
+                          )}
+
+                          <div className="mb-20">
+                            {comments.map((item) => (
+                              <div className="w-full h-full bg-[#fafafa] z-[1] mb-6">
+                                <div className="relative p-3 shadow-sm before:w-full before:h-2/3 before:absolute before:-z-[1] before:right-[15px] before:bg-[#607027]">
+                                  <div className="mb-2">
+                                    <span className="font-bold italic">
+                                      {item.user.name} :
+                                    </span>
+                                    <div className="text-gray-400 text-sm">
+                                      {parsIsoDate(item.createdAt)}
+                                    </div>
+                                  </div>
+                                  <p
+                                    className="whitespace-pre"
+                                    dangerouslySetInnerHTML={{
+                                      __html: item.text,
+                                    }}
+                                  ></p>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
