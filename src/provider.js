@@ -8,6 +8,34 @@ export default function Provider({ children }) {
   const [loading, setLoading] = useState();
   const [userId, setUserId] = useState();
   const [slideNumber, setSlideNumber] = useState(1);
+  const [scoreValue, setScoreValue] = useState();
+  const [editRate, setEditRate] = useState(true);
+
+  const parsIsoDate = (date) => {
+    const months = [
+      "Janury",
+      "Februry",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ];
+    const a = new Date(date);
+    const year = a.getFullYear();
+    const month = a.getMonth();
+    const day = a.getDay();
+    const hour = a.getHours();
+    const minutes = a.getMinutes();
+    return `${months[month - 1]} ${day} ,${year}-${hour}:${minutes} ${
+      hour > 12 ? "PM" : "AM"
+    }`;
+  };
 
   return (
     <Context.Provider
@@ -22,6 +50,11 @@ export default function Provider({ children }) {
         setUserId,
         slideNumber,
         setSlideNumber,
+        scoreValue,
+        setScoreValue,
+        editRate,
+        setEditRate,
+        parsIsoDate,
       }}
     >
       {children}

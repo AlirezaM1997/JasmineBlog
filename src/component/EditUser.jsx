@@ -31,7 +31,7 @@ export default function EditUser(props) {
           return data.json();
         })
         .then((res) => {
-        //   console.log(res);
+          //   console.log(res);
           if (res && res._id) {
             setUserInfo(res);
             // console.log(userInfo);
@@ -55,20 +55,65 @@ export default function EditUser(props) {
         },
       }),
     }).then((res) => {
-        console.log(res);
+      console.log(res);
       console.log("editUser done!");
     });
   };
+
+  const [file, setFile] = useState(null);
+  const submitAvatar = async () => {
+    try {
+      if (!file) return;
+
+      console.log(file);
+
+      const formData = new FormData();
+      formData.append("avatar", file);
+
+      fetch("http://localhost:4000/user/update-avatar", {
+        method: "POST",
+        headers: {
+          auth: `ut ${cookies.get("token")}`,
+        },
+        body: formData,
+      }).then((res) => {
+        console.log(res);
+      });
+    } catch (error) {
+      console.log("lol");
+    }
+  };
+
   return (
     <>
       <div className="my-5">
         <div className="block md:flex justify-center flex-col items-center">
           <div className="w-full md:w-3/5 p-8 shadow-md bg-[#eee] rounded">
             <div className="rounded shadow p-6 bg-white border-[1px] border-[#607027]">
+              <div>
+                <div
+                  className="wrapperPicture"
+                  id="wrapperPictureId"
+                  style={{
+                    background: `url(${imgurl})`,
+                  }}
+                >
+                  <input
+                    placeholder="هیچ فایلی انتخاب نشده است"
+                    accept="image/*"
+                    type="file"
+                    id="picture"
+                    value={file}
+                    onChange={(e) => setFile(e.target.files[0])}
+                    className="form-control pictureFile"
+                    // onInput={(e) => onInputClick(e)}
+                  />
+                </div>
+              </div>
               <div className="pb-6">
                 <label
                   for="name"
-                  className="font-semibold text-gray-700 block pb-1"
+                  className="font-semibold text-sm text-gray-700 block pb-1"
                 >
                   Name
                 </label>
@@ -87,7 +132,7 @@ export default function EditUser(props) {
               <div className="pb-4">
                 <label
                   for="phoneNumber"
-                  className="font-semibold text-gray-700 block pb-1"
+                  className="font-semibold text-sm text-gray-700 block pb-1"
                 >
                   Bio
                 </label>
@@ -102,7 +147,7 @@ export default function EditUser(props) {
                   onChange={(e) => setBio(e.target.value)}
                 />
               </div>
-              <div className="pb-4">
+              {/* <div className="pb-4">
                 <label
                   for="imageurl"
                   className="font-semibold text-gray-700 block pb-1"
@@ -118,7 +163,7 @@ export default function EditUser(props) {
                   spellCheck="false"
                   onChange={(e) => setImgurl(e.target.value)}
                 />
-              </div>
+              </div> */}
             </div>
           </div>
           <div>
@@ -139,3 +184,10 @@ export default function EditUser(props) {
     </>
   );
 }
+
+// const onInputClick = (event) => {
+//   document.getElementById(
+//     "wrapperPictureId"
+//   ).style.background = `url(${event.target.value})`;
+//   console.log(event);
+// };

@@ -22,6 +22,7 @@ import UserBlog from "./component/UserBlog";
 import CreateBlog from "./component/CreateBlog";
 import EditUser from "./component/EditUser";
 import EditBlog from "./component/EditBlog";
+import Category from "./component/Category";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -34,6 +35,7 @@ root.render(
           <Route path="/userblog/:id" element={<UserBlog />}></Route>
           <Route path="/about" element={<About />}></Route>
           <Route path="/contact" element={<Contact />}></Route>
+          <Route path="/category" element={<Category />}></Route>
           <Route
             path="/user/signup"
             element={

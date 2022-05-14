@@ -112,7 +112,7 @@ export default function Login() {
                     </span>
                   </div>
                   <input
-                    className="block overflow-visible relative flex-auto w-[1%] p-3 pr-4 bg-inherit h-auto text-md focus:outline-none focus:bg-inherit rounded-2xl"
+                    className="block overflow-visible relative flex-auto w-[1%] pl-0 py-3 bg-inherit h-auto text-md focus:outline-none focus:bg-inherit rounded-2xl"
                     type="text"
                     name="username"
                     id="username"
@@ -137,7 +137,7 @@ export default function Login() {
                     </span>
                   </div>
                   <input
-                    className="block overflow-visible relative flex-auto w-[1%] p-3 pr-4 bg-inherit h-auto text-md focus:outline-none focus:bg-inherit rounded-2xl"
+                    className="block overflow-visible relative flex-auto w-[1%] pl-0 py-3 bg-inherit h-auto text-md focus:outline-none focus:bg-inherit rounded-2xl"
                     type="password"
                     name="password"
                     id="password"

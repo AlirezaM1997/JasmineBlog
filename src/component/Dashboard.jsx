@@ -24,11 +24,8 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const cookies = new Cookies();
 
-  const parseISOString = (s) => {
-    // return new Date(toString(s));
-    // console.log(s);
-    return s;
-  };
+  const { parsIsoDate } = useAllState();
+
 
   let location = useLocation();
   useEffect(() => {
@@ -48,6 +45,7 @@ export default function Dashboard() {
       })
       .then((result) => {
         setMyBlogs(result);
+        console.log(result);
         setLoading(false);
       });
   }, []);
@@ -116,7 +114,7 @@ export default function Dashboard() {
           </header>
 
           {location.pathname === "/user/dashboard" ? (
-            <main className="max-w-full h-full flex flex-col px-2 pt-3 min-h-screen">
+            <main className="max-w-full h-full flex flex-col pt-3 min-h-screen LCD:px-20">
               <div className="h-full w-full flex flex-wrap justify-center mb-[55px]">
                 {loading ? (
                   <Loading />
@@ -143,7 +141,7 @@ export default function Dashboard() {
                               />
                               <div className="py-3 px-4">
                                 <h2 className="text-xs tracking-wide title-font font-medium text-gray-400 mb-1">
-                                  {parseISOString(item.createdAt)}
+                                  {parsIsoDate(item.updatedAt)}
                                 </h2>
                                 <h1 className="title-font text-lg font-medium text-gray-600 mb-1">
                                   {item.title}
@@ -156,7 +154,7 @@ export default function Dashboard() {
                                 ></p>
                                 <div className="flex items-center justify-center flex-wrap ">
                                   <Link to={`/user/dashboard/editblog/${item._id}`}
-                                    className="px-8 py-2 w-2/6 bg-[#607027] text-white transition-all duration-300 rounded"
+                                    className="px-8 py-2 w-2/6 text-center bg-[#607027] text-white transition-all duration-300 rounded"
                                     onClick={(e) => {
                                       // getPostForEdit(item._id);
                                       // setCurrentPostId(item._id);

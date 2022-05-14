@@ -49,7 +49,8 @@ input:focus {
   animation: lds-circle 2.4s cubic-bezier(0, 0.2, 0.8, 1) infinite;
 }
 @keyframes lds-circle {
-  0%, 100% {
+  0%,
+  100% {
     animation-timing-function: cubic-bezier(0.5, 0, 1, 0.5);
   }
   0% {
@@ -76,10 +77,9 @@ input:focus {
     ),
     url("./images//backgroundsignup.jpg");
 
-    
-    background-position: center;
-    background-size: cover;
-    background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 .signupSection {
   animation: fade_in_show 1s;
@@ -156,4 +156,71 @@ input[type="number"] {
 }
 .blogText {
   overflow-wrap: break-word;
+}
+.dv-star-rating label i {
+  font-size: 1.5rem;
+}
+.CircularProgressbar .CircularProgressbar-path {
+  stroke: #607027 !important;
+}
+.CircularProgressbar .CircularProgressbar-text {
+  fill: white !important;
+}
+
+/*////////////////// Home////////////////// */
+.blogText_homePage {
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* number of lines to show */
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+
+
+
+
+.wrapperPicture {
+  width: 125px;
+  height: 125px;
+  position: relative;
+  border: solid 1px rgb(0, 217, 255);
+  border-radius: 50%;
+  background-size: 100% 100% !important;
+  margin: auto;
+  overflow: hidden;
+}
+.pictureFile {
+  position: absolute;
+  bottom: 0;
+  outline: none;
+  color: transparent;
+  width: 100%;
+  height: 40%;
+  box-sizing: border-box;
+  transition: 0.5s;
+  padding: 5px 10px;
+  display: flex;
+  border: none;
+  background: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+}
+.pictureFile::-webkit-file-upload-button {
+  visibility: hidden;
+}
+.pictureFile::before {
+  font-family: "Font Awesome 5 Free";
+  content: "\f030";
+  font-weight: 900;
+  color: white;
+  text-align: center;
+  font-size: 1.3rem;
+  display: inline-block;
+  user-select: none;
+}
+.pictureFile:hover {
+  opacity: 1;
+}
+.pictureFile:focus {
+  background: rgba(0, 0, 0, 0.5) !important;
+  border: none !important;
 }

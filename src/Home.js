@@ -17,6 +17,8 @@ function Home() {
   const [blogs, setBlogs] = useState();
   const [loading, setLoading] = useState(true);
 
+  const { parsIsoDate } = useAllState();
+
   useEffect(() => {
     // window.scrollTo(0, 0);
     fetch("http://localhost:4000/blog")
@@ -32,7 +34,6 @@ function Home() {
         setBlogs(result);
         setLoading(false);
       });
-    console.log();
   }, []);
 
   return loading ? (
@@ -40,8 +41,11 @@ function Home() {
   ) : (
     <>
       <div className="site-content transform-none md:pt-10 md:pb-0 pt-8">
-        <div className="slider-block laptop:mb-[50px] relative">
-          <div className="container" style={{ padding: "0 !important" }}>
+        <div className="slider-block laptop:mb-[50px] LCD:mb-[55px] relative">
+          <div
+            className="container LCD:px-16"
+            style={{ padding: "0 !important" }}
+          >
             <div className="slider-block_inner before:content-[''] before:absolute before:bg-[#607027] before:top-0 before:left-0 before:w-[370px] before:h-[650px] tablet:before:hidden laptop:before:h-[520px] laptop:before:w-[296px] relative pt-12 md:px-5 px-0">
               <div className="main-section relative ml-[200px] mb-9 tablet:m-0">
                 <MySlider />
@@ -216,7 +220,7 @@ function Home() {
           </div>
         </div>
 
-        <div className="blogList relative mb-[40px] laptop:mb-[100px]">
+        <div className="blogList relative mb-[110px] laptop:mb-[100px]">
           <div className="container mx-auto">
             <div className="jasmine-heading relative text-center mb-10">
               <h4 className="heading__title inline-block relative m-0 text-4xl leading-6 pr-12 pl-16 z-10">
@@ -227,208 +231,61 @@ function Home() {
           <div className="container makbook:px-11">
             <div className="blogList__inner px-2">
               <div className="new-posts-list -m-4 flex flex-wrap">
-                <div className="new-posts-item">
-                  <article className="post-overlay post-overlay-new pl-4 -mx-4 bg-transparent flex relative overflow-hidden">
-                    <div className="post__thumb-overlay absolute w-full h-full">
-                      <img
-                        className="w-full h-full object-cover align-middle block"
-                        src={require("./images/post-new.jpg")}
-                      ></img>
-                    </div>
-                    <div className="post__text-overlay post__text-new z-10 pointer-events-none flex items-end pt-10 relative w-full text-white">
-                      <div className="post__text-wrap mb-0 pl-4 relative w-full">
-                        <div className="post__text-inner px-6 pb-6 -ml-4 relative">
+                {blogs
+                  .filter((item) => item.cat === "fashion")
+                  .sort((a, b) => {
+                    return b.averageScore - a.averageScore;
+                  })
+                  .slice(0, 6)
+                  .map((item) => (
+                    <div className="new-posts-item">
+                      <article className="post-overlay post-overlay-new pl-4 -mx-4 bg-transparent flex relative overflow-hidden">
+                        <div className="post__thumb-overlay-fashion absolute w-full h-full">
                           <Link
-                            to={"#"}
-                            className="post__cat-overlay pointer-events-auto absolute block mb-4 text-xs font-normal uppercase text-white mr-2"
+                            to={`/blog/${item._id}`}
+                            className=""
                           >
-                            House
+                            <img
+                              className="w-full h-full object-cover align-middle block"
+                              src={item.imgurl}
+                            ></img>
                           </Link>
-                          <h3 className="post__title-overlay text-white font-medium mb-2 whitespace-normal break-words pointer-events-auto">
-                            <Link to={"#"} className="inline-block">
-                              Some Men See Things as They Are and Ask Why
-                            </Link>
-                          </h3>
-                          <div className="post__meta my-0 text-sm">
-                            <time className="time font-light whitespace-nowrap">
-                              Mar 6, 2019
-                            </time>
+                        </div>
+                        <div className="post__text-overlay post__text-new z-10 pointer-events-none flex items-end pt-10 relative w-full text-white">
+                          <div className="post__text-wrap mb-0 pl-4 relative w-full">
+                            <div className="post__text-inner px-6 pb-6 -ml-4 relative">
+                              <Link
+                                to={"#"}
+                                className="post__cat-overlay pointer-events-auto absolute block mb-4 text-xs font-normal uppercase text-white mr-2"
+                              >
+                                {item.cat}
+                              </Link>
+                              <h3 className="post__title-overlay text-white font-medium mb-2 whitespace-normal break-words pointer-events-auto">
+                                <Link to={"#"} className="inline-block">
+                                  {item.title}
+                                </Link>
+                              </h3>
+                              <div className="post__meta my-0 text-sm">
+                                <time className="time font-light whitespace-nowrap">
+                                  {parsIsoDate(item.createdAt)}
+                                </time>
+                              </div>
+                            </div>
                           </div>
                         </div>
-                      </div>
+                      </article>
                     </div>
-                  </article>
-                </div>
-                <div className="new-posts-item">
-                  <article className="post-overlay post-overlay-new pl-4 -mx-4 bg-transparent flex relative overflow-hidden">
-                    <div className="post__thumb-overlay absolute w-full h-full">
-                      <img
-                        className="w-full h-full object-cover align-middle block"
-                        src={require("./images/post-new.jpg")}
-                      ></img>
-                    </div>
-                    <div className="post__text-overlay post__text-new z-10 pointer-events-none flex items-end pt-10 relative w-full text-white">
-                      <div className="post__text-wrap mb-0 pl-4 relative w-full">
-                        <div className="post__text-inner px-6 pb-6 -ml-4 relative">
-                          <Link
-                            to={"#"}
-                            className="post__cat-overlay pointer-events-auto absolute block mb-4 text-xs font-normal uppercase text-white mr-2"
-                          >
-                            House
-                          </Link>
-                          <h3 className="post__title-overlay text-white font-medium mb-2 whitespace-normal break-words pointer-events-auto">
-                            <Link to={"#"} className="inline-block">
-                              Some Men See Things as They Are and Ask Why
-                            </Link>
-                          </h3>
-                          <div className="post__meta my-0 text-sm">
-                            <time className="time font-light whitespace-nowrap">
-                              Mar 6, 2019
-                            </time>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </article>
-                </div>
-                <div className="new-posts-item">
-                  <article className="post-overlay post-overlay-new pl-4 -mx-4 bg-transparent flex relative overflow-hidden">
-                    <div className="post__thumb-overlay absolute w-full h-full">
-                      <img
-                        className="w-full h-full object-cover align-middle block"
-                        src={require("./images/post-new.jpg")}
-                      ></img>
-                    </div>
-                    <div className="post__text-overlay post__text-new z-10 pointer-events-none flex items-end pt-10 relative w-full text-white">
-                      <div className="post__text-wrap mb-0 pl-4 relative w-full">
-                        <div className="post__text-inner px-6 pb-6 -ml-4 relative">
-                          <Link
-                            to={"#"}
-                            className="post__cat-overlay pointer-events-auto absolute block mb-4 text-xs font-normal uppercase text-white mr-2"
-                          >
-                            House
-                          </Link>
-                          <h3 className="post__title-overlay text-white font-medium mb-2 whitespace-normal break-words pointer-events-auto">
-                            <Link to={"#"} className="inline-block">
-                              Some Men See Things as They Are and Ask Why
-                            </Link>
-                          </h3>
-                          <div className="post__meta my-0 text-sm">
-                            <time className="time font-light whitespace-nowrap">
-                              Mar 6, 2019
-                            </time>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </article>
-                </div>
-                <div className="new-posts-item">
-                  <article className="post-overlay post-overlay-new pl-4 -mx-4 bg-transparent flex relative overflow-hidden">
-                    <div className="post__thumb-overlay absolute w-full h-full">
-                      <img
-                        className="w-full h-full object-cover align-middle block"
-                        src={require("./images/post-new.jpg")}
-                      ></img>
-                    </div>
-                    <div className="post__text-overlay post__text-new z-10 pointer-events-none flex items-end pt-10 relative w-full text-white">
-                      <div className="post__text-wrap mb-0 pl-4 relative w-full">
-                        <div className="post__text-inner px-6 pb-6 -ml-4 relative">
-                          <Link
-                            to={"#"}
-                            className="post__cat-overlay pointer-events-auto absolute block mb-4 text-xs font-normal uppercase text-white mr-2"
-                          >
-                            House
-                          </Link>
-                          <h3 className="post__title-overlay text-white font-medium mb-2 whitespace-normal break-words pointer-events-auto">
-                            <Link to={"#"} className="inline-block">
-                              Some Men See Things as They Are and Ask Why
-                            </Link>
-                          </h3>
-                          <div className="post__meta my-0 text-sm">
-                            <time className="time font-light whitespace-nowrap">
-                              Mar 6, 2019
-                            </time>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </article>
-                </div>
-                <div className="new-posts-item">
-                  <article className="post-overlay post-overlay-new pl-4 -mx-4 bg-transparent flex relative overflow-hidden">
-                    <div className="post__thumb-overlay absolute w-full h-full">
-                      <img
-                        className="w-full h-full object-cover align-middle block"
-                        src={require("./images/post-new.jpg")}
-                      ></img>
-                    </div>
-                    <div className="post__text-overlay post__text-new z-10 pointer-events-none flex items-end pt-10 relative w-full text-white">
-                      <div className="post__text-wrap mb-0 pl-4 relative w-full">
-                        <div className="post__text-inner px-6 pb-6 -ml-4 relative">
-                          <Link
-                            to={"#"}
-                            className="post__cat-overlay pointer-events-auto absolute block mb-4 text-xs font-normal uppercase text-white mr-2"
-                          >
-                            House
-                          </Link>
-                          <h3 className="post__title-overlay text-white font-medium mb-2 whitespace-normal break-words pointer-events-auto">
-                            <Link to={"#"} className="inline-block">
-                              Some Men See Things as They Are and Ask Why
-                            </Link>
-                          </h3>
-                          <div className="post__meta my-0 text-sm">
-                            <time className="time font-light whitespace-nowrap">
-                              Mar 6, 2019
-                            </time>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </article>
-                </div>
-                <div className="new-posts-item">
-                  <article className="post-overlay post-overlay-new pl-4 -mx-4 bg-transparent flex relative overflow-hidden">
-                    <div className="post__thumb-overlay absolute w-full h-full">
-                      <img
-                        className="w-full h-full object-cover align-middle block"
-                        src={require("./images/post-new.jpg")}
-                      ></img>
-                    </div>
-                    <div className="post__text-overlay post__text-new z-10 pointer-events-none flex items-end pt-10 relative w-full text-white">
-                      <div className="post__text-wrap mb-0 pl-4 relative w-full">
-                        <div className="post__text-inner px-6 pb-6 -ml-4 relative">
-                          <Link
-                            to={"#"}
-                            className="post__cat-overlay pointer-events-auto absolute block mb-4 text-xs font-normal uppercase text-white mr-2"
-                          >
-                            House
-                          </Link>
-                          <h3 className="post__title-overlay text-white font-medium mb-2 whitespace-normal break-words pointer-events-auto">
-                            <Link to={"#"} className="inline-block">
-                              Some Men See Things as They Are and Ask Why
-                            </Link>
-                          </h3>
-                          <div className="post__meta my-0 text-sm">
-                            <time className="time font-light whitespace-nowrap">
-                              Mar 6, 2019
-                            </time>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </article>
-                </div>
+                  ))}
               </div>
             </div>
           </div>
         </div>
 
         <div className="allBlogs relative mb-10 laptop:mb-[70px]">
-        <div className="container mx-auto">
+          <div className="container mx-auto">
             <div className="jasmine-heading relative text-center mb-16">
               <h4 className="heading__title inline-block relative m-0 text-4xl leading-6 pr-12 pl-16 z-10">
-              The Latest Blogs
+                The Latest Blogs
               </h4>
             </div>
           </div>
@@ -503,6 +360,7 @@ function Home() {
                                 <div className="post__excerpt iphone:mb-0 md:mb-[20px] md:mx-auto text-[#888] text-[1.07rem] leading-6">
                                   <div className="excerpt">
                                     <p
+                                      className="blogText_homePage overflow-hidden text-ellipsis"
                                       dangerouslySetInnerHTML={{
                                         __html: i.content,
                                       }}
@@ -561,6 +419,13 @@ function Home() {
 
                 {/* <div className="bg-gray-200 sub-col tablap:w-[290px] relative overflow-visible float-left px-[15px] LCD:w-[300px]"></div> */}
               </div>
+            </div>
+
+            <div className="load-more flex justify-center">
+              <button className="bg-[#607027] py-[10px] px-[50px] text-base font-normal border-0 focus:outline-0 uppercase tracking-[1px] outline-none text-white mt-[70px]">
+                <span className="">Load more</span>
+                <span className="loading"></span>
+              </button>
             </div>
           </div>
         </div>

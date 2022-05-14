@@ -70,6 +70,7 @@ export default function CreateBlog(params) {
               type="text"
               placeholder="some title"
               value={title}
+              spellCheck='false'
               onChange={(e) => setTitle(e.target.value)}
             />
             <div
