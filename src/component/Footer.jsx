@@ -37,7 +37,7 @@ function Footer() {
               </ul>
             </div>
           </div>
-          <div className="site-footer__section-right bg-[#eee] relative p-[35px] pr-[25px] w-[670px] laptop:p-[30px] fablet:pr-[25px] tablet:pr-[25px] tablap:w-[570px] tablet:w-full laptop:before:w-4 laptop:before:h-[200px] before:content-[''] before:absolute before:w-5 before:h-[255px] before:top-[35px] before:right-full before:bg-[#607027]">
+          <div className="site-footer__section-right bg-[#eee] relative p-[35px] pr-[25px] w-[670px] laptop:p-[30px] fablet:pr-[25px] tablet:pr-[25px] tablap:w-[570px] tablet:w-full laptop:before:w-4 laptop:before:h-[200px] LCD:before:h-[200px] before:content-[''] before:absolute before:w-5 before:h-[255px] before:top-[35px] before:right-full before:bg-[#607027]">
             <div className="site-footer__section-inner relative">
               <div className="site-footer__section-top mb-[50px] laptop:mb-[60px] flex justify-between items-center">
                 <div className="site-footer__logo md:max-w-[240px]">

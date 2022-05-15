@@ -13,6 +13,7 @@ export default function EditUser(props) {
   const [name, setName] = useState(userInfo.name);
   const [bio, setBio] = useState(userInfo.bio);
   const [imgurl, setImgurl] = useState(userInfo.imgurl);
+  const [count, setCount] = useState(0);
 
   const cookies = new Cookies();
 
@@ -41,7 +42,7 @@ export default function EditUser(props) {
     updateUser();
   }, []);
 
-  const editUser = async () => {
+  const editUser =  () => {
     fetch("http://localhost:4000/user/edit", {
       method: "POST",
       headers: {
@@ -49,15 +50,20 @@ export default function EditUser(props) {
         auth: `ut ${cookies.get("token")}`,
       },
       body: JSON.stringify({
-        data: {
-          name: name,
-          bio: bio,
-        },
+        name: name,
+        bio:bio,
+        // bio: {
+        //   type: bio,
+        //   maxLength: 200
+        // },
       }),
-    }).then((res) => {
-      console.log(res);
-      console.log("editUser done!");
-    });
+    })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log("err", err);
+      });
   };
 
   const [file, setFile] = useState(null);
@@ -87,10 +93,10 @@ export default function EditUser(props) {
   return (
     <>
       <div className="my-5">
-        <div className="block md:flex justify-center flex-col items-center">
-          <div className="w-full md:w-3/5 p-8 shadow-md bg-[#eee] rounded">
-            <div className="rounded shadow p-6 bg-white border-[1px] border-[#607027]">
-              <div>
+        <div className="block md:flex justify-center flex-col items-center iphone:px-4">
+          <div className="w-full fablet:w-3/4 makbook:w-[60%] p-8 shadow-md bg-[#eee] rounded">
+            <div className="rounded shadow p-6 bg-white border border-[#607027]">
+              <div className="flex items-end justify-center">
                 <div
                   className="wrapperPicture"
                   id="wrapperPictureId"
@@ -103,11 +109,20 @@ export default function EditUser(props) {
                     accept="image/*"
                     type="file"
                     id="picture"
-                    value={file}
-                    onChange={(e) => setFile(e.target.files[0])}
-                    className="form-control pictureFile"
+                    // value={file? file : ''}
+                    defaultValue={file}
+                    onChange={(e) => {setFile(e.target.files[0]); console.log(e.target.files);}}
+                    className="pictureFile cursor-pointer"
                     // onInput={(e) => onInputClick(e)}
                   />
+                </div>
+                <div>
+                  <button
+                    className="px-2 py-1 bg-[#607027] text-white text-[0.7rem] rounded outline-0 focus:outline-none"
+                    onClick={() => submitAvatar()}
+                  >
+                    Apply Avatar
+                  </button>
                 </div>
               </div>
               <div className="pb-6">
@@ -120,7 +135,7 @@ export default function EditUser(props) {
                 <div className="flex">
                   <input
                     id="username"
-                    className="border-2 rounded p-2 w-full focus:bg-inherit outline-none"
+                    className="border rounded p-2 w-full focus:bg-inherit outline-none"
                     autoComplete="off"
                     type="text"
                     value={name}
@@ -130,46 +145,34 @@ export default function EditUser(props) {
                 </div>
               </div>
               <div className="pb-4">
-                <label
-                  for="phoneNumber"
-                  className="font-semibold text-sm text-gray-700 block pb-1"
-                >
-                  Bio
-                </label>
-                <input
-                  id="phoneNumber"
-                  className="border-2 rounded p-2 w-full focus:bg-inherit outline-none"
-                  autoComplete="off"
-                  type="number"
+                <div className="flex justify-between">
+                  <label
+                    for="bio"
+                    className="font-semibold text-sm text-gray-700 block pb-1"
+                  >
+                    Bio
+                  </label>
+                  <span className="text-gray-400 text-sm">{count}/200</span>
+                </div>
+                <textarea
+                  maxLength={200}
+                  id="bio"
+                  className="border rounded p-2 w-full focus:bg-inherit outline-none h-[5rem] text-sm"
                   autoComplete="off"
                   value={bio}
                   spellCheck="false"
-                  onChange={(e) => setBio(e.target.value)}
-                />
+                  onChange={(e) => {
+                    setBio(e.target.value);
+                    setCount(e.target.value.length);
+                  }}
+                ></textarea>
               </div>
-              {/* <div className="pb-4">
-                <label
-                  for="imageurl"
-                  className="font-semibold text-gray-700 block pb-1"
-                >
-                  Image Url
-                </label>
-                <input
-                  id="imageurl"
-                  className="border-2 rounded p-2 w-full focus:bg-inherit outline-none"
-                  autoComplete="off"
-                  type="text"
-                  value={imgurl}
-                  spellCheck="false"
-                  onChange={(e) => setImgurl(e.target.value)}
-                />
-              </div> */}
             </div>
           </div>
           <div>
             <button
               className="ml-3 mt-5 px-4 py-2 bg-[#607027] text-white text-sm rounded outline-0 focus:outline-none"
-              onClick={editUser}
+              onClick={()=>editUser()}
               id="saveEdit"
             >
               Apply Changes
@@ -178,16 +181,6 @@ export default function EditUser(props) {
         </div>
       </div>
       {showModal ? <LogOutModal setShowModal={setShowModal} /> : null}
-      {/* {showSuccessSubmit || showSuccessEdit ? (
-        <SuccessModal showSuccessSubmit={showSuccessSubmit} /> */}
-      {/* ) : null} */}
     </>
   );
 }
-
-// const onInputClick = (event) => {
-//   document.getElementById(
-//     "wrapperPictureId"
-//   ).style.background = `url(${event.target.value})`;
-//   console.log(event);
-// };

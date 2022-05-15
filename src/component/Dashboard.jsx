@@ -26,9 +26,11 @@ export default function Dashboard() {
 
   const { parsIsoDate } = useAllState();
 
-
   let location = useLocation();
   useEffect(() => {
+    console.log(userInfo);
+
+    window.scrollTo(0, 0);
     fetch(`http://localhost:4000/blog/my-blogs`, {
       method: "GET",
       headers: {
@@ -80,7 +82,7 @@ export default function Dashboard() {
                   <div className="text-sm font-regular"></div>
                 </div>
                 <img
-                  src={userInfo.imgurl}
+                  src={userInfo.avatar}
                   className="h-10 w-10 rounded-full border border-[#607027]"
                 ></img>
               </Link>
@@ -114,20 +116,34 @@ export default function Dashboard() {
           </header>
 
           {location.pathname === "/user/dashboard" ? (
-            <main className="max-w-full h-full flex flex-col pt-3 min-h-screen LCD:px-20">
+            <main className="max-w-full h-full flex flex-col pt-3 min-h-screen fablet:mx-10 tablap:px-14 LCD:px-20">
               <div className="h-full w-full flex flex-wrap justify-center mb-[55px]">
                 {loading ? (
                   <Loading />
                 ) : myBlogs.length === 0 ? (
-                  <div>
-                    <div>You have not created any posts</div>
-                    <Link to={"/user/dashboard/createblog"}>Add</Link>
+                  <div className="flex flex-col items-center">
+                    <div className="text-lg w-[200px] h-[200px] bg-gray-800 p-4 rounded-full text-white mb-4 flex justify-center items-center ">
+                      <p className="text-center text-[1.4rem]">
+                        You have not created any post
+                      </p>
+                    </div>
+                    <Link
+                      to={"/user/dashboard/createblog"}
+                      className="bg-[#607027] text-sm font-medium px-3 py-2 rounded text-white w-fit"
+                    >
+                      + Add The First Blog
+                    </Link>
                   </div>
                 ) : (
                   <section className="text-gray-600 body-font w-full">
-                    <div className="container py-10 mx-auto">
+                    <div className="container py-10 px-0">
                       <div className="mb-3 text-right">
-                        <Link to={"/user/dashboard/createblog"} className='bg-[#607027] text-sm font-medium px-3 py-2 rounded text-white'>+ Add a New Blog</Link>
+                        <Link
+                          to={"/user/dashboard/createblog"}
+                          className="bg-[#607027] text-sm font-medium px-3 py-2 rounded text-white"
+                        >
+                          + Add a New Blog
+                        </Link>
                       </div>
                       <div className="flex flex-wrap -m-4">
                         {myBlogs.map((item) => (
@@ -147,13 +163,14 @@ export default function Dashboard() {
                                   {item.title}
                                 </h1>
                                 <p
-                                  className="leading-relaxed mb-3 text-sm overflow-hidden truncate whitespace-nowrap"
+                                  className="summeryContentInDashboard leading-relaxed mb-3 text-sm overflow-hidden truncate whitespace-nowrap"
                                   dangerouslySetInnerHTML={{
                                     __html: item.content,
                                   }}
                                 ></p>
                                 <div className="flex items-center justify-center flex-wrap ">
-                                  <Link to={`/user/dashboard/editblog/${item._id}`}
+                                  <Link
+                                    to={`/user/dashboard/editblog/${item._id}`}
                                     className="px-8 py-2 w-2/6 text-center bg-[#607027] text-white transition-all duration-300 rounded"
                                     onClick={(e) => {
                                       // getPostForEdit(item._id);
@@ -171,14 +188,6 @@ export default function Dashboard() {
                     </div>
                   </section>
                 )}
-
-                {/* {state.account ? (
-                <div className="w-full p-4" id="editSection">
-                  <EditUser userInfo={userInfo} />
-                </div>
-              ) : (
-                ""
-              )} */}
               </div>
             </main>
           ) : (

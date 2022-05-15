@@ -20,7 +20,7 @@ function Home() {
   const { parsIsoDate } = useAllState();
 
   useEffect(() => {
-    // window.scrollTo(0, 0);
+    window.scrollTo(0, 0);
     fetch("http://localhost:4000/blog")
       .then((response) => {
         if (response.ok) {
@@ -260,7 +260,7 @@ function Home() {
                               >
                                 {item.cat}
                               </Link>
-                              <h3 className="post__title-overlay text-white font-medium mb-2 whitespace-normal break-words pointer-events-auto">
+                              <h3 className="post__title-overlay text-white text-base font-medium mb-2 whitespace-normal break-words pointer-events-auto">
                                 <Link to={"#"} className="inline-block">
                                   {item.title}
                                 </Link>
@@ -348,7 +348,7 @@ function Home() {
                                 >
                                   {i.cat}
                                 </Link>
-                                <h3 className="iphone:text-[1.5rem] iphone:leading-[1.4] iphone:mb-[15px] mb-[20px] fablet:text-[1.7rem] fablet:leading-[1.3] font-bold mx-auto whitespace-normal break-words">
+                                <h3 className="iphone:text-[1.5rem] iphone:leading-[1.4] iphone:mb-[15px] mb-[20px] fablet:text-[1.7rem] fablet:leading-[1.3] makbook:text-[1.8rem] font-bold mx-auto whitespace-normal break-words">
                                   <Link
                                     to={`/blog/${i._id}`}
                                     // style={{ display: "-webkit-box" }}

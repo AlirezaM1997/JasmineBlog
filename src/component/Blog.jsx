@@ -4,7 +4,6 @@ import Cookies from "universal-cookie";
 import StarRatingComponent from "react-star-rating-component";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
-
 import Loading from "./Loading";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -14,17 +13,41 @@ import {
   faTwitter,
 } from "@fortawesome/free-brands-svg-icons";
 import { useAllState } from "../Provider";
+
 export default function Blog() {
+  const [theRealID, setTheRealID] = useState(null);
   const [loading, setLoading] = useState(true);
   const [blogInfo, setBlogInfo] = useState();
   const [comments, setComments] = useState();
-  const [allBlogs, setAllBlogs] = useState();
+  const [allBlogs, setAllBlogs] = useState([]);
+
   const { id } = useParams();
 
   const { userInfo } = useAllState();
   const { parsIsoDate } = useAllState();
 
+  const [previous, setPrevious] = useState({
+    _id: null,
+    imgurl: "",
+    title: "",
+  });
+
+  const [next, setNext] = useState({
+    _id: "",
+    imgurl: "",
+    title: "",
+  });
+
+  const getIndexById = (arr, id) => arr.findIndex((item) => item._id === id);
+
   useEffect(() => {
+    window.scrollTo(0, 0);
+    setTheRealID(id);
+  }, []);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    if (!theRealID) return;
     const myFunction = async () => {
       const responseBlog = await fetch(
         `http://localhost:4000/blog/single-blog/${id}`
@@ -48,14 +71,33 @@ export default function Blog() {
       const [data1, data2] = await Promise.all([res1.json(), res2.json()]);
       setComments(data1);
       setAllBlogs(data2);
+
+      const thisIndex = getIndexById(data2, id);
+      const preIndex = thisIndex !== 0 ? thisIndex - 1 : data2.length - 1;
+      const nextIndex = thisIndex !== data2.length - 1 ? thisIndex + 1 : 0;
+
+      const preBlogInfo = data2[preIndex];
+      const nextBlogInfo = data2[nextIndex];
+
+      setPrevious(preBlogInfo);
+      setNext(nextBlogInfo);
+
+      // const nextBlogInfo =
+      //   allBlogs[
+      //     allBlogs.findIndex((item) => item._id === id) + 1 !== -1
+      //       ? allBlogs.findIndex((item) => item._id === id) + 1
+      //       : 0
+      //   ];
+      // setNext(nextBlogInfo);
+
       setLoading(false);
     };
+
     myFunction();
-  }, []);
+  }, [theRealID]);
 
-  /*///////////////submit comment///////////////*/
+  /*/////////////submit comment/////////////*/
   const [commentText, setCommentText] = useState("");
-
   const cookies = new Cookies();
 
   const submitComment = async () => {
@@ -98,19 +140,24 @@ export default function Blog() {
         blogId: blogInfo._id,
         score: score,
       }),
-    }).then((response) => {
-      console.log(response);
-      if (response.ok) {
-        console.log("ok");
-        setScoreValue(score);
-        setEditRate(false);
-      } else {
-        throw Error(response.status);
-      }
-    });
+    })
+      .then((response) => {
+        console.log(response);
+        if (response.ok) {
+          console.log("ok");
+          setScoreValue(score);
+          setEditRate(false);
+        } else {
+          throw Error(response.status);
+        }
+      })
+      .catch((err) => console.log(err));
   };
 
-  if (loading) return <Loading />;
+  console.log(loading);
+  console.log(previous);
+
+  if (loading || !previous || !previous._id) return <Loading />;
 
   return (
     <>
@@ -142,7 +189,7 @@ export default function Blog() {
                       ></div>
 
                       <div className="header__content relative flex justify-between font-[fangsong]">
-                        <div>
+                        <div className="basis-3/4">
                           <Link
                             className="iphone:mb-[10px] font-sans md:mb-[15px] py-[7px] px-[14px] bg-[#607027] text-xs font-normal uppercase text-white mr-2 inline-block"
                             to={"#"}
@@ -161,10 +208,6 @@ export default function Blog() {
                             </span>
 
                             <time className="whitespace-nowrap flex flex-wrap items-center">
-                              {/* <i
-                                class="fa fa-calendar-times-o mr-[0.3em] inline-block align-middle text-[#607027]"
-                                aria-hidden="true"
-                              ></i> */}
                               <span className="text-yellow-500 mr-1 text-xm font-semibold ">
                                 Last Update
                               </span>
@@ -172,7 +215,7 @@ export default function Blog() {
                             </time>
                           </div>
                         </div>
-                        <div className="progressBar w-[100px] flex flex-col">
+                        <div className="progressBar w-[100px] flex flex-col basis-[15%]">
                           <CircularProgressbar
                             value={blogInfo.averageScore}
                             minValue={0}
@@ -340,13 +383,13 @@ export default function Blog() {
                             to={"#"}
                             className="text-[110%] font-bold text-[#607027]"
                           >
-                            Ali
+                            {blogInfo.creator.name}
                           </Link>
                         </div>
                         <div className="author-bio mb-3 text-[16px] text-[#00000099] font-normal">
-                          Lorem ipsum dolor sit amet, consectetur adipisicing
-                          elit, sed do eiusmod tempor incididunt ut labore et
-                          dolore magna aliqua.
+                          {blogInfo.creator.bio === ""
+                            ? "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quod velit eveniet possimus dicta consectetur consequuntur culpa explicabo numquam ut. "
+                            : blogInfo.creator.bio}
                         </div>
                         <div className="author-info text-[#00000099]">
                           <ul className="social-list text-[1rem] md:text-[1.142rem] px-0 my-0">
@@ -387,78 +430,82 @@ export default function Blog() {
                         </div>
                       </div>
                     </div>
-                    <div className="posts-navigation ml-[30px] iphone:ml-0 p-0 flex-1 mb-0">
-                      <div className="posts-navigation__prev w-full min-h-[50%] flex flex-col mb-[30px] relative after:clear-both">
+                    <div
+                      className={`posts-navigation ml-[30px] iphone:ml-0 p-0 flex-1 mb-0 ${
+                        allBlogs.length === 1 ? "hidden" : ""
+                      }`}
+                    >
+                      <div
+                        className={`posts-navigation__prev w-full min-h-[50%] flex flex-col mb-[30px] relative after:clear-both ${
+                          allBlogs.length === 2 ? "hidden" : ""
+                        }`}
+                        onClick={() => {
+                          setLoading(true);
+                          setTheRealID(previous._id);
+                        }}
+                      >
                         <article className="w-[calc(100%+15px)] h-full bg-transparent pl-[15px] -mx-[15px] flex relative overflow-hidden">
                           <div className="post__thumb absolute w-full h-full">
-                            <Link to={"#"} className="w-full h-full">
+                            <div className="w-full h-full">
                               <img
-                                src={require("../images/post-overlay2.jpg")}
+                                src={previous.imgurl}
                                 className="w-full h-full object-cover"
                               ></img>
-                            </Link>
+                            </div>
                           </div>
                           <div className="post__text flex items-end min-h-[200px] z-[1] pointer-events-none w-full relative text-white">
                             <div className="post__text-wrap w-full pl-[15px]">
                               <div className="post__text-inner tablet:px-5 pt-0 tablet:pb-5 makbook:px-[25px] makbook:pb-[25px] -ml-[15px] relative">
-                                <Link
-                                  to={"#"}
-                                  className='py-2 pr-3 tablet:pl-[35px] makbook:pl-[40px] tablet:-ml-[35px] bg-[#607027] h-auto w-fit block leading-[1] relative -ml-[40px] pl-10 text-white mb-[15px] after:content-[""] after:absolute after:top-full after:left-0 after:border-transparent  after:border-[15px] after:border-t-[#394317] after:border-r-0 after:h-full after:text-[55px] after:z-[1]'
-                                >
+                                <div className='py-2 pr-3 tablet:pl-[35px] makbook:pl-[40px] tablet:-ml-[35px] bg-[#607027] h-auto w-fit block leading-[1] relative -ml-[40px] pl-10 text-white mb-[15px] after:content-[""] after:absolute after:top-full after:left-0 after:border-transparent  after:border-[15px] after:border-t-[#394317] after:border-r-0 after:h-full after:text-[55px] after:z-[1]'>
                                   Previous Article
-                                </Link>
-                                <h3 className="mb-0 whitespace-normal break-words font-medium text-white pointer-events-auto text-[1.15rem] leading-[1.4]">
-                                  <Link
-                                    to={"#"}
-                                    className="text-white inline-block"
-                                  >
-                                    Shoot for the Moon and if You Miss You Will
-                                    Still Be Among the Stars
-                                  </Link>
+                                </div>
+                                <h3 className="mb-0 whitespace-normal break-words font-medium text-white pointer-events-auto text-[0.85rem] leading-[1.4]">
+                                  <div className="text-white inline-block">
+                                    {previous.title}
+                                  </div>
                                 </h3>
                               </div>
                             </div>
                           </div>
                           <Link
-                            to={"#"}
+                            to={`/blog/${previous._id}`}
                             className="link-overlay absolute top-0 right-0 bottom-0 left-0 block after:bg-[#333] after:content-[''] after:w-[calc(100% - 15px)] after:-z-[1] after:top-0 after:bottom-0 after:left-[15px] after:absolute"
                           ></Link>
                         </article>
                       </div>
-                      <div className="posts-navigation__next w-full min-h-[50%] flex float-right text-right relative after:clear-both">
+                      <div
+                        className="posts-navigation__next w-full min-h-[50%] flex float-right text-right relative after:clear-both"
+                        onClick={() => {
+                          setLoading(true);
+                          setTheRealID(previous._id);
+                        }}
+                      >
                         <article className="w-[calc(100%+15px)] h-full bg-transparent pr-[15px] -mr-[15px] flex relative overflow-hidden">
                           {" "}
                           <div className="post__thumb absolute w-full h-full pr-[15px]">
-                            <Link to={"#"} className="w-full h-full">
+                            <div className="w-full h-full">
                               <img
-                                src={require("../images/post-overlay2.jpg")}
+                                src={next.imgurl}
                                 className="w-full h-full object-cover"
                               ></img>
-                            </Link>
+                            </div>
                           </div>
                           <div className="post__text p-0 flex items-end min-h-[200px] z-[1] pointer-events-none w-full relative text-white">
                             <div className="post__text-wrap w-full pr-[15px]">
                               <div className="post__text-inner tablet:px-5 pt-0 tablet:pb-5 makbook:px-[25px] makbook:pb-[25px] -mr-[15px] relative">
-                                <Link
-                                  to={"#"}
-                                  className='py-2 pl-3 tablet:pr-[35px] makbook:pr-[40px] tablet:-mr-[35px] float-right bg-[#607027] h-auto w-fit block leading-[1] relative -mr-[40px] text-white mb-[15px] after:content-[""] after:absolute after:top-full after:border-transparent after:right-0 after:border-[15px] after:border-t-[#394317] after:border-l-0 after:h-full after:text-[55px] after:z-[1]'
-                                >
+                                <div className='py-2 pl-3 tablet:pr-[35px] makbook:pr-[40px] tablet:-mr-[35px] float-right bg-[#607027] h-auto w-fit block leading-[1] relative -mr-[40px] text-white mb-[15px] after:content-[""] after:absolute after:top-full after:border-transparent after:right-0 after:border-[15px] after:border-t-[#394317] after:border-l-0 after:h-full after:text-[55px] after:z-[1]'>
                                   Next Article
-                                </Link>
-                                <h3 className="mb-0 whitespace-normal break-words font-medium text-white pointer-events-auto text-[1.15rem] leading-[1.4]">
-                                  <Link
-                                    to={"#"}
-                                    className="text-white inline-block"
-                                  >
-                                    Shoot for the Moon and if You Miss You Will
-                                    Still Be Among the Stars
-                                  </Link>
+                                </div>
+                                <h3 className="mb-0 whitespace-normal break-words font-medium text-white pointer-events-auto text-[0.85rem] leading-[1.4]">
+                                  <div className="text-white inline-block">
+                                    {next.title}
+                                  </div>
                                 </h3>
                               </div>
                             </div>
                           </div>
                           <Link
-                            to={"#"}
+                            to={`/blog/${previous._id}`}
                             className="link-overlay absolute top-0 right-0 bottom-0 left-0 block after:bg-[#333] after:content-[''] after:w-[calc(100% - 15px)] after:-z-[1] after:top-0 after:bottom-0 after:left-[15px] after:absolute"
                           ></Link>
                         </article>
@@ -494,11 +541,11 @@ export default function Blog() {
                             </div>
                           </div>
                         ) : (
-                          <div className="pb-8 flex sm:justify-start justify-center border-b-2 border-[#0000000d] mb-5">
+                          <div className="pb-8 flex sm:justify-start justify-center border-b-2 border-[#0000000d] mb-[2rem]">
                             <div className="flex sm:flex-row flex-col text-center bg-[#fafafa] py-3 px-2 shadow-sm w-fit items-center">
                               <div>
                                 <i
-                                  class="fa fa-exclamation-triangle"
+                                  className="fa fa-exclamation-triangle"
                                   aria-hidden="true"
                                 ></i>
                                 <p className="text-base text-gray-600 mx-2 inline-block">
@@ -548,138 +595,3 @@ export default function Blog() {
     </>
   );
 }
-
-// let promise1 = new Promise((resolve, reject) => {
-//   fetch(`http://localhost:4000/blog/single-blog/${id}`)
-//     .then((res) => res.json())
-//     .then((data) => resolve(data))
-//     .catch((err) => reject(err));
-// .then((response) => {
-//   if (response.ok) {
-//     return response.json();
-//   } else {
-//     throw Error(response.status);
-//   }
-// })
-// .then((result) => {
-//   // console.log("bloginfo", result);
-//   setBlogInfo(result);
-//   // console.log(blogInfo);
-//   setBlogFetch(true);
-// });
-// });
-
-// useEffect(() => {
-//   window.scrollTo(0, 0);
-//   fetch(`http://localhost:4000/blog/single-blog/${id}`)
-//     .then((response) => {
-//       if (response.ok) {
-//         return response.json();
-//       } else {
-//         throw Error(response.status);
-//       }
-//     })
-//     .then((result) => {
-//       console.log("bloginfo", result);
-//       setBlogInfo(result);
-//       // console.log(blogInfo);
-//       setBlogFetch(true);
-//     });
-// }, []);
-
-// let promise1 = new Promise((resolve, reject) => {
-//   fetch(`http://localhost:4000/comment/by-blog/${blogInfo._id}`, {
-//     method: "GET",
-//   })
-//     .then((res) => res.json())
-//     .then((data) => resolve(data))
-//     .catch((err) => reject(err));
-//   // .then((response) => {
-//   //   if (response.ok) {
-//   //     return response.json();
-//   //   } else {
-//   //     throw Error(response.status);
-//   //   }
-//   // })
-//   // .then((result) => {
-//   //   setComments(result);
-//   //   setLoading(false);
-//   //   // console.log(result);
-//   // });
-// });
-// let promise2 = new Promise((resolve, reject) => {
-//   fetch(`http://localhost:4000/blog/by-user`, {
-//     method: "POST",
-//     body: JSON.stringify({
-//       _id: blogInfo.creatorId,
-//     }),
-//   })
-//     .then((res) => res.json())
-//     .then((data) => resolve(data))
-//     .catch((err) => reject(err));
-//   // .then((response) => {
-//   //   if (response.ok) {
-//   //     return response.json();
-//   //   } else {
-//   //     throw Error(response.status);
-//   //   }
-//   // })
-//   // .then((result) => {
-//   //   setComments(result);
-//   //   setLoading(false);
-//   //   // console.log(result);
-//   // });
-// });
-
-// fetch(`http://localhost:4000/blog/by-user`, {
-//   method: "POST",
-
-//   body: JSON.stringify({
-//     _id:blogInfo.creatorId
-//   }),
-// }).then((response) => {
-//   console.log(response);
-//   if (response.ok) {
-//     console.log("ok");
-//   } else {
-//     throw Error(response.status);
-//   }
-// });
-// if (blogFetch) {
-// Promise.all([promise1, promise2]).then((values) => {
-//   console.log("Promise.all", values);
-// });}
-
-// if (blogFetch) {
-//   fetch(`http://localhost:4000/comment/by-blog/${blogInfo._id}`, {
-//     method: "GET",
-//   })
-//     .then((response) => {
-//       if (response.ok) {
-//         return response.json();
-//       } else {
-//         throw Error(response.status);
-//       }
-//     })
-//     .then((result) => {
-//       setComments(result);
-//       setLoading(false);
-//       // console.log(result);
-//     });
-
-//   ////////////// get all blogs////////////
-//   // fetch(`http://localhost:4000/blog/by-user`, {
-//   //   method: "POST",
-
-//   //   body: JSON.stringify({
-//   //     _id:blogInfo.creatorId
-//   //   }),
-//   // }).then((response) => {
-//   //   console.log(response);
-//   //   if (response.ok) {
-//   //     console.log("ok");
-//   //   } else {
-//   //     throw Error(response.status);
-//   //   }
-//   // });
-// }

@@ -101,14 +101,14 @@ export default function Header() {
                 </div>
               ) : (
                 <Link to={"/user/dashboard"}>
-                  <div className="flex flex-shrink-0 items-center space-x-4 text-white">
+                  <div className="flex flex-shrink-0 items-center text-white px-2">
                     <img
-                      src={userInfo.imgurl}
-                      className="h-10 w-10 rounded-full border-2 border-blue-400"
+                      src={userInfo.avatar}
+                      className="h-10 w-10 rounded-full border border-[#607027]"
                     ></img>
-                    <div className="text-md font-medium ">
+                    {/* <div className="text-md font-medium text-gray-600 ml-1">
                       {userInfo.username}
-                    </div>
+                    </div> */}
                   </div>
                 </Link>
               )}
@@ -180,7 +180,7 @@ export default function Header() {
                 <Link to={"/user/dashboard"} onClick={showMenu}>
                   <div className="flex flex-shrink-0 items-center space-x-4 text-white">
                     <img
-                      src={userInfo.imgurl}
+                      src={userInfo.avatar}
                       className="h-10 w-10 rounded-full border border-[#607027]"
                     ></img>
                     <div className="text-md font-medium text-black">

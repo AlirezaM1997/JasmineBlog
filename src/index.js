@@ -29,15 +29,15 @@ root.render(
   <Provider>
     <BrowserRouter>
       <Routes>
-        <Route element={<Header />}>
-          <Route exact path="/" element={<Home />}></Route>
-          <Route path="/blog/:id" element={<Blog />}></Route>
-          <Route path="/userblog/:id" element={<UserBlog />}></Route>
-          <Route path="/about" element={<About />}></Route>
-          <Route path="/contact" element={<Contact />}></Route>
-          <Route path="/category" element={<Category />}></Route>
+        <Route path="/" element={<Header />}>
+          <Route exact path="" element={<Home />}></Route>
+          <Route path="blog/:id" element={<Blog />}></Route>
+          <Route path="userblog/:id" element={<UserBlog />}></Route>
+          <Route path="about" element={<About />}></Route>
+          <Route path="contact" element={<Contact />}></Route>
+          <Route path="category" element={<Category />}></Route>
           <Route
-            path="/user/signup"
+            path="user/signup"
             element={
               <CheckLogin redirectTo={"/user/dashboard"}>
                 <SignUp />
@@ -45,7 +45,7 @@ root.render(
             }
           ></Route>
           <Route
-            path="/user/login"
+            path="user/login"
             element={
               <CheckLogin redirectTo={"/user/dashboard"}>
                 <Login />
@@ -108,6 +108,7 @@ function RequireAuth({ children, redirectTo }) {
         } else {
           setIsAuthenticated(false);
         }
+        console.log(userInfo);
         setLoading(false);
       });
   }, []);

@@ -17,6 +17,7 @@ export default function EditBlog() {
   const navToHome = useNavigate();
   const { id } = useParams();
   useEffect(() => {
+    window.scrollTo(0, 0);
     const getPostForEdit = async () => {
       fetch(`http://localhost:4000/blog/single-blog/${id}`)
         .then((response) => {
@@ -105,8 +106,8 @@ export default function EditBlog() {
                 Please type some title
               </div>
             </div>
-            <div className="flex justify-around items-center my-1 mb-3 ">
-              <div className="text-2xl w-fit font-semibold">
+            <div className="flex justify-start items-center my-1 mb-3 ">
+              <div className="text-2xl w-fit font-semibold mr-3">
                 Select Category
               </div>
               <div className="w-1/2">

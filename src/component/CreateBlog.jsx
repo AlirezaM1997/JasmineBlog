@@ -82,8 +82,8 @@ export default function CreateBlog(params) {
               Please type some title
             </div>
           </div>
-          <div className="flex justify-around items-center my-1 mb-3 ">
-            <div className="text-2xl w-fit font-semibold">Select Category</div>
+          <div className="flex justify-start items-center my-1 mb-3 ">
+            <div className="text-2xl w-fit font-semibold mr-4">Select Category</div>
             <div className="w-1/2">
               <select
                 value={cat}
@@ -148,7 +148,7 @@ export default function CreateBlog(params) {
             </div>
           </div>
           <div className="mt-3">
-            <label className="text-2xl font-semibold">Image</label>
+            <label className="text-2xl font-semibold">Image Url</label>
             <input
               className="w-full mb-3 mt-1 p-2 focus:bg-white focus:outline-none border border-blue-600 rounded-lg"
               type="text"
