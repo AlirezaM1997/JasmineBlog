@@ -42,7 +42,7 @@ function Home() {
   }, []);
 
   const loadMore = () => {
-    setCount(count + 2);
+    setCount(count + 3);
   };
 
   return loading ? (
@@ -248,8 +248,8 @@ function Home() {
                     return b.averageScore - a.averageScore;
                   })
                   .slice(0, 6)
-                  .map((item) => (
-                    <div className="new-posts-item">
+                  .map((item, i) => (
+                    <div key={i} className="new-posts-item">
                       <article className="post-overlay post-overlay-new pl-4 -mx-4 bg-transparent flex relative overflow-hidden">
                         <div className="post__thumb-overlay-fashion absolute w-full h-full">
                           <Link to={`/blog/${item._id}`} className="">
@@ -304,7 +304,7 @@ function Home() {
                   <div className="main-col flex my-0 relative">
                     <div className="main-col-inner w-full relative">
                       <div className="allBlogs-posts flex flex-col p-0 -my-10">
-                        {blogs.slice(0,count).map((i, index) => (
+                        {blogs.slice(0, count).map((i, index) => (
                           <div
                             key={index}
                             className="allBlogs-post w-full border-b border-[#0000000d] py-10"
@@ -322,30 +322,16 @@ function Home() {
                                 </Link>
                                 <div className="post__tags laptop:w-[calc(100%-50px)] laptop:h-[50px] flex items-center overflow-hidden text-left text-[#ffffffb3] w-[calc(100%-70px)] h-[70px]">
                                   <ul className="tag-list inline-block -m-1 p-0 align-middle">
-                                    <li className="m-1 inline-block py-0 leading-4">
-                                      <Link
-                                        to={"#"}
-                                        className="post-tag w-full h-full text-xs before:content-['#'] hover:text-white"
-                                      >
-                                        Fashion
-                                      </Link>
-                                    </li>
-                                    <li className="m-1 inline-block py-0 leading-4">
-                                      <Link
-                                        to={"#"}
-                                        className="post-tag w-full h-full text-xs before:content-['#'] hover:text-white"
-                                      >
-                                        Health
-                                      </Link>
-                                    </li>
-                                    <li className="m-1 inline-block py-0 leading-4">
-                                      <Link
-                                        to={"#"}
-                                        className="post-tag w-full h-full text-xs before:content-['#'] hover:text-white"
-                                      >
-                                        Lifestyle
-                                      </Link>
-                                    </li>
+                                    {i.hashtag?.slice(0, 3).map((j , k) => (
+                                      <li key={k} className="m-1 inline-block py-0 leading-4">
+                                        <Link
+                                          to={`/hashtag/${j.name}`}
+                                          className="post-tag w-full h-full text-xs before:content-['#'] hover:text-white"
+                                        >
+                                          {j.name}
+                                        </Link>
+                                      </li>
+                                    ))}
                                   </ul>
                                 </div>
                               </div>
@@ -432,7 +418,7 @@ function Home() {
             <div className="load-more flex justify-center">
               <button
                 className="bg-[#607027] py-[10px] px-[50px] text-base font-normal border-0 focus:outline-0 uppercase tracking-[1px] outline-none text-white mt-[70px]"
-                onClick={()=>loadMore()}
+                onClick={() => loadMore()}
               >
                 <span className="">Load more</span>
                 <span className="loading"></span>

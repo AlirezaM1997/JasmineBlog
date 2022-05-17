@@ -9,12 +9,13 @@ import {
   faTwitter,
 } from "@fortawesome/free-brands-svg-icons";
 
-export default function Category() {
-  const { cat } = useParams();
+export default function Hashtag() {
+  const { hash } = useParams();
   const [loading, setLoading] = useState(true);
-  const [blogsByCat, setBlogsByCat] = useState();
+  const [blogsByHashtag, setBlogsByHashtag] = useState();
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     fetch("http://localhost:4000/blog")
       .then((data) => {
         if (data.status === 200) {
@@ -22,28 +23,32 @@ export default function Category() {
         }
       })
       .then((res) => {
-        setBlogsByCat(res);
+        setBlogsByHashtag(res);
+        console.log(res);
         setLoading(false);
+        console.log(blogsByHashtag
+            .filter((item) => item.hashtag?.filter((i)=>i.name===hash)));
       })
       .catch((err) => console.log(err));
   }, []);
 
   if (loading) return <Loading />;
+
   return (
     <>
       <div className="py-20">
         <div className="container mx-auto">
           <div className="jasmine-heading relative text-center mb-10">
             <h4 className="heading__title inline-block relative m-0 text-4xl leading-6 pr-12 pl-16 z-10">
-              {cat} Blogs
+              # {hash} Blogs
             </h4>
           </div>
         </div>
         <div className="container makbook:px-11">
           <div className="blogList__inner px-2">
             <div className="new-posts-list -m-4 flex flex-wrap">
-              {blogsByCat
-                .filter((item) => item.cat === cat)
+              {blogsByHashtag
+                .filter((item) => item.hashtag?.filter((i)=>i.name===hash))
                 .sort((a, b) => {
                   return b.averageScore - a.averageScore;
                 })

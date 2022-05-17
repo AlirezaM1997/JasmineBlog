@@ -141,7 +141,7 @@ export default function Login() {
                 <div className="relative flex flex-wrap items-stretch mb-4 w-full bg-gray-100 text-[1rem] font-normal leading-6 rounded-2xl">
                   <div className="-mr-[1px] flex text-[#98a3ae] text-left">
                     <span className="py-3 px-4 pr-2 text-center inline-block min-w-[48px] whitespace-nowrap bg-inherit">
-                      <i class="fa fa-key"></i>
+                      <i className="fa fa-key"></i>
                     </span>
                   </div>
                   <input
@@ -184,7 +184,7 @@ export default function Login() {
                   >
                     sign in
                     <span className={`ml-5 ${isLoaded ? "" : "hidden"}`}>
-                      <div class="lds-circle">
+                      <div className="lds-circle">
                         <div></div>
                       </div>
                     </span>

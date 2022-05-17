@@ -23,8 +23,8 @@ export default function MySlider() {
   return (
     <>
       <Slider {...settings} afterChange={(e) => setSlideNumber(e + 1)}>
-        {topBlogs.map((item) => (
-          <div className="slide-content">
+        {topBlogs.map((item , i) => (
+          <div key={i} className="slide-content">
             <article className="post post-horizontal-large relative w-full after:table after:clear-both after:content-none">
               <div className="post__thumb relative">
                 <Link to={`/blog/${item._id}`} className="w-full h-full block">

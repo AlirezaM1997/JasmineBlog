@@ -16,11 +16,34 @@ export default function CreateBlog(params) {
   const [title, setTitle] = useState("");
   const [imgUrl, setImgUrl] = useState("");
 
-  const [showSuccessSubmit, setShowSuccessSubmit] = useState(false);
-
   const [cat, setCat] = useState("public");
+  const [hashtags, setHashtags] = useState("");
+  const [hashtagArr, setHashtagArr] = useState([]);
 
-  console.log(cat);
+  const UID = () => {
+    return new Date().getTime() + String(Math.random()).slice(3, 9);
+  };
+
+  const addHashtag = () => {
+    if (hashtags !== "") {
+      const arr = [...hashtagArr];
+      arr.push({ name: hashtags, id: UID() });
+      setHashtagArr(arr);
+      setHashtags("");
+    }
+  };
+
+  const getIndexById = (id) => {
+    return hashtagArr.findIndex((item) => item.id === id);
+  };
+
+  const deleteHashtag = (id) => {
+    const arr = [...hashtagArr]
+    const p = getIndexById(id)
+    arr.splice(p , 1)
+    setHashtagArr(arr)
+  };
+  console.log(hashtagArr);
 
   const submitBLog = async () => {
     if (title === "") {
@@ -43,6 +66,7 @@ export default function CreateBlog(params) {
         },
         body: JSON.stringify({
           cat: cat,
+          hashtag:hashtagArr,
           title: title,
           content: editorRef.current.getContent(),
           imgurl:
@@ -65,7 +89,7 @@ export default function CreateBlog(params) {
       <div className="w-full h-full flex flex-col my-3 justify-center items-center">
         <div className="w-[95%]">
           <div className="">
-            <label className="text-2xl font-semibold">Title</label>
+            <label className="text-xl font-semibold">Title</label>
             <input
               className="w-full my-1 mb-3 p-2 focus:bg-white focus:outline-none border border-blue-600 rounded-lg"
               type="text"
@@ -79,12 +103,12 @@ export default function CreateBlog(params) {
                 hintTitle ? "" : "hidden"
               }`}
             >
-              <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>{" "}
+              <i className="fa fa-exclamation-triangle" aria-hidden="true"></i>{" "}
               Please type some title
             </div>
           </div>
           <div className="flex justify-start items-center my-1 mb-3 ">
-            <div className="text-2xl w-fit font-semibold mr-4">
+            <div className="text-xl w-fit font-semibold mr-4">
               Select Category
             </div>
             <div className="w-1/2">
@@ -146,12 +170,12 @@ export default function CreateBlog(params) {
                 hintContent ? "" : "hidden"
               }`}
             >
-              <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>{" "}
+              <i className="fa fa-exclamation-triangle" aria-hidden="true"></i>{" "}
               Please type some content
             </div>
           </div>
           <div className="mt-3">
-            <label className="text-2xl font-semibold">Image Url</label>
+            <label className="text-xl font-semibold">Image Url</label>
             <input
               className="w-full mb-3 mt-1 p-2 focus:bg-white focus:outline-none border border-blue-600 rounded-lg"
               type="text"
@@ -160,9 +184,41 @@ export default function CreateBlog(params) {
               onChange={(e) => setImgUrl(e.target.value)}
             />
           </div>
-          <div className="flex w-full justify-end">
+          <div className="mt-3 flex items-center">
+            <label className="text-xl font-semibold">Add Some Hashtag</label>
+            <input
+              className="w-1/2 md:mx-4 p-2 focus:bg-white focus:outline-none border border-blue-600 rounded-lg"
+              value={hashtags}
+              onChange={(e) => setHashtags(e.target.value)}
+              placeholder=""
+            ></input>
             <button
-              className="mt-3 px-8 py-[0.75rem] bg-[#607027] text-white font-medium text-md leading-tight rounded shadow-md"
+              className="px-6 py-[0.5rem] bg-[#607027] text-white font-medium text-md leading-tight rounded shadow-md"
+              onClick={() => addHashtag()}
+            >
+              Add
+            </button>
+          </div>
+          <div className="mt-3 ">
+            {hashtagArr.map((item, i) => (
+              <div
+                key={i}
+                className="px-2 py-1 w-fit inline-block items-center border text-sm border-gray-500 text-black rounded transition-colors hover:bg-red-500"
+              >
+                <div className="flex justify-between items-center">
+                  <span className="font-bold"># {item.name}</span>
+                  <i
+                    className="fa fa-times ml-1 p-2 cursor-pointer hover:text-white"
+                    onClick={() => deleteHashtag(item.id)}
+                    aria-hidden="true"
+                  ></i>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="flex w-full justify-end mt-5">
+            <button
+              className="px-8 py-[0.75rem] bg-[#607027] text-white font-medium text-md leading-tight rounded shadow-md"
               onClick={submitBLog}
             >
               Submit

@@ -309,48 +309,21 @@ export default function Blog() {
                       </div>
                       <div className="hashtags mt-10 text-[#8c8c8c] bg-[#f9f9f9] py-[25px] px-5">
                         <div className="m-0 p-0 flex after:clear-both after:content-[''] after:table">
-                          <div className="text-[#888] text-xs font-normal tracking-[1px] uppercase flex flex-1 flex-wrap items-center">
+                          <div className="text-[#888] text-xs font-normal tracking-[1px] flex flex-1 flex-wrap items-center">
                             <ul className="post__tags p-0 inline-block align-middle">
-                              <li className="mr-[10px] inline-block leading-[2]">
-                                <Link
-                                  to={"#"}
-                                  className='before:content-["#"] text-[#888] hover:text-black'
+                              {blogInfo.hashtag?.map((item, i) => (
+                                <li
+                                  key={i}
+                                  className="mr-[10px] inline-block leading-[2]"
                                 >
-                                  blog
-                                </Link>
-                              </li>
-                              <li className="mr-[10px] inline-block leading-[2]">
-                                <Link
-                                  to={"#"}
-                                  className='before:content-["#"] text-[#888] hover:text-black'
-                                >
-                                  home
-                                </Link>
-                              </li>
-                              <li className="mr-[10px] inline-block leading-[2]">
-                                <Link
-                                  to={"#"}
-                                  className='before:content-["#"] text-[#888] hover:text-black'
-                                >
-                                  public
-                                </Link>
-                              </li>
-                              <li className="mr-[10px] inline-block leading-[2]">
-                                <Link
-                                  to={"#"}
-                                  className='before:content-["#"] text-[#888] hover:text-black'
-                                >
-                                  lifestyle
-                                </Link>
-                              </li>
-                              <li className="mr-[10px] inline-block leading-[2]">
-                                <Link
-                                  to={"#"}
-                                  className='before:content-["#"] text-[#888] hover:text-black'
-                                >
-                                  people
-                                </Link>
-                              </li>
+                                  <Link
+                                    to={`/hashtag/${item.name}`}
+                                    className='before:content-["#"] text-[#888] hover:text-black'
+                                  >
+                                    {item.name}
+                                  </Link>
+                                </li>
+                              ))}
                             </ul>
                           </div>
                         </div>
@@ -552,8 +525,11 @@ export default function Blog() {
                           </div>
                         )}
                         <div className="mb-2">
-                          {comments.map((item) => (
-                            <div className="w-full h-full bg-[#fafafa] z-[1] mb-6">
+                          {comments.map((item, i) => (
+                            <div
+                              key={i}
+                              className="w-full h-full bg-[#fafafa] z-[1] mb-6"
+                            >
                               <div className="relative p-3 shadow-sm before:w-full before:h-2/3 before:absolute before:-z-[1] before:right-[15px] before:bg-[#607027]">
                                 <div className="mb-2">
                                   <span className="font-bold italic">

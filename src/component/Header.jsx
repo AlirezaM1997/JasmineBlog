@@ -21,22 +21,22 @@ export default function Header() {
       ></div>
 
       <header className="block relative z-20 bg-white">
-        <nav className="navigation-bar_fullWidth relative text-center block ">
-          <div className="navigation-bar_inner container mx-auto relative flex items-center text-center">
+        <nav className="navigation-bar_fullWidth tablet:hidden h-[100px] z-[1] relative text-center block ">
+          <div className="navigation-bar_inner pl-[43px] pr-[15px] container mx-auto relative flex items-center text-center" style={{flexWrap:'initial'}}>
             <div className="navigation-bar_section first:pl-0 min-w-0 pr-2 truncate text-center">
               <div className="header-logo inline-block align-middle">
                 <Link to={"/"} className="block">
                   <img
                     src={require("../images/logo.jpg")}
                     alt="Jasmine"
-                    className="logoImg p-0 max-w-full"
+                    className="logoImg p-0 max-h-[70px] max-w-full"
                   />
                 </Link>
               </div>
             </div>
             <div className="navigation-wrapper overflow-hidden flex-1">
               <div className="main-menu">
-                <ul className="navigation-main inline-block align-middle whitespace-nowrap m-0 p-0 list-none ">
+                <ul className="navigation-main text-[0] inline-block align-middle whitespace-nowrap m-0 p-0 list-none ">
                   <li className="inline-block text-left whitespace-normal text-base">
                     <Link
                       to={"/"}
@@ -192,7 +192,7 @@ export default function Header() {
               className="absolute top-2 right-2 bottom-auto left-auto border-[1px] rounded-full h-[30px] w-[30px] flex items-center justify-center cursor-pointer"
               onClick={showMenu}
             >
-              <i class="fa fa-times" aria-hidden="true"></i>
+              <i className="fa fa-times" aria-hidden="true"></i>
             </span>
           </div>
           <div className="offcanvas__section p-[20px]">

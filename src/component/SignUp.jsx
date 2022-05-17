@@ -74,7 +74,7 @@ export default function SignUp() {
                 <div className="relative flex flex-wrap items-stretch mb-4 w-full bg-gray-100 text-[1rem] font-normal leading-6 rounded-2xl">
                   <div className="-mr-[1px] flex text-[#98a3ae] text-left">
                     <span className="py-3 px-4 pr-2 text-center inline-block min-w-[48px] whitespace-nowrap bg-inherit">
-                      <i class="fa fa-key"></i>
+                      <i className="fa fa-key"></i>
                     </span>
                   </div>
                   <input
@@ -91,7 +91,7 @@ export default function SignUp() {
                 <div className="relative flex flex-wrap items-stretch mb-4 w-full bg-gray-100 text-[1rem] font-normal leading-6 rounded-2xl">
                   <div className="-mr-[1px] flex text-[#98a3ae] text-left">
                     <span className="py-3 px-4 pr-2 text-center inline-block min-w-[48px] whitespace-nowrap bg-inherit">
-                      <i class="fa fa-address-book"></i>
+                      <i className="fa fa-address-book"></i>
                     </span>
                   </div>
                   <input

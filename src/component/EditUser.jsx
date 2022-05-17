@@ -2,8 +2,11 @@ import React, { useEffect, useRef, useState } from "react";
 import { useAllState } from "../Provider";
 import SuccessModal from "./SuccessModal";
 import LogOutModal from "./LogOutModal";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import Cookies from "universal-cookie";
+import { useNavigate } from "react-router-dom";
 
 export default function EditUser(props) {
   const { userInfo } = useAllState();
@@ -12,12 +15,14 @@ export default function EditUser(props) {
 
   const [name, setName] = useState(userInfo.name);
   const [bio, setBio] = useState(userInfo.bio);
+  const [bioLength, setBioLength] = useState(
+    userInfo.bioLength ? userInfo.bioLength : 0
+  );
   const [imgurl, setImgurl] = useState(userInfo.imgurl);
-  const [count, setCount] = useState(0);
+  // const [count, setCount] = useState(0);
 
   const cookies = new Cookies();
 
-  const [showModal, setShowModal] = useState(false);
   useEffect(() => {
     const updateUser = async () => {
       fetch("http://localhost:4000/user/me", {
@@ -42,7 +47,8 @@ export default function EditUser(props) {
     updateUser();
   }, []);
 
-  const editUser =  () => {
+  const navToDashboard = useNavigate();
+  const editUser = () => {
     fetch("http://localhost:4000/user/edit", {
       method: "POST",
       headers: {
@@ -51,14 +57,15 @@ export default function EditUser(props) {
       },
       body: JSON.stringify({
         name: name,
-        bio:bio,
-        // bio: {
-        //   type: bio,
-        //   maxLength: 200
-        // },
+        bio: bio,
+        bioLength: bioLength,
       }),
     })
       .then((res) => {
+        if (res.status === 200) {
+          toast.info("Your information was successfully changed");
+          setTimeout(() => navToDashboard("/user/dashboard"), 3000);
+        }
         console.log(res);
       })
       .catch((err) => {
@@ -111,7 +118,10 @@ export default function EditUser(props) {
                     id="picture"
                     // value={file? file : ''}
                     defaultValue={file}
-                    onChange={(e) => {setFile(e.target.files[0]); console.log(e.target.files);}}
+                    onChange={(e) => {
+                      setFile(e.target.files[0]);
+                      console.log(e.target.files);
+                    }}
                     className="pictureFile cursor-pointer"
                     // onInput={(e) => onInputClick(e)}
                   />
@@ -152,7 +162,7 @@ export default function EditUser(props) {
                   >
                     Bio
                   </label>
-                  <span className="text-gray-400 text-sm">{count}/200</span>
+                  <span className="text-gray-400 text-sm">{bioLength}/200</span>
                 </div>
                 <textarea
                   maxLength={200}
@@ -163,7 +173,7 @@ export default function EditUser(props) {
                   spellCheck="false"
                   onChange={(e) => {
                     setBio(e.target.value);
-                    setCount(e.target.value.length);
+                    setBioLength(e.target.value.length);
                   }}
                 ></textarea>
               </div>
@@ -172,7 +182,7 @@ export default function EditUser(props) {
           <div>
             <button
               className="ml-3 mt-5 px-4 py-2 bg-[#607027] text-white text-sm rounded outline-0 focus:outline-none"
-              onClick={()=>editUser()}
+              onClick={() => editUser()}
               id="saveEdit"
             >
               Apply Changes
@@ -180,7 +190,7 @@ export default function EditUser(props) {
           </div>
         </div>
       </div>
-      {showModal ? <LogOutModal setShowModal={setShowModal} /> : null}
+      <ToastContainer />
     </>
   );
 }

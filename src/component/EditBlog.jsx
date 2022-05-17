@@ -14,10 +14,15 @@ export default function EditBlog() {
   const [postImgUrl, setPostImgUrl] = useState("");
   const [postText, setPostText] = useState("");
   const [postCat, setPostCat] = useState("");
+  const [postHashtag, setPostHashtag] = useState([]);
 
   const [loadingForEditPost, setLoadingForEditPost] = useState(true);
   const navToHome = useNavigate();
   const { id } = useParams();
+
+  const [hashtags, setHashtags] = useState("");
+  // const [hashtagArr, setHashtagArr] = useState([]);
+
   useEffect(() => {
     window.scrollTo(0, 0);
     const getPostForEdit = async () => {
@@ -36,6 +41,7 @@ export default function EditBlog() {
             setPostImgUrl(res.imgurl);
             setPostText(res.content);
             setPostCat(res.cat);
+            setPostHashtag(res.hashtag?res.hashtag:[]);
           }
           setLoadingForEditPost(false);
         });
@@ -43,7 +49,30 @@ export default function EditBlog() {
     getPostForEdit();
   }, []);
 
-  const [showSuccessEdit, setShowSuccessEdit] = useState(false);
+  const UID = () => {
+    return new Date().getTime() + String(Math.random()).slice(3, 9);
+  };
+
+  const addHashtag = () => {
+    console.log(postHashtag);
+    if (hashtags !== "") {
+      const arr = [...postHashtag];
+      arr.push({ name: hashtags, id: UID() });
+      setPostHashtag(arr);
+      setHashtags("");
+    }
+  };
+
+  const getIndexById = (id) => {
+    return postHashtag.findIndex((item) => item.id === id);
+  };
+
+  const deleteHashtag = (id) => {
+    const arr = [...postHashtag];
+    const p = getIndexById(id);
+    arr.splice(p, 1);
+    setPostHashtag(arr);
+  };
 
   const editorRef = useRef(null);
 
@@ -70,6 +99,7 @@ export default function EditBlog() {
           blogId: id,
           data: {
             cat: postCat,
+            hashtag: postHashtag,
             title: postTitle,
             content: editorRef.current.getContent(),
             imgurl:
@@ -79,8 +109,9 @@ export default function EditBlog() {
           },
         }),
       }).then((res) => {
-        if (res.status===200) {
-          toast.info('Your post was successfully editted!')
+        console.log(res);
+        if (res.status === 200) {
+          toast.info("Your post was successfully editted!");
           setTimeout(() => navToHome("/"), 3000);
         }
       });
@@ -183,22 +214,56 @@ export default function EditBlog() {
                 onChange={(e) => setPostImgUrl(e.target.value)}
               />
             </div>
-            <button
-              className="mt-3 px-8 py-[0.75rem] bg-[#607027] text-white font-medium text-md leading-tight rounded shadow-md"
-              onClick={submitBLogChange}
-            >
-              Submit Changes
-            </button>
-            <Link
-              to={"/user/dashboard"}
-              className="mt-3 px-8 py-[0.75rem] bg-red-600 ml-6 text-white font-medium text-md leading-tight rounded shadow-md"
-            >
-              Cancel
-            </Link>
+            <div className="mt-3 flex items-center">
+              <label className="text-xl font-semibold">Add Some Hashtag</label>
+              <input
+                className="w-1/2 md:mx-4 p-2 focus:bg-white focus:outline-none border border-blue-600 rounded-lg"
+                value={hashtags}
+                onChange={(e) => setHashtags(e.target.value)}
+                placeholder=""
+              ></input>
+              <button
+                className="px-6 py-[0.5rem] bg-[#607027] text-white font-medium text-md leading-tight rounded shadow-md"
+                onClick={() => addHashtag()}
+              >
+                Add
+              </button>
+            </div>
+            <div className="mt-3 ">
+              {postHashtag?.map((item, i) => (
+                <div
+                  key={i}
+                  className="px-2 py-1 w-fit inline-block items-center border text-sm border-gray-500 text-black rounded transition-colors hover:bg-red-500"
+                >
+                  <div className="flex justify-between items-center">
+                    <span className="font-bold"># {item.name}</span>
+                    <i
+                      className="fa fa-times ml-1 p-2 cursor-pointer hover:text-white"
+                      onClick={() => deleteHashtag(item.id)}
+                      aria-hidden="true"
+                    ></i>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="flex items-center justify-end">
+              <button
+                className="mt-3 px-8 py-[0.75rem] bg-[#607027] text-white font-medium text-md leading-tight rounded shadow-md"
+                onClick={submitBLogChange}
+              >
+                Submit Changes
+              </button>
+              <Link
+                to={"/user/dashboard"}
+                className="mt-3 px-8 py-[0.75rem] bg-red-600 ml-6 text-white font-medium text-md leading-tight rounded shadow-md"
+              >
+                Cancel
+              </Link>
+            </div>
           </div>
         </div>
       )}
-      <ToastContainer/>
+      <ToastContainer />
     </>
   );
 }

@@ -23,6 +23,7 @@ import CreateBlog from "./component/CreateBlog";
 import EditUser from "./component/EditUser";
 import EditBlog from "./component/EditBlog";
 import Category from "./component/Category";
+import Hashtag from "./component/Hashtag";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -36,6 +37,7 @@ root.render(
           <Route path="about" element={<About />}></Route>
           <Route path="contact" element={<Contact />}></Route>
           <Route path="category/:cat" element={<Category />}></Route>
+          <Route path="hashtag/:hash" element={<Hashtag />}></Route>
           <Route
             path="user/signup"
             element={
@@ -108,7 +110,6 @@ function RequireAuth({ children, redirectTo }) {
         } else {
           setIsAuthenticated(false);
         }
-        console.log(userInfo);
         setLoading(false);
       });
   }, []);

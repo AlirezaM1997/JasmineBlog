@@ -46,6 +46,7 @@ export default function Dashboard() {
       })
       .then((result) => {
         setMyBlogs(result);
+        console.log(result);
         setLoading(false);
       });
   }, []);
@@ -88,7 +89,7 @@ export default function Dashboard() {
                 ></img>
               </Link>
               <div className="ml-3 cursor-pointer relative" onClick={showMenu}>
-                <i class="fa fa-cog" aria-hidden="true"></i>
+                <i className="fa fa-cog" aria-hidden="true"></i>
                 <div
                   className={`w-[100px] h-[80px] absolute right-0 top-[34px] bg-white rounded-sm border text-sm ${
                     isMenuOpened ? "" : "hidden"
@@ -147,8 +148,8 @@ export default function Dashboard() {
                         </Link>
                       </div>
                       <div className="flex flex-wrap -m-4">
-                        {myBlogs.map((item) => (
-                          <div className="p-4 sm:w-full w-full dashboardCard">
+                        {myBlogs.map((item , i) => (
+                          <div key={i} className="p-4 sm:w-full w-full dashboardCard">
                             <div className="h-full shadow rounded overflow-hidden">
                               <img
                                 className="w-full h-60 object-cover object-center"
