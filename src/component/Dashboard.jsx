@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useAllState } from "../Provider";
 import { Link, Outlet, useLocation } from "react-router-dom";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import Cookies from "universal-cookie";
 import Loading from "./Loading";
 
@@ -28,8 +29,6 @@ export default function Dashboard() {
 
   let location = useLocation();
   useEffect(() => {
-    console.log(userInfo);
-
     window.scrollTo(0, 0);
     fetch(`http://localhost:4000/blog/my-blogs`, {
       method: "GET",
@@ -47,16 +46,18 @@ export default function Dashboard() {
       })
       .then((result) => {
         setMyBlogs(result);
-        console.log(result);
         setLoading(false);
       });
   }, []);
 
   const logout = () => {
-    cookies.remove("token");
-    setToken("");
-    setUserInfo();
-    window.location.href = "/";
+    toast.warn("You have successfully logged out!");
+    setTimeout(() => {
+      cookies.remove("token");
+      setToken("");
+      setUserInfo();
+      window.location.href = "/";
+    }, 3000);
   };
 
   return (
@@ -78,7 +79,7 @@ export default function Dashboard() {
                 className="flex flex-shrink-0 items-center space-x-4"
               >
                 <div className="flex flex-col items-end ">
-                  <div className="text-md font-medium ">{userInfo.name}</div>
+                  <div className="text-sm font-medium font-[system-ui]">Welcome {userInfo.name}</div>
                   <div className="text-sm font-regular"></div>
                 </div>
                 <img
@@ -195,6 +196,7 @@ export default function Dashboard() {
           )}
         </div>
       </div>
+      <ToastContainer />
       <Outlet />
     </>
   );

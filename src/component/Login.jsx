@@ -8,8 +8,6 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export default function Login() {
-  const successLogin = () => toast("You have successfully logged in!");
-  const [showToast, setShowToast] = useState(false);
 
   const navToDashboard = useNavigate();
 
@@ -42,7 +40,7 @@ export default function Login() {
     }
     if (currentUser.username !== "" && currentUser.password !== "") {
       // const myPromise = new Promise((resolve) =>{
-        
+
       // })
       const getToken = async () => {
         setIsLoaded(true);
@@ -59,8 +57,9 @@ export default function Login() {
           .then((data) => {
             console.log(data);
             if (data.status === 200) {
-              // successLogin()
-              navToDashboard("/user/dashboard");
+              toast.success("You have successfully logged in!");
+              setTimeout(() => navToDashboard("/user/dashboard"), 3000);
+
             } else {
               setHintInfoWrong(true);
               setIsLoaded(false);
@@ -73,7 +72,6 @@ export default function Login() {
           });
       };
       getToken();
-      
     }
   };
 
@@ -210,7 +208,7 @@ export default function Login() {
             </div>
           </div>
         </div>
-        <ToastContainer />
+        <ToastContainer pauseOnHover='false' toastStyle={{background : '#607027'}}/>
       </section>
     </>
   );

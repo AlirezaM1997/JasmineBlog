@@ -18,6 +18,8 @@ function Home() {
   const [topUsers, setTopUsers] = useState();
   const [blogs, setBlogs] = useState();
   const [loading, setLoading] = useState(true);
+  const [loadedBlogs, setLoadedBlogs] = useState();
+  const [count, setCount] = useState(5);
 
   const { parsIsoDate } = useAllState();
 
@@ -38,6 +40,10 @@ function Home() {
     };
     myFunction();
   }, []);
+
+  const loadMore = () => {
+    setCount(count + 2);
+  };
 
   return loading ? (
     <Loading />
@@ -61,40 +67,42 @@ function Home() {
               </div>
               <div className="sub-section overflow-hidden tablet:ml-0 tablap:ml-[325px] LCD:ml-[400px] tablet:mt-[40px] ">
                 <div className="posts-list md:flex block flex-wrap -m-[10px]">
-{                  <div className="list-item p-4 md:w-1/2">
-                    <article className="post-overlay pl-4 -mx-4 bg-transparent flex relative overflow-hidden">
-                      <div className="post__thumb-overlay absolute w-full h-full">
-                        <Link to={"#"} className="w-full h-full block">
-                          <img
-                            className="w-full h-full object-cover align-middle block"
-                            src={require("./images/post-overlay1.jpg")}
-                          ></img>
-                        </Link>
-                      </div>
-                      <div className="post__text-overlay z-10 pointer-events-none flex items-end pt-10 relative w-full text-white">
-                        <div className="post__text-wrap mb-0 pl-4 relative w-full">
-                          <div className="post__text-inner px-6 pb-6 -ml-4 relative">
-                            <Link
-                              to={"#"}
-                              className="post__cat-overlay pointer-events-auto absolute block mb-4 text-xs font-normal uppercase text-white mr-2"
-                            >
-                              fashion
-                            </Link>
-                            <h3 className="post__title-overlay text-white font-medium mb-2 whitespace-normal break-words pointer-events-auto">
-                              <Link to={"#"} className="inline-block">
-                                Some Men See Things as They Are and Ask Why
+                  {
+                    <div className="list-item p-4 md:w-1/2">
+                      <article className="post-overlay pl-4 -mx-4 bg-transparent flex relative overflow-hidden">
+                        <div className="post__thumb-overlay absolute w-full h-full">
+                          <Link to={"#"} className="w-full h-full block">
+                            <img
+                              className="w-full h-full object-cover align-middle block"
+                              src={require("./images/post-overlay1.jpg")}
+                            ></img>
+                          </Link>
+                        </div>
+                        <div className="post__text-overlay z-10 pointer-events-none flex items-end pt-10 relative w-full text-white">
+                          <div className="post__text-wrap mb-0 pl-4 relative w-full">
+                            <div className="post__text-inner px-6 pb-6 -ml-4 relative">
+                              <Link
+                                to={"#"}
+                                className="post__cat-overlay pointer-events-auto absolute block mb-4 text-xs font-normal uppercase text-white mr-2"
+                              >
+                                fashion
                               </Link>
-                            </h3>
-                            <div className="post__meta my-0 text-sm">
-                              <time className="time font-light whitespace-nowrap">
-                                Mar 6, 2019
-                              </time>
+                              <h3 className="post__title-overlay text-white font-medium mb-2 whitespace-normal break-words pointer-events-auto">
+                                <Link to={"#"} className="inline-block">
+                                  Some Men See Things as They Are and Ask Why
+                                </Link>
+                              </h3>
+                              <div className="post__meta my-0 text-sm">
+                                <time className="time font-light whitespace-nowrap">
+                                  Mar 6, 2019
+                                </time>
+                              </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                    </article>
-                  </div>}
+                      </article>
+                    </div>
+                  }
                   <div className="list-item p-4 md:w-1/2">
                     <article className="post-overlay pl-4 -mx-4 bg-transparent flex relative overflow-hidden">
                       <div className="post__thumb-overlay absolute w-full h-full">
@@ -282,13 +290,13 @@ function Home() {
         </div>
 
         <div className="allBlogs relative mb-10 laptop:mb-[70px]">
-          <div className="container mx-auto">
+          {/* <div className="container mx-auto">
             <div className="jasmine-heading relative text-center mb-16">
               <h4 className="heading__title inline-block relative m-0 text-4xl leading-6 pr-12 pl-16 z-10">
                 The Latest Blogs
               </h4>
             </div>
-          </div>
+          </div> */}
           <div className="container px-[15px]  makbook:px-32">
             <div className="allBlogs-content">
               <div className="row -mx-[15px] before:table before:content-[' ']">
@@ -296,7 +304,7 @@ function Home() {
                   <div className="main-col flex my-0 relative">
                     <div className="main-col-inner w-full relative">
                       <div className="allBlogs-posts flex flex-col p-0 -my-10">
-                        {blogs.map((i, index) => (
+                        {blogs.slice(0,count).map((i, index) => (
                           <div
                             key={index}
                             className="allBlogs-post w-full border-b border-[#0000000d] py-10"
@@ -422,7 +430,10 @@ function Home() {
             </div>
 
             <div className="load-more flex justify-center">
-              <button className="bg-[#607027] py-[10px] px-[50px] text-base font-normal border-0 focus:outline-0 uppercase tracking-[1px] outline-none text-white mt-[70px]">
+              <button
+                className="bg-[#607027] py-[10px] px-[50px] text-base font-normal border-0 focus:outline-0 uppercase tracking-[1px] outline-none text-white mt-[70px]"
+                onClick={()=>loadMore()}
+              >
                 <span className="">Load more</span>
                 <span className="loading"></span>
               </button>

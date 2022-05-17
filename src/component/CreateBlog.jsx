@@ -1,7 +1,8 @@
 import React, { useRef, useState } from "react";
-import { useAllState } from "../Provider";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Editor } from "@tinymce/tinymce-react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import Cookies from "universal-cookie";
 export default function CreateBlog(params) {
@@ -52,8 +53,8 @@ export default function CreateBlog(params) {
       }).then((res) => {
         console.log(res);
         if (res.status === 200) {
-          setShowSuccessSubmit(true);
-          setTimeout(() => navToHome("/"), 2000);
+          toast.info("Your post was successfully submitted");
+          setTimeout(() => navToHome("/"), 3000);
         }
       });
     }
@@ -169,6 +170,7 @@ export default function CreateBlog(params) {
           </div>
         </div>
       </div>
+      <ToastContainer />
     </>
   );
 }

@@ -3,6 +3,8 @@ import Cookies from "universal-cookie";
 import Loading from "./Loading";
 import { Editor } from "@tinymce/tinymce-react";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function EditBlog() {
   const [hintTitle, setHintTitle] = useState(false);
@@ -76,9 +78,11 @@ export default function EditBlog() {
                 : postImgUrl,
           },
         }),
-      }).then(() => {
-        setShowSuccessEdit(true);
-        setTimeout(() => navToHome("/"), 2000);
+      }).then((res) => {
+        if (res.status===200) {
+          toast.info('Your post was successfully editted!')
+          setTimeout(() => navToHome("/"), 3000);
+        }
       });
     }
   };
@@ -194,6 +198,7 @@ export default function EditBlog() {
           </div>
         </div>
       )}
+      <ToastContainer/>
     </>
   );
 }

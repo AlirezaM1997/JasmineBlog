@@ -181,8 +181,8 @@ export default function Header() {
                       src={userInfo.avatar}
                       className="h-10 w-10 rounded-full border border-[#607027]"
                     ></img>
-                    <div className="text-md font-medium text-black">
-                      Hi {userInfo.username} !
+                    <div className="text-md font-medium text-black font-[cursive]">
+                    {userInfo.username}
                     </div>
                   </div>
                 </Link>
