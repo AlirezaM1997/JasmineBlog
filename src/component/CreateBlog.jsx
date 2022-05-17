@@ -70,7 +70,7 @@ export default function CreateBlog(params) {
               type="text"
               placeholder="some title"
               value={title}
-              spellCheck='false'
+              spellCheck="false"
               onChange={(e) => setTitle(e.target.value)}
             />
             <div
@@ -83,17 +83,19 @@ export default function CreateBlog(params) {
             </div>
           </div>
           <div className="flex justify-start items-center my-1 mb-3 ">
-            <div className="text-2xl w-fit font-semibold mr-4">Select Category</div>
+            <div className="text-2xl w-fit font-semibold mr-4">
+              Select Category
+            </div>
             <div className="w-1/2">
               <select
                 value={cat}
                 onChange={(e) => setCat(e.target.value)}
                 className="w-full p-2 focus:bg-white focus:outline-none border border-blue-600 rounded-lg"
               >
-                <option value="public">public</option>
-                <option value="fashion">fashion</option>
-                <option value="lifestyle">lifestyle</option>
-                <option value="health">health</option>
+                <option value="Public">Public</option>
+                <option value="Fashion">Fashion</option>
+                <option value="Lifestyle">Lifestyle</option>
+                <option value="Health">Health</option>
               </select>
             </div>
           </div>

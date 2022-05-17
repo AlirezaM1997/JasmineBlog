@@ -14,6 +14,8 @@ import {
 import { useAllState } from "./Provider";
 function Home() {
   const { slideNumber } = useAllState();
+  const { setTopBlogs } = useAllState();
+  const [topUsers, setTopUsers] = useState();
   const [blogs, setBlogs] = useState();
   const [loading, setLoading] = useState(true);
 
@@ -21,19 +23,20 @@ function Home() {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    fetch("http://localhost:4000/blog")
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          throw Error(response.status);
-        }
-      })
-      .then((result) => {
-        console.log(result);
-        setBlogs(result);
-        setLoading(false);
-      });
+    const myFunction = async () => {
+      const [res1, res2] = await Promise.all([
+        fetch("http://localhost:4000/blog"),
+        fetch("http://localhost:4000/blog/top-blogs"),
+        // fetch("http://localhost:4000/blog/top-users"),
+      ]);
+
+      const [data1, data2] = await Promise.all([res1.json(), res2.json()]);
+      setBlogs(data1);
+      setTopBlogs(data2);
+      // setTopUsers(data3);
+      setLoading(false);
+    };
+    myFunction();
   }, []);
 
   return loading ? (
@@ -58,7 +61,7 @@ function Home() {
               </div>
               <div className="sub-section overflow-hidden tablet:ml-0 tablap:ml-[325px] LCD:ml-[400px] tablet:mt-[40px] ">
                 <div className="posts-list md:flex block flex-wrap -m-[10px]">
-                  <div className="list-item p-4 md:w-1/2">
+{                  <div className="list-item p-4 md:w-1/2">
                     <article className="post-overlay pl-4 -mx-4 bg-transparent flex relative overflow-hidden">
                       <div className="post__thumb-overlay absolute w-full h-full">
                         <Link to={"#"} className="w-full h-full block">
@@ -91,7 +94,7 @@ function Home() {
                         </div>
                       </div>
                     </article>
-                  </div>
+                  </div>}
                   <div className="list-item p-4 md:w-1/2">
                     <article className="post-overlay pl-4 -mx-4 bg-transparent flex relative overflow-hidden">
                       <div className="post__thumb-overlay absolute w-full h-full">
@@ -232,7 +235,7 @@ function Home() {
             <div className="blogList__inner px-2">
               <div className="new-posts-list -m-4 flex flex-wrap">
                 {blogs
-                  .filter((item) => item.cat === "fashion")
+                  .filter((item) => item.cat === "Fashion")
                   .sort((a, b) => {
                     return b.averageScore - a.averageScore;
                   })
@@ -241,10 +244,7 @@ function Home() {
                     <div className="new-posts-item">
                       <article className="post-overlay post-overlay-new pl-4 -mx-4 bg-transparent flex relative overflow-hidden">
                         <div className="post__thumb-overlay-fashion absolute w-full h-full">
-                          <Link
-                            to={`/blog/${item._id}`}
-                            className=""
-                          >
+                          <Link to={`/blog/${item._id}`} className="">
                             <img
                               className="w-full h-full object-cover align-middle block"
                               src={item.imgurl}
@@ -255,7 +255,7 @@ function Home() {
                           <div className="post__text-wrap mb-0 pl-4 relative w-full">
                             <div className="post__text-inner px-6 pb-6 -ml-4 relative">
                               <Link
-                                to={"#"}
+                                to={`/category/${item.cat}`}
                                 className="post__cat-overlay pointer-events-auto absolute block mb-4 text-xs font-normal uppercase text-white mr-2"
                               >
                                 {item.cat}
@@ -343,7 +343,7 @@ function Home() {
                               </div>
                               <div className="post-text md:w-1/2 pt-[35px] md:text-center overflow-hidden">
                                 <Link
-                                  to={"#"}
+                                  to={`/category/${i.cat}`}
                                   className="mb-[15px] mr-2 font-normal text-[11px] uppercase inline-block py-[7px] px-[14px] md:py-2 md:px-[18px] bg-[#607027] text-white"
                                 >
                                   {i.cat}

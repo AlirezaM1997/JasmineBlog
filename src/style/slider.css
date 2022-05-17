@@ -55,9 +55,6 @@
   max-width: 30em;
   margin-bottom: 25px;
 }
-.post__cat {
-  background: #607027;
-}
 .excerpt {
   display: -webkit-box !important;
   -webkit-box-orient: vertical;
@@ -84,6 +81,7 @@
     left: 0 !important;
     top: 83% !important;
     flex-direction: row !important;
+    margin: 20px 0 0 0;
   }
 }
 @media (max-width: 890px) and (min-width: 768px) {
@@ -103,4 +101,7 @@
     padding-left: 35px;
     padding-right: 35px;
   }
+}
+.slick-track{
+  left: 1px !important;
 }

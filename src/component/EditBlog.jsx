@@ -116,10 +116,10 @@ export default function EditBlog() {
                   onChange={(e) => setPostCat(e.target.value)}
                   className="w-full p-2 focus:bg-white focus:outline-none border border-blue-600 rounded-lg"
                 >
-                  <option value="public">public</option>
-                  <option value="fashion">fashion</option>
-                  <option value="lifestyle">lifestyle</option>
-                  <option value="health">health</option>
+                  <option value="Public">Public</option>
+                  <option value="Fashion">Fashion</option>
+                  <option value="Lifestyle">Lifestyle</option>
+                  <option value="Health">Health</option>
                 </select>
               </div>
             </div>

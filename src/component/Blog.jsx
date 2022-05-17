@@ -82,14 +82,6 @@ export default function Blog() {
       setPrevious(preBlogInfo);
       setNext(nextBlogInfo);
 
-      // const nextBlogInfo =
-      //   allBlogs[
-      //     allBlogs.findIndex((item) => item._id === id) + 1 !== -1
-      //       ? allBlogs.findIndex((item) => item._id === id) + 1
-      //       : 0
-      //   ];
-      // setNext(nextBlogInfo);
-
       setLoading(false);
     };
 
@@ -154,10 +146,8 @@ export default function Blog() {
       .catch((err) => console.log(err));
   };
 
-  console.log(loading);
-  console.log(previous);
-
-  if (loading || !previous || !previous._id) return <Loading />;
+  if (loading || !previous || !previous._id || !next || !next._id)
+    return <Loading />;
 
   return (
     <>
@@ -188,11 +178,11 @@ export default function Blog() {
                         style={{ background: `url(${blogInfo.imgurl})` }}
                       ></div>
 
-                      <div className="header__content relative flex justify-between font-[fangsong]">
+                      <div className="header__content relative flex justify-between font-[system-ui]">
                         <div className="basis-3/4">
                           <Link
                             className="iphone:mb-[10px] font-sans md:mb-[15px] py-[7px] px-[14px] bg-[#607027] text-xs font-normal uppercase text-white mr-2 inline-block"
-                            to={"#"}
+                            to={`/category/${blogInfo.cat}`}
                           >
                             {blogInfo.cat}
                           </Link>

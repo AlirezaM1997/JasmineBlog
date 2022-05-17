@@ -10,7 +10,7 @@ export default function Provider({ children }) {
   const [slideNumber, setSlideNumber] = useState(1);
   const [scoreValue, setScoreValue] = useState();
   const [editRate, setEditRate] = useState(true);
-
+  const [topBlogs, setTopBlogs] = useState();
   const parsIsoDate = (date) => {
     const months = [
       "Janury",
@@ -55,6 +55,9 @@ export default function Provider({ children }) {
         editRate,
         setEditRate,
         parsIsoDate,
+        topBlogs,
+        setTopBlogs,
+
       }}
     >
       {children}

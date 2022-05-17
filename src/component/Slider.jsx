@@ -18,121 +18,57 @@ export default function MySlider() {
   };
 
   const { setSlideNumber } = useAllState();
+  const { topBlogs } = useAllState();
 
   return (
     <>
       <Slider {...settings} afterChange={(e) => setSlideNumber(e + 1)}>
-        <div className="slide-content">
-          <article className="post post-horizontal-large relative w-full after:table after:clear-both after:content-none">
-            <div className="post__thumb relative">
-              <Link to={"#"} className="w-full h-full block">
-                <img id="test" src={require("../images/slide1.jpg")}></img>
-              </Link>
-            </div>
-            <div className="post__text pt-5 overflow-hidden">
-              <Link
-                to={"#"}
-                className="post__cat inline-block mb-4 mr-2 md:py-1 md:px-4 px-3 text-white font-normal text-xs uppercase"
-              >
-                blog
-              </Link>
-              <h3 className="post__title md:mb-5 mb-3 font-bold text-2xl">
-                <Link to={"#"}>It Is Not White Hair That Engenders Wisdom</Link>
-              </h3>
-              <div className="post__excerpt mb-9 mt-0 text-base text-[#888]">
-                <div className="excerpt overflow-hidden">
-                  <p className="mb-4">
-                    Met to launch on the manufacturer’s new A330neo aircraft in
-                    2017, it’s offering lots of extra space, including wider
-                    seats as
-                  </p>
-                </div>
-              </div>
-              <div className="post__readmore mb-0 md:block hidden">
-                <Link
-                  className="button__readmore relative text-[#888] text-sm"
-                  to={"#"}
-                >
-                  <span>READ MORE</span>
+        {topBlogs.map((item) => (
+          <div className="slide-content">
+            <article className="post post-horizontal-large relative w-full after:table after:clear-both after:content-none">
+              <div className="post__thumb relative">
+                <Link to={`/blog/${item._id}`} className="w-full h-full block">
+                  <img id="test" src={item.imgurl}></img>
                 </Link>
               </div>
-            </div>
-          </article>
-        </div>
-        <div className="slide-content">
-          <article className="post post-horizontal-large relative w-full after:table after:clear-both after:content-none">
-            <div className="post__thumb relative">
-              <Link to={"#"} className="w-full h-full block">
-                <img src={require("../images/slide2.jpg")}></img>
-              </Link>
-            </div>
-            <div className="post__text pt-5 overflow-hidden">
-              <Link
-                to={"#"}
-                className="post__cat inline-block mb-4 mr-2 md:py-1 md:px-4 px-3 text-white font-normal text-xs uppercase"
-              >
-                blog
-              </Link>
-              <h3 className="post__title md:mb-5 mb-3 font-bold text-2xl">
-                <Link to={"#"}>It Is Not White Hair That Engenders Wisdom</Link>
-              </h3>
-              <div className="post__excerpt mb-9 mt-0 text-base text-[#888]">
-                <div className="excerpt overflow-hidden">
-                  <p className="mb-4">
-                    Met to launch on the manufacturer’s new A330neo aircraft in
-                    2017, it’s offering lots of extra space, including wider
-                    seats as
-                  </p>
+              <div className="post__text pt-5 overflow-hidden">
+                <div>
+                  <Link
+                    to={`/category/${item.cat}`}
+                    className="post__cat bg-[#607027] inline-block mb-4 mr-2 py-2 md:px-4 px-3 text-white font-normal text-xs uppercase"
+                  >
+                    {item.cat}
+                  </Link>
+                  <div className="inline-block mb-4 mr-2 py-2 md:px-3 px-2 font-bold text-xs">
+                    <i className="fa fa-star text-yellow-400 mr-1" aria-hidden="true"></i>
+                    <span className="font-[system-ui]">High Score</span>
+                  </div>
+                </div>
+                <h3 className="post__title md:mb-5 mb-3 font-bold text-2xl">
+                  <Link to={`/blog/${item._id}`}>{item.title}</Link>
+                </h3>
+                <div className="post__excerpt mb-9 mt-0 text-base text-[#888]">
+                  <div className="excerpt overflow-hidden">
+                    <p
+                      className="blogText_slider overflow-hidden text-ellipsis"
+                      dangerouslySetInnerHTML={{
+                        __html: item.content,
+                      }}
+                    ></p>
+                  </div>
+                </div>
+                <div className="post__readmore mb-0 md:block hidden">
+                  <Link
+                    className="button__readmore relative text-[#888] text-sm"
+                    to={"#"}
+                  >
+                    <span>READ MORE</span>
+                  </Link>
                 </div>
               </div>
-              <div className="post__readmore mb-0 md:block hidden">
-                <Link
-                  className="button__readmore relative text-[#888] text-sm"
-                  to={"#"}
-                >
-                  <span>READ MORE</span>
-                </Link>
-              </div>
-            </div>
-          </article>
-        </div>
-        <div className="slide-content">
-          <article className="post post-horizontal-large relative w-full after:table after:clear-both after:content-none">
-            <div className="post__thumb relative">
-              <Link to={"#"} className="w-full h-full block">
-                <img src={require("../images/slide3.jpg")}></img>
-              </Link>
-            </div>
-            <div className="post__text pt-5 overflow-hidden">
-              <Link
-                to={"#"}
-                className="post__cat inline-block mb-4 mr-2 md:py-1 md:px-4 px-3 text-white font-normal text-xs uppercase"
-              >
-                blog
-              </Link>
-              <h3 className="post__title md:mb-5 mb-3 font-bold text-2xl">
-                <Link to={"#"}>It Is Not White Hair That Engenders Wisdom</Link>
-              </h3>
-              <div className="post__excerpt mb-9 mt-0 text-base text-[#888]">
-                <div className="excerpt overflow-hidden">
-                  <p className="mb-4">
-                    Met to launch on the manufacturer’s new A330neo aircraft in
-                    2017, it’s offering lots of extra space, including wider
-                    seats as
-                  </p>
-                </div>
-              </div>
-              <div className="post__readmore mb-0 md:block hidden">
-                <Link
-                  className="button__readmore relative text-[#888] text-sm"
-                  to={"#"}
-                >
-                  <span>READ MORE</span>
-                </Link>
-              </div>
-            </div>
-          </article>
-        </div>
+            </article>
+          </div>
+        ))}
       </Slider>
     </>
   );

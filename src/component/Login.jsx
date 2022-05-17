@@ -4,8 +4,13 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAllState } from "../Provider";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function Login() {
+  const successLogin = () => toast("You have successfully logged in!");
+  const [showToast, setShowToast] = useState(false);
+
   const navToDashboard = useNavigate();
 
   const { setToken } = useAllState();
@@ -36,6 +41,9 @@ export default function Login() {
       setHintPasswordInput(false);
     }
     if (currentUser.username !== "" && currentUser.password !== "") {
+      // const myPromise = new Promise((resolve) =>{
+        
+      // })
       const getToken = async () => {
         setIsLoaded(true);
         fetch("http://localhost:4000/user/login", {
@@ -51,6 +59,7 @@ export default function Login() {
           .then((data) => {
             console.log(data);
             if (data.status === 200) {
+              // successLogin()
               navToDashboard("/user/dashboard");
             } else {
               setHintInfoWrong(true);
@@ -64,13 +73,14 @@ export default function Login() {
           });
       };
       getToken();
+      
     }
   };
 
   return (
     <>
       <section className="wrapperSignUpBg flex">
-        <diiv className="md:w-1/2 py-4 md:flex hidden items-center justify-center">
+        <div className="md:w-1/2 py-4 md:flex hidden items-center justify-center">
           <div className="w-[420px] py-14 px-1 text-center relative">
             <div className="z-20 w-5/6 flex flex-col items-start signupSection">
               <div className="pl-6">
@@ -89,8 +99,8 @@ export default function Login() {
               </div>
             </div>
           </div>
-        </diiv>
-        <diiv className="md:w-1/2 py-4 w-full flex items-center justify-center text-center md:px-4 z-0  sm:mt-0 md:mt-0">
+        </div>
+        <div className="md:w-1/2 py-4 w-full flex items-center justify-center text-center md:px-4 z-0  sm:mt-0 md:mt-0">
           <div className="w-[420px] px-5 bg-[#607027] py-10 text-center mb-11 relative ">
             <div className="z-20 w-full flex flex-col items-center signupSection">
               <div className="">
@@ -176,7 +186,9 @@ export default function Login() {
                   >
                     sign in
                     <span className={`ml-5 ${isLoaded ? "" : "hidden"}`}>
-                    <div class="lds-circle"><div></div></div>
+                      <div class="lds-circle">
+                        <div></div>
+                      </div>
                     </span>
                   </button>
                 </div>
@@ -197,7 +209,8 @@ export default function Login() {
               </div>
             </div>
           </div>
-        </diiv>
+        </div>
+        <ToastContainer />
       </section>
     </>
   );

@@ -168,21 +168,19 @@ input[type="number"] {
 }
 
 /*////////////////// Home////////////////// */
-.blogText_homePage {
+.blogText_homePage,
+.blogText_slider {
   display: -webkit-box;
   -webkit-line-clamp: 4; /* number of lines to show */
   line-clamp: 4;
   -webkit-box-orient: vertical;
 }
-.summeryContentInDashboard{
+.summeryContentInDashboard {
   display: -webkit-box;
   -webkit-line-clamp: 2; /* number of lines to show */
   line-clamp: 2;
   -webkit-box-orient: vertical;
 }
-
-
-
 
 .wrapperPicture {
   width: 125px;

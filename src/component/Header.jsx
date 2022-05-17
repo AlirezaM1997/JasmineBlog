@@ -1,13 +1,11 @@
 import React, { useState } from "react";
 import "../style/header.css";
-import { Link, Outlet, useNavigate } from "react-router-dom";
-import Cookies from "universal-cookie";
+import { Link, Outlet } from "react-router-dom";
 import { useAllState } from "../Provider";
 import { OffCanvas, OffCanvasMenu } from "react-offcanvas";
 
 export default function Header() {
   const [isMenuOpened, setIsMenuOpened] = useState(false);
-  const { token } = useAllState();
   const { userInfo } = useAllState();
 
   const showMenu = () => {
@@ -60,7 +58,7 @@ export default function Header() {
                       to={"/about"}
                       className="navLink inline-block uppercase relative"
                     >
-                      contact
+                      about
                     </Link>
                   </li>
                   <li className="inline-block text-left whitespace-normal text-base">
@@ -68,7 +66,7 @@ export default function Header() {
                       to={"/contact"}
                       className="navLink inline-block uppercase relative"
                     >
-                      home
+                      contact
                     </Link>
                   </li>
                   <li className="inline-block text-left whitespace-normal text-base">
@@ -76,7 +74,7 @@ export default function Header() {
                       to={"/"}
                       className="navLink inline-block uppercase relative"
                     >
-                      home
+                      menu
                     </Link>
                   </li>
                 </ul>
@@ -211,6 +209,15 @@ export default function Header() {
                 </li>
                 <li className="text-[#00000099]">
                   <Link
+                    to={"/"}
+                    onClick={showMenu}
+                    className="text-sm font-normal py-[10px] px-[20px] block uppercase relative"
+                  >
+                    category
+                  </Link>
+                </li>
+                <li className="text-[#00000099]">
+                  <Link
                     to={"/about"}
                     onClick={showMenu}
                     className="text-sm font-normal py-[10px] px-[20px] block uppercase relative"
@@ -220,29 +227,11 @@ export default function Header() {
                 </li>
                 <li className="text-[#00000099]">
                   <Link
-                    to={"/"}
+                    to={"/contact"}
                     onClick={showMenu}
                     className="text-sm font-normal py-[10px] px-[20px] block uppercase relative"
                   >
-                    home
-                  </Link>
-                </li>
-                <li className="text-[#00000099]">
-                  <Link
-                    to={"/"}
-                    onClick={showMenu}
-                    className="text-sm font-normal py-[10px] px-[20px] block uppercase relative"
-                  >
-                    home
-                  </Link>
-                </li>
-                <li className="text-[#00000099]">
-                  <Link
-                    to={"/"}
-                    onClick={showMenu}
-                    className="text-sm font-normal py-[10px] px-[20px] block uppercase relative"
-                  >
-                    home
+                    contact
                   </Link>
                 </li>
               </ul>

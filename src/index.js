@@ -35,7 +35,7 @@ root.render(
           <Route path="userblog/:id" element={<UserBlog />}></Route>
           <Route path="about" element={<About />}></Route>
           <Route path="contact" element={<Contact />}></Route>
-          <Route path="category" element={<Category />}></Route>
+          <Route path="category/:cat" element={<Category />}></Route>
           <Route
             path="user/signup"
             element={
