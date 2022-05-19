@@ -89,14 +89,16 @@ export default function EditUser(props) {
           auth: `ut ${cookies.get("token")}`,
         },
         body: formData,
-      }).then((res) => {
-        console.log(res);
-      });
+      })
+        .then((response) => {
+          console.log(response);
+          return response.json();
+        })
+        .then((res) => console.log(res));
     } catch (error) {
-      console.log("lol");
+      console.log("error");
     }
   };
-
   return (
     <>
       <div className="my-5">

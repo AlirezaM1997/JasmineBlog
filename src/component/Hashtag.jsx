@@ -24,10 +24,7 @@ export default function Hashtag() {
       })
       .then((res) => {
         setBlogsByHashtag(res);
-        console.log(res);
         setLoading(false);
-        console.log(blogsByHashtag
-            .filter((item) => item.hashtag?.filter((i)=>i.name===hash)));
       })
       .catch((err) => console.log(err));
   }, []);
@@ -38,9 +35,9 @@ export default function Hashtag() {
     <>
       <div className="py-20">
         <div className="container mx-auto">
-          <div className="jasmine-heading relative text-center mb-10">
-            <h4 className="heading__title inline-block relative m-0 text-4xl leading-6 pr-12 pl-16 z-10">
-              # {hash} Blogs
+          <div className="relative text-center mb-10 after:content-[''] after:w-full after:h-[1px] after:bg-[#0000000d] after:absolute after:top-1/2 after:left-0 after:z-[0]">
+            <h4 className="heading__title inline-block relative m-0 text-4xl leading-6 pr-12 pl-16 z-10 after:content-[''] after:w-full after:h-full after:bg-[#fff] after:absolute after:top-0 after:left-0 after:-z-[1]">
+              <span className="text-[#607027]">#{hash}</span> Blogs
             </h4>
           </div>
         </div>
@@ -48,7 +45,7 @@ export default function Hashtag() {
           <div className="blogList__inner px-2">
             <div className="new-posts-list -m-4 flex flex-wrap">
               {blogsByHashtag
-                .filter((item) => item.hashtag?.filter((i)=>i.name===hash))
+                .filter((item) => item.hashtag?.filter((i) => i.name === hash))
                 .sort((a, b) => {
                   return b.averageScore - a.averageScore;
                 })
@@ -57,7 +54,7 @@ export default function Hashtag() {
                     key={index}
                     className="allBlogs-post w-full border-b border-[#0000000d] py-10"
                   >
-                    <article className="w-full flex iphone:flex-col relative">
+                    <article className="w-full flex iphone:flex-col relative LCD:px-14">
                       <div className="post-image tablet:h-[300px] iphone:w-full w-1/2 laptop:mt-0 LED:mr-[30px] LED:mb-[50px] LED:ml-[50px]  tablap:h-[365px] md:float-left  LCD:mt-0 LCD:mr-[75px] LCD:mb-[70px] LCD:ml-[70px]  LCD:h-[385px] relative before:iphone:left-0 before:iphone:bottom-0  before:LCD:-left-[70px] before:LCD:-bottom-[70px] before:LED:-left-[50px] before:LED:-bottom-[50px] before:content-[''] before:absolute before:w-full before:h-full before:bg-[#607027] before:-z-[1]">
                         <Link
                           to={`/blog/${i._id}`}
@@ -70,30 +67,19 @@ export default function Hashtag() {
                         </Link>
                         <div className="post__tags laptop:w-[calc(100%-50px)] laptop:h-[50px] flex items-center overflow-hidden text-left text-[#ffffffb3] w-[calc(100%-70px)] h-[70px]">
                           <ul className="tag-list inline-block -m-1 p-0 align-middle">
-                            <li className="m-1 inline-block py-0 leading-4">
-                              <Link
-                                to={"#"}
-                                className="post-tag w-full h-full text-xs before:content-['#'] hover:text-white"
+                            {i.hashtag?.slice(0, 3).map((j, k) => (
+                              <li
+                                key={k}
+                                className="m-1 inline-block py-0 leading-4"
                               >
-                                Fashion
-                              </Link>
-                            </li>
-                            <li className="m-1 inline-block py-0 leading-4">
-                              <Link
-                                to={"#"}
-                                className="post-tag w-full h-full text-xs before:content-['#'] hover:text-white"
-                              >
-                                Health
-                              </Link>
-                            </li>
-                            <li className="m-1 inline-block py-0 leading-4">
-                              <Link
-                                to={"#"}
-                                className="post-tag w-full h-full text-xs before:content-['#'] hover:text-white"
-                              >
-                                Lifestyle
-                              </Link>
-                            </li>
+                                <Link
+                                  to={`/hashtag/${j.name}`}
+                                  className="post-tag w-full h-full text-xs before:content-['#'] hover:text-white"
+                                >
+                                  {j.name}
+                                </Link>
+                              </li>
+                            ))}
                           </ul>
                         </div>
                       </div>

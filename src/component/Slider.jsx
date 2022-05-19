@@ -2,8 +2,6 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import { Link } from "react-router-dom";
-import "../style/slider.css";
-import { useEffect } from "react";
 import { useAllState } from "../Provider";
 
 export default function MySlider() {

@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import "../style/header.css";
 import { Link, Outlet } from "react-router-dom";
 import { useAllState } from "../Provider";
 import { OffCanvas, OffCanvasMenu } from "react-offcanvas";
@@ -14,7 +13,7 @@ export default function Header() {
   return (
     <>
       <div
-        className={`backdropOffCanvas fixed h-screen w-screen z-30 ${
+        className={`backdropOffCanvas bg-[#00000066] fixed h-screen w-screen z-30 ${
           isMenuOpened ? "" : "hidden"
         }`}
         onClick={showMenu}
@@ -40,7 +39,7 @@ export default function Header() {
                   <li className="inline-block text-left whitespace-normal text-base">
                     <Link
                       to={"/"}
-                      className="navLink inline-block uppercase relative"
+                      className="navLink py-0 px-[10px] text-[14.5px] font-medium h-[100px] leading-[100px] text-[#000000cc] inline-block uppercase relative"
                     >
                       home
                     </Link>
@@ -48,7 +47,7 @@ export default function Header() {
                   <li className="inline-block text-left whitespace-normal text-base">
                     <Link
                       to={"/"}
-                      className="navLink inline-block uppercase relative"
+                      className="navLink py-0 px-[10px] text-[14.5px] font-medium h-[100px] leading-[100px] text-[#000000cc] inline-block uppercase relative"
                     >
                       category
                     </Link>
@@ -56,7 +55,7 @@ export default function Header() {
                   <li className="inline-block text-left whitespace-normal text-base">
                     <Link
                       to={"/about"}
-                      className="navLink inline-block uppercase relative"
+                      className="navLink py-0 px-[10px] text-[14.5px] font-medium h-[100px] leading-[100px] text-[#000000cc] inline-block uppercase relative"
                     >
                       about
                     </Link>
@@ -64,7 +63,7 @@ export default function Header() {
                   <li className="inline-block text-left whitespace-normal text-base">
                     <Link
                       to={"/contact"}
-                      className="navLink inline-block uppercase relative"
+                      className="navLink py-0 px-[10px] text-[14.5px] font-medium h-[100px] leading-[100px] text-[#000000cc] inline-block uppercase relative"
                     >
                       contact
                     </Link>
@@ -72,7 +71,7 @@ export default function Header() {
                   <li className="inline-block text-left whitespace-normal text-base">
                     <Link
                       to={"/"}
-                      className="navLink inline-block uppercase relative"
+                      className="navLink py-0 px-[10px] text-[14.5px] font-medium h-[100px] leading-[100px] text-[#000000cc] inline-block uppercase relative"
                     >
                       menu
                     </Link>
@@ -101,7 +100,7 @@ export default function Header() {
                 <Link to={"/user/dashboard"}>
                   <div className="flex flex-shrink-0 items-center text-white px-2">
                     <img
-                      src={userInfo.avatar}
+                      src={`${process.env.REACT_APP_DOMAIN}/${userInfo.avatar}`}
                       className="h-10 w-10 rounded-full border border-[#607027]"
                     ></img>
                     {/* <div className="text-md font-medium text-gray-600 ml-1">
@@ -113,13 +112,13 @@ export default function Header() {
             </div>
           </div>
         </nav>
-        <div className="mobile-header relative bg-white">
+        <div className="mobile-header fablet:block makbook:hidden relative bg-white">
           <div className="mobile-header__inner flex justify-between w-full items-center px-4">
             <div className="header-branding pr-5 whitespace-nowrap min-w-0 text-left">
               <div className="header-logo text-left">
                 <Link to={"/"}>
                   <img
-                    className="logo-image py-2 md:min-h-[70px]"
+                    className="logo-image md:max-h-[66px] py-2 max-h-[50px] md:min-h-[70px]"
                     src={require("../images/logo.jpg")}
                     alt="Jasmine"
                   ></img>

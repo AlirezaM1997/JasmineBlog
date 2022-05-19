@@ -5,7 +5,8 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Cookies from "universal-cookie";
 import Loading from "./Loading";
-
+// import 'dotenv/config' // see https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
+// import express from 'express'
 export default function Dashboard() {
   const [isMenuOpened, setIsMenuOpened] = useState(false);
   const showMenu = () => {
@@ -26,9 +27,10 @@ export default function Dashboard() {
   const cookies = new Cookies();
 
   const { parsIsoDate } = useAllState();
-
   let location = useLocation();
   useEffect(() => {
+
+    // console.log(userInfo);
     window.scrollTo(0, 0);
     fetch(`http://localhost:4000/blog/my-blogs`, {
       method: "GET",
@@ -84,7 +86,7 @@ export default function Dashboard() {
                   <div className="text-sm font-regular"></div>
                 </div>
                 <img
-                  src={userInfo.avatar}
+                  src={`${process.env.REACT_APP_DOMAIN}/${userInfo.avatar}`}
                   className="h-10 w-10 rounded-full border border-[#607027]"
                 ></img>
               </Link>

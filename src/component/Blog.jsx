@@ -13,6 +13,7 @@ import {
   faTwitter,
 } from "@fortawesome/free-brands-svg-icons";
 import { useAllState } from "../Provider";
+import useReadingProgress from "./useReadingProgress";
 
 export default function Blog() {
   const [theRealID, setTheRealID] = useState(null);
@@ -146,15 +147,22 @@ export default function Blog() {
       .catch((err) => console.log(err));
   };
 
+  const completion = useReadingProgress();
+
   if (loading || !previous || !previous._id || !next || !next._id)
     return <Loading />;
 
   return (
     <>
+      <div
+        id="scroll-progressb"
+        style={{ transform: `translateX(${completion - 100}%)` }}
+        className="w-full fixed top-0 bg-red-500 h-1 z-30"
+      ></div>
       <div className="blog-content iphone:pb-[10px]  fablet:pb-[20px]  ">
         <div className="">
           <div className="iphone:mb-[60px] fablet:mb-[70px] tablet:mb-[70px] relative">
-            <div className="billboard iphone:min-h-[340px] fablet:min-h-[450px] relative overflow-hidden">
+            <div className="billboard iphone:min-h-[340px] fablet:min-h-[450px] relative overflow-hidden" id="billboard">
               <div
                 className="bg-img absolute overflow-hidden top-0 bottom-0 left-0 right-0 bg-cover"
                 style={{
@@ -175,9 +183,10 @@ export default function Blog() {
                     <div className="header__inner iphone:p-[15px] p-[20px] bg-[#00000080] makbook:bg-[#3a3a3a80] text-white md:py-[30px] md:px-[40px] relative overflow-hidden makbook:backdrop-blur-[22px] makbook:backdrop-brightness-[137%] makbook:backdrop-grayscale-[10%]">
                       <div
                         className="absolute iphone:hidden bg-cover bg-center blur-[20px]"
-                        style={{ background: `url(${blogInfo.imgurl})` }}
+                        style={{
+                          background: `url(${process.env.REACT_APP_DOMAIN}/${blogInfo.avatar})`,
+                        }}
                       ></div>
-
                       <div className="header__content relative flex justify-between font-[system-ui]">
                         <div className="basis-3/4">
                           <Link
@@ -232,7 +241,10 @@ export default function Blog() {
             <div className="content-blog mb-0 relative">
               <div className="container max-w-[970px] px-[35px]">
                 <div className="content-blog-col">
-                  <article className="content-blog-text mb-[50px] relative w-full">
+                  <article
+                    className="content-blog-text mb-[50px] relative w-full"
+                    id="contentBlog"
+                  >
                     <div className="">
                       <div className="body sm:px-10 my-[2em] mx-auto text-[#000000b3] leading-[1.6] mt-0 text-[1.14rem] md:text-[1.214rem]">
                         <p

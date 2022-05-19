@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import "./style/home.css";
 import Loading from "./component/Loading";
 import MySlider from "./component/Slider";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -26,16 +25,20 @@ function Home() {
   useEffect(() => {
     window.scrollTo(0, 0);
     const myFunction = async () => {
-      const [res1, res2] = await Promise.all([
+      const [res1, res2, res3] = await Promise.all([
         fetch("http://localhost:4000/blog"),
         fetch("http://localhost:4000/blog/top-blogs"),
-        // fetch("http://localhost:4000/blog/top-users"),
+        fetch("http://localhost:4000/user/top-users"),
       ]);
 
-      const [data1, data2] = await Promise.all([res1.json(), res2.json()]);
+      const [data1, data2, data3] = await Promise.all([
+        res1.json(),
+        res2.json(),
+        res3.json(),
+      ]);
       setBlogs(data1);
       setTopBlogs(data2);
-      // setTopUsers(data3);
+      setTopUsers(data3);
       setLoading(false);
     };
     myFunction();
@@ -322,8 +325,11 @@ function Home() {
                                 </Link>
                                 <div className="post__tags laptop:w-[calc(100%-50px)] laptop:h-[50px] flex items-center overflow-hidden text-left text-[#ffffffb3] w-[calc(100%-70px)] h-[70px]">
                                   <ul className="tag-list inline-block -m-1 p-0 align-middle">
-                                    {i.hashtag?.slice(0, 3).map((j , k) => (
-                                      <li key={k} className="m-1 inline-block py-0 leading-4">
+                                    {i.hashtag?.slice(0, 3).map((j, k) => (
+                                      <li
+                                        key={k}
+                                        className="m-1 inline-block py-0 leading-4"
+                                      >
                                         <Link
                                           to={`/hashtag/${j.name}`}
                                           className="post-tag w-full h-full text-xs before:content-['#'] hover:text-white"
