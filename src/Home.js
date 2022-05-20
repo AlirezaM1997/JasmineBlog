@@ -150,7 +150,7 @@ function Home() {
           className="aboutSection relative"
           style={{ marginBottom: "120px" }}
         >
-          <div className="container makbook:px-14 mx-auto">
+          <div className="container makbook:px-14 mx-auto iphone:px-8">
             <div className="about__inner pt-40">
               <div className="about__content px-[70px] pb-20 tablap:pb-[61px] fablet:p-[40px] fablet:border-[4px] iphone:p-[30px] iphone:flex-col border-[5px] border-[#607027] flex w-full">
                 <div className="about__thumb relative flex-none w-[370px] h-[500px] -mt-[155px] mr-[55px] tablap:-mt-[120px] tablap:w-[330px] tablap:h-[440px] fablet:m-0 fablet:mr-[35px] fablet:w-[250px] fablet:h-[360px] iphone:m-0 iphone:mb-[25px] iphone:w-full iphone:h-[295px]">
@@ -242,7 +242,7 @@ function Home() {
               </h4>
             </div>
           </div>
-          <div className="container makbook:px-11">
+          <div className="container makbook:px-11 iphone:px-8">
             <div className="blogList__inner px-2">
               <div className="new-posts-list -m-4 flex flex-wrap">
                 {blogs

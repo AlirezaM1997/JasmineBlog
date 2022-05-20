@@ -6,6 +6,8 @@ import Loading from "./component/Loading";
 // import * as serviceWorker from './serviceWorker'
 
 import reportWebVitals from "./reportWebVitals";
+import * as serviceWorkerRegistration from './serviceWorkerRegistration';
+
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import Cookies from "universal-cookie";
 import { useAllState } from "./Provider";
@@ -26,13 +28,6 @@ import EditBlog from "./component/EditBlog";
 import Category from "./component/Category";
 import Hashtag from "./component/Hashtag";
 
-// import {DOMAIN} from '.env'
-
-// import dotenv from 'dotenv'
-
-// // require('dotenv').config()
-// // import dotenv from 'dotenv'
-// console.log(dotenv)
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -153,5 +148,7 @@ function CheckLogin({ children, redirectTo }) {
   return !isLogin ? children : <Navigate to={redirectTo} />;
 }
 
+
+serviceWorkerRegistration.register()
+
 reportWebVitals();
-// serviceWorker.register()

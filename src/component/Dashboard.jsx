@@ -67,7 +67,7 @@ export default function Dashboard() {
     <>
       <div className="w-full bg-white relative flex" onClick={hideMenu}>
         <div className="w-full h-full flex flex-col justify-between">
-          <header className="h-16 w-full flex items-center justify-between relative  px-5 space-x-10 bg-[#EEEEEE]">
+          <header className="h-16 w-full flex items-center justify-between relative iphone:px-[8px] md:px-[20px] space-x-10 bg-[#EEEEEE]">
             <div>
               <Link to={"/"}>
                 <img
@@ -139,7 +139,7 @@ export default function Dashboard() {
                     </Link>
                   </div>
                 ) : (
-                  <section className="text-gray-600 body-font w-full">
+                  <section className="text-gray-600 body-font w-full iphone:px-4">
                     <div className="container py-10 px-0">
                       <div className="mb-3 text-right">
                         <Link

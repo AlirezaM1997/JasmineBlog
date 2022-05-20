@@ -125,7 +125,7 @@ export default function EditBlog() {
         <div className="w-full h-full flex flex-col my-5 justify-center items-center">
           <div className="w-[95%]">
             <div>
-              <label className="text-2xl font-semibold">Title</label>
+              <label className="text-2xl iphone:text-base font-semibold">Title</label>
               <input
                 className="w-full my-1 mb-3 p-2 focus:bg-white focus:outline-none border border-blue-600 rounded-lg"
                 type="text"
@@ -141,8 +141,8 @@ export default function EditBlog() {
                 Please type some title
               </div>
             </div>
-            <div className="flex justify-start items-center my-1 mb-3 ">
-              <div className="text-2xl w-fit font-semibold mr-3">
+            <div className="flex justify-start items-center my-1 mb-3 iphone:flex-col ">
+              <div className="text-2xl iphone:text-base w-fit font-semibold mr-3">
                 Select Category
               </div>
               <div className="w-1/2">
@@ -204,8 +204,8 @@ export default function EditBlog() {
                 Please type some content
               </div>
             </div>
-            <div>
-              <label className="text-2xl font-semibold">Image</label>
+            <div className="mt-3">
+              <label className="text-2xl iphone:text-base font-semibold">Image</label>
               <input
                 className="w-full my-3 p-2 focus:bg-white focus:outline-none border border-blue-600 rounded-lg"
                 type="text"
@@ -214,26 +214,28 @@ export default function EditBlog() {
                 onChange={(e) => setPostImgUrl(e.target.value)}
               />
             </div>
-            <div className="mt-3 flex items-center">
-              <label className="text-xl font-semibold">Add Some Hashtag</label>
-              <input
-                className="w-1/2 md:mx-4 p-2 focus:bg-white focus:outline-none border border-blue-600 rounded-lg"
-                value={hashtags}
-                onChange={(e) => setHashtags(e.target.value)}
-                placeholder=""
-              ></input>
-              <button
-                className="px-6 py-[0.5rem] bg-[#607027] text-white font-medium text-md leading-tight rounded shadow-md"
-                onClick={() => addHashtag()}
-              >
-                Add
-              </button>
+            <div className="mt-3 flex iphone:flex-col items-center">
+              <div className="text-xl whitespace-nowrap iphone:text-base font-semibold iphone:text-left w-fit iphone:w-full">Add Some Hashtag</div>
+              <div className="flex iphone:justify-between iphone:mt-4 w-full">
+                <input
+                  className="w-1/2 iphone:w-full md:mx-4 p-2 focus:bg-white focus:outline-none border border-blue-600 rounded-lg"
+                  value={hashtags}
+                  onChange={(e) => setHashtags(e.target.value)}
+                  placeholder=""
+                ></input>
+                <button
+                  className="px-6 py-[0.5rem] bg-[#607027] text-white font-medium text-md leading-tight rounded shadow-md"
+                  onClick={() => addHashtag()}
+                >
+                  Add
+                </button>
+              </div>
             </div>
             <div className="mt-3 ">
               {postHashtag?.map((item, i) => (
                 <div
                   key={i}
-                  className="px-2 py-1 w-fit inline-block items-center border text-sm border-gray-500 text-black rounded transition-colors hover:bg-red-500"
+                  className="px-2 py-1 ml-1 w-fit inline-block items-center border text-sm border-gray-500 text-black rounded transition-colors hover:bg-red-500"
                 >
                   <div className="flex justify-between items-center">
                     <span className="font-bold"># {item.name}</span>

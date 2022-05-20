@@ -157,12 +157,15 @@ export default function Blog() {
       <div
         id="scroll-progressb"
         style={{ transform: `translateX(${completion - 100}%)` }}
-        className="w-full fixed top-0 bg-red-500 h-1 z-30"
+        className="w-full fixed top-0 bg-[#607027] h-1 z-30"
       ></div>
       <div className="blog-content iphone:pb-[10px]  fablet:pb-[20px]  ">
         <div className="">
           <div className="iphone:mb-[60px] fablet:mb-[70px] tablet:mb-[70px] relative">
-            <div className="billboard iphone:min-h-[340px] fablet:min-h-[450px] relative overflow-hidden" id="billboard">
+            <div
+              className="billboard iphone:min-h-[340px] fablet:min-h-[450px] relative overflow-hidden"
+              id="billboard"
+            >
               <div
                 className="bg-img absolute overflow-hidden top-0 bottom-0 left-0 right-0 bg-cover"
                 style={{
@@ -347,7 +350,7 @@ export default function Blog() {
                       <div className="author-box-img text-center">
                         <div className="author-avatar mx-auto iphone:mt-0 mb-[20px] rounded-full relative top-0 text-center right-auto bottom-auto left-0  overflow-hidden w-[100px] h-[100px]">
                           <img
-                            src={blogInfo.creator.avatar}
+                            src={`${process.env.REACT_APP_DOMAIN}/${blogInfo.creator.avatar}`}
                             className="w-full h-full"
                           ></img>
                         </div>
@@ -410,8 +413,9 @@ export default function Blog() {
                         allBlogs.length === 1 ? "hidden" : ""
                       }`}
                     >
-                      <div
-                        className={`posts-navigation__prev w-full min-h-[50%] flex flex-col mb-[30px] relative after:clear-both ${
+                      <Link
+                        to={`/blog/${previous._id}`}
+                        className={`posts-navigation__prev w-full  flex flex-col mb-[30px] relative after:clear-both ${
                           allBlogs.length === 2 ? "hidden" : ""
                         }`}
                         onClick={() => {
@@ -442,17 +446,14 @@ export default function Blog() {
                               </div>
                             </div>
                           </div>
-                          <Link
-                            to={`/blog/${previous._id}`}
-                            className="link-overlay absolute top-0 right-0 bottom-0 left-0 block after:bg-[#333] after:content-[''] after:w-[calc(100% - 15px)] after:-z-[1] after:top-0 after:bottom-0 after:left-[15px] after:absolute"
-                          ></Link>
                         </article>
-                      </div>
-                      <div
-                        className="posts-navigation__next w-full min-h-[50%] flex float-right text-right relative after:clear-both"
+                      </Link>
+                      <Link
+                        to={`/blog/${next._id}`}
+                        className="posts-navigation__next w-full  flex float-right text-right relative after:clear-both"
                         onClick={() => {
                           setLoading(true);
-                          setTheRealID(previous._id);
+                          setTheRealID(next._id);
                         }}
                       >
                         <article className="w-[calc(100%+15px)] h-full bg-transparent pr-[15px] -mr-[15px] flex relative overflow-hidden">
@@ -479,12 +480,8 @@ export default function Blog() {
                               </div>
                             </div>
                           </div>
-                          <Link
-                            to={`/blog/${previous._id}`}
-                            className="link-overlay absolute top-0 right-0 bottom-0 left-0 block after:bg-[#333] after:content-[''] after:w-[calc(100% - 15px)] after:-z-[1] after:top-0 after:bottom-0 after:left-[15px] after:absolute"
-                          ></Link>
                         </article>
-                      </div>
+                      </Link>
                     </div>
                   </div>
                   <div className="comments-section ">

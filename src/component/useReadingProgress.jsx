@@ -8,7 +8,8 @@ const useReadingProgress = () => {
         document.getElementById("contentBlog").scrollHeight +
         document.getElementById("billboard").scrollHeight -
         window.innerHeight;
-      if (currentProgress / scrollHeight <= 1) {
+        console.log(completion);
+      if (currentProgress / scrollHeight < 1) {
         setCompletion(
           Number((currentProgress / scrollHeight).toFixed(2)) * 100
         );
