@@ -1,7 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useAllState } from "../Provider";
-import SuccessModal from "./SuccessModal";
-import LogOutModal from "./LogOutModal";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -19,7 +17,6 @@ export default function EditUser(props) {
     userInfo.bioLength ? userInfo.bioLength : 0
   );
   const [imgurl, setImgurl] = useState(userInfo.imgurl);
-  // const [count, setCount] = useState(0);
 
   const cookies = new Cookies();
 
@@ -37,7 +34,6 @@ export default function EditUser(props) {
           return data.json();
         })
         .then((res) => {
-          //   console.log(res);
           if (res && res._id) {
             setUserInfo(res);
             // console.log(userInfo);

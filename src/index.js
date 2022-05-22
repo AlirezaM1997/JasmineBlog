@@ -6,7 +6,7 @@ import Loading from "./component/Loading";
 // import * as serviceWorker from './serviceWorker'
 
 import reportWebVitals from "./reportWebVitals";
-import * as serviceWorkerRegistration from './serviceWorkerRegistration';
+import * as serviceWorkerRegistration from './serviceWorkerRegistration.js';
 
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import Cookies from "universal-cookie";
