@@ -27,7 +27,8 @@ function About() {
       <div className="w-1/2 hidden md:block">
         <img
           src={require("../images/blog.jpg")}
-          alt=""
+          alt="about"
+         
           className="h-full rounded-r-2xl object-cover object-center"
         ></img>
       </div>

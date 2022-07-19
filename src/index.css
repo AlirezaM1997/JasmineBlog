@@ -64,9 +64,6 @@ input:focus {
   }
 }
 /* ///////////////////Sign Up/////////////////// */
-.signUpBg {
-  height: 113%;
-}
 .wrapperSignUpBg {
   background-image: linear-gradient(
       to bottom,
@@ -133,6 +130,7 @@ aside .fa {
 .dashboardCard {
   animation: change_scale_and_opacity 1s;
 }
+
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
@@ -279,7 +277,7 @@ input[type="number"] {
   font-size: 12px;
   line-height: 1.5;
 }
-/* ///////////////About/////////////// */
+/* ///////////////About-Section in home/////////////// */
 .background-img {
   background-image: url("./images/about.jpg");
   background-position: 50% 50%;
