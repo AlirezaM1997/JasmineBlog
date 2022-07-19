@@ -2,11 +2,11 @@
 
 ## Features of this website:
 
-#### Register on the site and upload the post
-#### Add photos and hashtags to the post
-#### Edit posts and account
-#### Rating visitors to posts and showing the posts with the most points in the slider
-#### Write comments for posts
+#### * Register on the site and upload the post
+#### * Add photos and hashtags and category to the post
+#### * Edit posts and account
+#### * Rating visitors to posts and showing the posts with the most points in the slider
+#### * Write comments for posts
 
 
 ## The following tools have been used in this project
