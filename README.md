@@ -14,7 +14,7 @@
 - **react-js**
 - **tailwind css**
 - **rest api**
-- **PWA**
+- **pwa**
 - **context**
 - **wysiwyg**
 
