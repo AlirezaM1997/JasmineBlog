@@ -42,15 +42,15 @@ export default function Blog() {
   const getIndexById = (arr, id) => arr.findIndex((item) => item._id === id);
 
   useEffect(() => {
-    setEditRate(true)
-    setScoreValue()
+    setEditRate(true);
+    setScoreValue();
     window.scrollTo(0, 0);
     setTheRealID(id);
   }, []);
 
   useEffect(() => {
-    setEditRate(true)
-    setScoreValue()
+    setEditRate(true);
+    setScoreValue();
     window.scrollTo(0, 0);
     if (!theRealID) return;
     const myFunction = async () => {
