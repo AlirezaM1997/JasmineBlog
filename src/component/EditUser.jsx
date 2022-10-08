@@ -1,23 +1,19 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useAllState } from "../Provider";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
 import Cookies from "universal-cookie";
 import { useNavigate } from "react-router-dom";
 
 export default function EditUser(props) {
   const { userInfo } = useAllState();
   const { setUserInfo } = useAllState();
-  const { token } = useAllState();
-
   const [name, setName] = useState(userInfo.name);
   const [bio, setBio] = useState(userInfo.bio);
   const [bioLength, setBioLength] = useState(
     userInfo.bioLength ? userInfo.bioLength : 0
   );
   const [imgurl, setImgurl] = useState(userInfo.imgurl);
-
   const cookies = new Cookies();
 
   useEffect(() => {
@@ -36,7 +32,6 @@ export default function EditUser(props) {
         .then((res) => {
           if (res && res._id) {
             setUserInfo(res);
-            // console.log(userInfo);
           }
         });
     };
@@ -61,11 +56,12 @@ export default function EditUser(props) {
         if (res.status === 200) {
           toast.info("Your information was successfully changed");
           setTimeout(() => navToDashboard("/user/dashboard"), 3000);
+        } else {
+          toast.info("Your information was not change!");
         }
-        console.log(res);
       })
       .catch((err) => {
-        console.log("err", err);
+        toast.info("Some things wrong , Please try again!");
       });
   };
 
@@ -73,12 +69,8 @@ export default function EditUser(props) {
   const submitAvatar = async () => {
     try {
       if (!file) return;
-
-      console.log(file);
-
       const formData = new FormData();
       formData.append("avatar", file);
-
       fetch("http://localhost:4000/user/update-avatar", {
         method: "POST",
         headers: {
@@ -114,14 +106,11 @@ export default function EditUser(props) {
                     accept="image/*"
                     type="file"
                     id="picture"
-                    // value={file? file : ''}
                     defaultValue={file}
                     onChange={(e) => {
                       setFile(e.target.files[0]);
-                      console.log(e.target.files);
                     }}
                     className="pictureFile cursor-pointer"
-                    // onInput={(e) => onInputClick(e)}
                   />
                 </div>
                 <div>

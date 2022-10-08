@@ -8,16 +8,12 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export default function Login() {
-
   const navToDashboard = useNavigate();
-
   const { setToken } = useAllState();
-
   const [hintUsernameInput, setHintUsernameInput] = useState(false);
   const [hintPasswordInput, setHintPasswordInput] = useState(false);
   const [hintInfoWrong, setHintInfoWrong] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
-
   const [currentUser, setCurrentUser] = useState({
     username: "",
     password: "",
@@ -39,9 +35,6 @@ export default function Login() {
       setHintPasswordInput(false);
     }
     if (currentUser.username !== "" && currentUser.password !== "") {
-      // const myPromise = new Promise((resolve) =>{
-
-      // })
       const getToken = async () => {
         setIsLoaded(true);
         fetch("http://localhost:4000/user/login", {

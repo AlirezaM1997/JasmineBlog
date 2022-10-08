@@ -5,10 +5,14 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Cookies from "universal-cookie";
 import Loading from "./Loading";
-// import 'dotenv/config' // see https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
-// import express from 'express'
 export default function Dashboard() {
   const [isMenuOpened, setIsMenuOpened] = useState(false);
+  const [myBlogs, setMyBlogs] = useState();
+  const [loading, setLoading] = useState(true);
+  const { setToken } = useAllState();
+  const { setUserInfo } = useAllState();
+  const { userInfo } = useAllState();
+  
   const showMenu = () => {
     setIsMenuOpened(true);
   };
@@ -18,19 +22,11 @@ export default function Dashboard() {
     }
   };
 
-  const { setToken } = useAllState();
-  const { setUserInfo } = useAllState();
-  const { userInfo } = useAllState();
-
-  const [myBlogs, setMyBlogs] = useState();
-  const [loading, setLoading] = useState(true);
   const cookies = new Cookies();
 
   const { parsIsoDate } = useAllState();
   let location = useLocation();
   useEffect(() => {
-
-    // console.log(userInfo);
     window.scrollTo(0, 0);
     fetch(`http://localhost:4000/blog/my-blogs`, {
       method: "GET",
@@ -82,7 +78,9 @@ export default function Dashboard() {
                 className="flex flex-shrink-0 items-center space-x-4"
               >
                 <div className="flex flex-col items-end ">
-                  <div className="text-sm font-medium font-[system-ui]">Welcome {userInfo.name}</div>
+                  <div className="text-sm font-medium font-[system-ui]">
+                    Welcome {userInfo.name}
+                  </div>
                   <div className="text-sm font-regular"></div>
                 </div>
                 <img
@@ -150,8 +148,11 @@ export default function Dashboard() {
                         </Link>
                       </div>
                       <div className="flex flex-wrap -m-4">
-                        {myBlogs.map((item , i) => (
-                          <div key={i} className="p-4 sm:w-full w-full dashboardCard">
+                        {myBlogs.map((item, i) => (
+                          <div
+                            key={i}
+                            className="p-4 sm:w-full w-full dashboardCard"
+                          >
                             <div className="h-full shadow rounded overflow-hidden">
                               <img
                                 className="w-full h-60 object-cover object-center"
@@ -176,10 +177,6 @@ export default function Dashboard() {
                                   <Link
                                     to={`/user/dashboard/editblog/${item._id}`}
                                     className="px-8 py-2 w-2/6 text-center bg-[#607027] text-white transition-all duration-300 rounded"
-                                    onClick={(e) => {
-                                      // getPostForEdit(item._id);
-                                      // setCurrentPostId(item._id);
-                                    }}
                                   >
                                     Edit
                                   </Link>
